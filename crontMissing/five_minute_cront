@@ -1,0 +1,482 @@
+#!/bin/bash
+#2013/6/24 by yongjinLi
+#liyongjin@zctt.com
+export PATH=$PATH:/usr/local/functionlib 
+LogFile=/var/dblogs/timeInfo.log
+#######################################
+#                init  
+######################################
+IsMinute=1
+IsHour=0
+IsDay=0
+IsWeek=0
+IsMonth=0
+IsSeason=0
+IsYear=0
+Is24Hour=0
+
+IsFiles=1
+IsResults=1
+IsCheck=0
+######################################
+#	   time config
+#####################################
+hourCreateTime="05"
+dayCreateTime1="0105"
+dayCreateTime2="1610"
+weekCreateTime="10105"
+monthCreateTime="010105"
+seasonCreateTime1="01010105"
+seasonCreateTime2="04010105"
+seasonCreateTime3="07010105"
+seasonCreateTime4="10010105"
+yearCreateTime="01010105"
+
+#########################################
+
+if [ "$IsCheck" -eq  0 ];then
+
+#  for hour_cront
+  Last_Minute=$(date -d "10minutes ago " +"%Y%m%d%H%M")
+  Last_Hour=$(date -d "1hours ago " +"%Y%m%d%H")
+  Yesterday=$(date -d "1days ago "  +"%Y%m%d")
+  Day_Time=$(date   +"%Y%m%d")
+
+else
+
+# for hour check 
+  startTime=$1
+  if [[ $startTime == "" ]];then
+    startTime=$(date +%Y%m%d)
+  fi
+  len=`expr length "$startTime"`
+  case $len in 
+   12)
+      mystartTime="${startTime:0:8} ${startTime:8:2}:${startTime:10:2} "
+	  ;;
+   10)
+      mystartTime="${startTime:0:8} ${startTime:8:2}:00 "
+      ;;
+   8)
+	 mystartTime="${startTime:0:8}"
+     ;;
+   *)
+	 startTime=$(date +%Y%m%d)
+     ;;
+  esac
+	
+  Last_Minute=$(date -d "$mystartTime " +"%Y%m%d%H%M")
+  Last_Hour=$(date -d "$mystartTime " +"%Y%m%d%H")
+  Yesterday=$(date -d "$mystartTime   "  +"%Y%m%d")
+  Day_Time=$(date -d  "$mystartTime"  +"%Y%m%d")
+fi
+
+dataType=(GN_3G LTE)
+dataType_n=${#dataType[*]}
+
+source /usr/local/crontMissing/Mission.conf
+
+start=0
+end=0
+
+function set_start_time()
+{
+now=$(date +"%x %X")
+start=$(date +%s)
+}
+function print_end_info()
+{
+cycle_info=$1
+now=$(date +"%x %X")
+end=$(date +%s)
+useTime=$(((end-start)/60))
+echo "$now use $useTime minuts $cycle_info " >> $LogFile
+echo "************************************************************************************"
+}
+
+function create_hour_files()
+{
+   local _local_data_type=$1
+   set_start_time
+   header_n=${_local_data_type}_comm_files_n
+   for ((i=0;i<${!header_n};i++));do
+        header=${_local_data_type}_comm_files[$i]
+    	create_cycle_file -H  ${!header} -t $Last_Hour -c h -y ${_local_data_type}
+   done      
+   header_n=${_local_data_type}_hour_files_n
+   for ((i=0;i<${!header_n};i++));do
+       header=${_local_data_type}_hour_files[$i]
+        create_cycle_file -H ${!header}  -t $Last_Hour -c h -y ${_local_data_type}
+   done
+   print_end_info "hour  files"
+}
+function create_24hour_files()
+{
+   	local _local_data_type=$1
+   	for((n=0;n<24;n++));do
+                 t_Hour=$n
+                 if [[ $n -lt 10 ]];then
+                      t_Hour="0$n"
+                 fi
+				header_n=${_local_data_type}_comm_files_n
+                for ((i=0;i<${!header_n};i++));do
+                    header=${_local_data_type}_comm_files[$i]
+                    create_cycle_file -H ${!header} -t $Day_Time$t_Hour  -c h -y  ${_local_data_type}
+                done
+				header_n=${_local_data_type}_hour_files_n
+                for ((i=0;i<${!header_n};i++));do
+                     header=${_local_data_type}_hour_files[$i]
+                     create_cycle_file -H ${!header}  -t $Day_Time$t_Hour -c h  -y  ${_local_data_type}
+                done
+        done
+}
+function create_day_files()
+{
+  	 local _local_data_type=$1
+	 set_start_time
+         header_n=${_local_data_type}_comm_files_n
+         for ((i=0;i<${!header_n};i++));do
+			   header=${_local_data_type}_comm_files[$i]
+                create_cycle_file -H ${!header} -t $Day_Time -c d  -y ${_local_data_type}
+         done  
+		header_n=${_local_data_type}_day_files_n
+         for ((i=0;i<${!header_n};i++));do
+				header=${_local_data_type}_day_files[$i]
+                create_cycle_file -H ${!header}  -t $Day_Time -c d  -y ${_local_data_type}
+         done
+	   print_end_info "day  files"
+}
+
+function create_week_files()
+{
+   	local _local_data_type=$1
+	set_start_time
+		header_n=${_local_data_type}_comm_files_n
+        for ((i=0;i<${!header_n};i++));do
+             header=${_local_data_type}_comm_files[$i]
+                create_cycle_file -H ${!header} -t $Yesterday -c w  -y ${_local_data_type}
+        done
+		header_n=${_local_data_type}_week_files_n
+        for ((i=0;i<${!header_n};i++));do
+			   header=${_local_data_type}_week_files[$i]
+                create_cycle_file -H ${!header} -t $Yesterday -c w  -y ${_local_data_type}
+        done
+	   print_end_info "week  files"
+}
+function create_month_files()
+{
+   local _local_data_type=$1
+	set_start_time
+			header_n=${_local_data_type}_comm_files_n
+              for ((i=0;i<${!header_n};i++));do
+			    header=${_local_data_type}_comm_files[$i]
+                create_cycle_file -H ${!header} -t $Yesterday -c m -y ${_local_data_type}
+             done
+             header_n=${_local_data_type}_month_files_n
+              for ((i=0;i<${!header_n};i++));do
+				header=${_local_data_type}_month_files[$i]
+                create_cycle_file -H ${!header} -t $Yesterday -c m -y ${_local_data_type}
+              done
+	   print_end_info "month  files"
+
+}
+function create_season_files()
+{
+   local _local_data_type=$1
+	set_start_time
+			header_n=${_local_data_type}_comm_files_n
+              for ((i=0;i<${!header_n};i++));do
+                header=${_local_data_type}_comm_files[$i]
+                create_cycle_file -H ${!header}  -t $Yesterday -c s -y ${_local_data_type}
+             done
+             header_n=${_local_data_type}_season_files_n
+              for ((i=0;i<${!header_n};i++));do
+				header=${_local_data_type}_season_files[$i]
+                create_cycle_file -H ${!header} -t $Yesterday -c s -y ${_local_data_type}
+              done
+	   print_end_info "season  files"
+
+}
+function create_year_files()
+{
+   local _local_data_type=$1
+	set_start_time
+			header_n=${_local_data_type}_comm_files_n
+             for ((i=0;i<${!header_n};i++));do
+				header=${_local_data_type}_comm_files[$i]
+                create_cycle_file -H ${!header} -t $Yesterday -c y  -y ${_local_data_type}
+             done
+           header_n=${_local_data_type}_year_files_n
+            for ((i=0;i<${!header_n};i++));do
+				header=${_local_data_type}_year_files[$i]
+                create_cycle_file -H ${!header}  -t $Yesterday -c y -y ${_local_data_type}
+            done
+	   print_end_info "year  files"
+
+}
+
+function create_minute_results()
+{
+   local _local_data_type=$1
+    set_start_time
+		     header_n=${_local_data_type}_comm_results_n
+                for ((i=0;i<${!header_n};i++));do
+				  header=${_local_data_type}_comm_results[$i]
+                   create_cycle_result -H ${!header} -t $Last_Minute -c f -y  ${_local_data_type}
+                done
+			header_n=${_local_data_type}_minute_results_n
+                for ((i=0;i<${!header_n};i++));do
+                  header=${_local_data_type}_minute_results[$i]
+                   create_cycle_result -H ${!header}  -t $Last_Minute -c f -y  ${_local_data_type}
+                done
+       print_end_info "minute  results"
+}
+
+function create_hour_results()
+{
+   local _local_data_type=$1
+	set_start_time
+				header_n=${_local_data_type}_comm_results_n
+                for ((i=0;i<${!header_n};i++));do
+				   header=${_local_data_type}_comm_results[$i]
+                   create_cycle_result -H ${!header} -t $Last_Hour -c h -y  ${_local_data_type}
+                done
+			   header_n=${_local_data_type}_hour_results_n
+                for ((i=0;i<${!header_n};i++));do
+					header=${_local_data_type}_hour_results[$i]
+                   create_cycle_result -H ${!header} -t $Last_Hour -c h -y  ${_local_data_type}
+                done
+	   print_end_info "hour  results"
+}
+function create_24hour_results()
+{
+   local _local_data_type=$1
+        for((n=0;n<24;n++));do
+                 t_Hour=$n
+                 if [ $n -lt 10 ];then
+                      t_Hour="0$n"
+                 fi
+                # only day time is Day_Time ,other is Time_day.
+				header_n=${_local_data_type}_comm_results_n
+                for ((i=0;i<${!header_n};i++));do
+				  header=${_local_data_type}_comm_results[$i]
+                     create_cycle_result -H ${!header} -t $Day_Time$t_Hour -c h -y  ${_local_data_type}
+                done
+				header_n=${_local_data_type}_hour_results_n
+                 for ((i=0;i<${!header_n};i++));do
+					header=${_local_data_type}_hour_results[$i]
+                     create_cycle_result -H ${!header} -t $Day_Time$t_Hour -c h   -y  ${_local_data_type}
+                done
+        done
+
+}
+function create_day_results()
+{
+   local _local_data_type=$1
+	set_start_time
+				header_n=${_local_data_type}_comm_results_n
+                for ((i=0;i<${!header_n};i++));do
+				header=${_local_data_type}_comm_results[$i]
+                   create_cycle_result -H ${!header}  -t $Day_Time -c d -y  ${_local_data_type}
+                done
+				header_n=${_local_data_type}_day_results_n
+                for ((i=0;i<${!header_n};i++));do
+					header=${_local_data_type}_day_results[$i]
+                    create_cycle_result -H ${!header} -t $Day_Time -c d -y  ${_local_data_type}
+                done
+	   print_end_info "day  results"
+}
+
+function create_week_results()
+{
+   local _local_data_type=$1
+	set_start_time
+				header_n=${_local_data_type}_comm_results_n
+                for ((i=0;i<${!header_n};i++));do
+ 				  header=${_local_data_type}_comm_results[$i]
+                   create_cycle_result -H ${!header}  -t $Yesterday -c w -y  ${_local_data_type}
+                done
+				header_n=${_local_data_type}_week_results_n
+                for ((i=0;i<${!header_n};i++));do
+				header=${_local_data_type}_week_results[$i]
+                 create_cycle_result -H ${!header} -t $Yesterday -c w -y  ${_local_data_type}
+                done
+	   print_end_info "week  results"
+}
+function create_month_results()
+{
+   local _local_data_type=$1
+	set_start_time
+				header_n=${_local_data_type}_comm_results_n
+                for ((i=0;i<${!header_n};i++));do
+				  header=${_local_data_type}_comm_results[$i]
+                   create_cycle_result -H ${!header}  -t $Yesterday -c m -y  ${_local_data_type}
+                done
+				header_n=${_local_data_type}_month_results_n
+                for ((i=0;i<${!header_n};i++));do
+				  header=${_local_data_type}_month_results[$i]
+                  create_cycle_result -H ${!header}  -t $Yesterday -c m -y  ${_local_data_type}
+                done
+	   print_end_info "month  results"
+
+}
+function create_season_results()
+{
+   local _local_data_type=$1
+	set_start_time
+				header_n=${_local_data_type}_comm_results_n
+                for ((i=0;i<${!header_n};i++));do
+					header=${_local_data_type}_comm_results[$i]
+      	             create_cycle_result -H ${!header} -t $Yesterday -c s -y  ${_local_data_type}
+                done
+				header_n=${_local_data_type}_season_results_n
+                for ((i=0;i<${!header_n};i++));do
+				  header=${_local_data_type}_season_results[$i]
+                     create_cycle_result -H ${!header} -t $Yesterday -c s -y  ${_local_data_type}
+                done
+   print_end_info "season  results"
+
+}
+function create_year_results()
+{
+   local _local_data_type=$1
+	set_start_time
+				header_n=${_local_data_type}_comm_results_n
+                for ((i=0;i<${!header_n};i++));do
+				  header=${_local_data_type}_comm_results[$i]
+                   create_cycle_result -H ${!header} -t $Yesterday -c y  -y  ${_local_data_type}
+                done
+				header_n=${_local_data_type}_year_results_n
+                for ((i=0;i<${!header_n};i++));do
+				  header=${_local_data_type}_year_results[$i]
+                   create_cycle_result -H ${!header} -t $Yesterday -c y -y   ${_local_data_type}
+                done
+	   print_end_info "year  results"
+
+}
+
+function create_data()
+{
+if [[ $IsMinute == 1 ]];then
+    for((m=0;m<$dataType_n;m++));do
+          [ "$IsResults" -eq 1 ] &&  create_minute_results ${dataType[$m]}
+    done
+fi
+if [[ $IsHour == 1 ]];then
+	for((m=0;m<$dataType_n;m++));do
+	      [ "$IsFiles"  -eq  1 ] &&  create_hour_files ${dataType[$m]}
+          [ "$IsResults" -eq 1 ] &&  create_hour_results ${dataType[$m]}
+	done
+fi
+if [[ $Is24Hour == 1 ]];then
+   	for((m=0;m<$dataType_n;m++));do
+          [ "$IsFiles"  -eq  1 ] &&  create_24hour_files ${dataType[$m]}
+          [ "$IsResults" -eq 1 ] &&  create_24hour_results ${dataType[$m]}
+   	done
+fi
+if [[ $IsDay == 1  ]];then
+        for((m=0;m<$dataType_n;m++));do
+          [ "$IsFiles"  -eq  1 ] &&  create_day_files ${dataType[$m]}
+          [ "$IsResults" -eq 1 ] &&  create_day_results ${dataType[$m]}
+	done
+fi
+if [[ $IsWeek == 1  ]];then
+	for((m=0;m<$dataType_n;m++));do
+          [ "$IsFiles"  -eq  1 ] &&  create_week_files ${dataType[$m]}
+          [ "$IsResults" -eq 1 ] &&  create_week_results ${dataType[$m]}
+        done
+fi
+if [[ $IsMonth == 1  ]];then
+	for((m=0;m<$dataType_n;m++));do
+          [ "$IsFiles"  -eq  1 ] &&  create_month_files ${dataType[$m]}
+          [ "$IsResults" -eq 1 ] &&  create_month_results ${dataType[$m]}
+        done 
+fi
+if [[ $IsSeason == 1  ]];then
+	for((m=0;m<$dataType_n;m++));do
+          [ "$IsFiles"  -eq  1 ] &&  create_season_files ${dataType[$m]}
+          [ "$IsResults" -eq 1 ] &&  create_season_results ${dataType[$m]}
+        done
+fi
+if [[ $IsYear == 1  ]];then
+	for((m=0;m<$dataType_n;m++));do
+          [ "$IsFiles"  -eq  1 ] &&  create_year_files ${dataType[$m]}
+          [ "$IsResults" -eq 1 ] &&  create_year_results ${dataType[$m]}
+        done
+fi
+}
+
+function checkHour()
+{
+        thisDay=$(date +"%M");
+        if [[ $thisDay == "$hourCreateTime"  ]];then
+                ######create last hour file
+       		    IsHour=1
+        fi
+    
+}
+function checkDay()
+{
+        thisDay=$(date +"%H%M");
+        if [[ $thisDay == "$dayCreateTime1"  ]];then
+                ######create yesterday Day file
+                Day_Time=$Yesterday
+		        IsDay=1
+        else
+                if [[ $thisDay == "$dayCreateTime2"  ]];then
+                ######create today Day file
+                        Day_Time=$(date   +"%Y%m%d")
+			 IsDay=1
+                fi
+        fi
+}
+function checkWeek()
+{
+        thisDay=$(date +"%u%H%M");
+        if [[  $thisDay == "$weekCreateTime" ]];then
+                IsWeek=1
+        fi
+}
+function checkMonth()
+{
+        thisDay=$(date  +"%d%H%M")
+        if [[ $thisDay == "$monthCreateTime" ]];then
+                IsMonth=1;
+        fi
+}
+function checkSeason()
+{
+        thisDay=$(date +"%m%d%H%M")
+        case $thisDay in
+                "$seasonCreateTime1"|"$seasonCreateTime2"|"$seasonCreateTime3"|"$seasonCreateTime4")
+                        IsSeason=1 ;;
+
+        esac
+}
+function checkYear()
+{
+        thisDay=$(date +"%m%d%H%M")
+        if [[ $thisDay == "$yearCreateTime" ]];then
+                IsYear=1
+        fi
+}
+
+main()
+{
+
+if [ "$IsCheck" -eq  0 ];then
+        checkHour
+	checkDay
+	checkWeek
+	checkMonth
+	checkSeason
+	checkYear
+fi
+
+create_data
+
+
+}
+
+
+main

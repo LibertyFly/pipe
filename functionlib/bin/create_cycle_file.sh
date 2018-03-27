@@ -1,4 +1,3 @@
-
 #!/bin/bash
 #-------------CopyRight------------- 
 #   Name:create_cycle_file
@@ -17,7 +16,7 @@
 binFold="/usr/local/functionlib"
 AWK_FOLD="$binFold/awk"
 etlFold="$binFold/etl/create_f"
-dataTypes=(NPM)
+dataTypes=(_2G _3G _LTE)
 dataTypes_n=${#dataTypes[*]}
 
 shijian1=""
@@ -150,7 +149,16 @@ function get_option()
 
     return
 }
-
+function check_daylight_saving()
+{
+   _check_date=$1 
+   daylight_saving=0
+   error_cnt=`date -d "_check_date" +%s 2>&1|grep invalid|wc -l `
+   if [  $error_cnt -eq 1 ] ;then
+    daylight_saving=1
+   fi
+   
+}
 function set_fiveminute_source_file()
 {
     local last_date=$1;
@@ -158,7 +166,7 @@ function set_fiveminute_source_file()
     local last_minute=$3
     local _SOURCE_FOLD=$F_SOURCE_FOLD/$HEAD_FILE
           RESULT_FOLD=$F_SOURCE_FOLD
-          tmp_file=$(date -d  "${last_date} ${last_hour}:${last_minute}  " "+%Y%m%d%H%M".txt)
+          tmp_file=$(date -d  "${last_date} ${last_hour}:${last_minute}  " "+%Y%m%d_%H%M".txt)
           if [ -s  $_SOURCE_FOLD/$tmp_file ];then
                     source_file="$source_file $_SOURCE_FOLD/$tmp_file"
            fi
@@ -205,14 +213,13 @@ function set_hour_source_file()
     local last_hour=$2;
     local _SOURCE_FOLD=$F_SOURCE_FOLD/$HEAD_FILE
     	  RESULT_FOLD=$H_SOURCE_FOLD
-
-     _tdate=$(date -d  "${last_date} ${last_hour}hours " "+%Y%m%d %H:%M")
+     _tdate=$(date -d  "${last_date} ${last_hour}" "+%Y%m%d %H:%M")
     if [ "$data_cell" -eq 5 ];then
 	    _SOURCE_FOLD=$F_SOURCE_FOLD/$HEAD_FILE
         for ((mdate=0;mdate<12;mdate++))
         do
               _minutes=$((5*mdate))
-              tmp_file=$(date -d  "$_tdate  ${_minutes}minutes " "+%Y%m%d%H%M".txt)
+              tmp_file=$(date -d  "$_tdate  ${_minutes}minutes " "+%Y%m%d_%H%M".txt)
               if [ -s  $_SOURCE_FOLD/$tmp_file ];then
                     source_file="$source_file $_SOURCE_FOLD/$tmp_file"
               fi
@@ -222,7 +229,7 @@ function set_hour_source_file()
        for ((mdate=0;mdate<4;mdate++))
        do
               _minutes=$((15*mdate))
-              tmp_file=$(date -d  "$_tdate  ${_minutes}minutes " "+%Y%m%d%H%M".txt)
+              tmp_file=$(date -d  "$_tdate  ${_minutes}minutes " "+%Y%m%d_%H%M".txt)
               if [ -s  $_SOURCE_FOLD/$tmp_file ];then
                     source_file="$source_file $_SOURCE_FOLD/$tmp_file"
               fi
@@ -235,9 +242,16 @@ function set_day_source_file()
     local last_date=$1; 
     local _SOURCE_FOLD=$H_SOURCE_FOLD/$HEAD_FILE
     RESULT_FOLD=$D_SOURCE_FOLD
-
+    check_daylight_saving $last_date
+    if [ $daylight_saving -eq 0 ] ;then
      _tdate=$(date -d  "${last_date} " "+%Y%m%d %H:%M")
-     for ((mdate=0;mdate<24;mdate++))
+     _max_hour=24
+    else
+     _tdate=$(date -d  "${last_date} 01" "+%Y%m%d %H:%M")
+     _max_hour=23
+    fi
+    
+     for ((mdate=0;mdate<$_max_hour;mdate++))
      do
               tmp_file=$(date -d  "$_tdate  ${mdate}hours " "+%Y%m%d%H"00.txt)
               if [ -s  $_SOURCE_FOLD/$tmp_file ];then
@@ -254,7 +268,7 @@ function set_Nday_source_file()
  
     for ((sdate=0;sdate<"$day_count";sdate++))
     do
-            tmp_file=$(date -d  "${last_date}   ${sdate}days ago " +%Y%m%d.txt)
+            tmp_file=$(date -d  "${last_date} 01:00  ${sdate}days ago " +%Y%m%d.txt)
             if [ -s  $_SOURCE_FOLD/$tmp_file ];then
                  source_file="$source_file $_SOURCE_FOLD/$tmp_file"
             fi
@@ -295,7 +309,7 @@ function set_season_source_file()
     RESULT_FOLD=$S_SOURCE_FOLD
     for ((sdate=0;sdate<3;sdate++))
     do
-            next_month_first_day=$(date -d  "${last_date}   1days " +%Y%m%d)
+            next_month_first_day=$(date -d  "${last_date} 01:00  1days " +%Y%m%d)
             month_first_day=$(date -d  "${next_month_first_day}   ${sdate}months ago " +%Y%m%d)
             month_last_date=$(date -d  "${month_first_day}   1days ago " +%Y%m%d)
             tmp_file=${month_last_date}.txt
@@ -313,7 +327,7 @@ function set_year_source_file()
     for ((sdate=0;sdate<4;sdate++))
     do
             t_date=$((sdate*3))
-            next_month_first_day=$(date -d  "${last_date}   1days " +%Y%m%d)
+            next_month_first_day=$(date -d  "${last_date} 01:00  1days " +%Y%m%d)
             seaon_next_month_first_day=$(date -d  "${next_month_first_day}   ${t_date}months ago " +%Y%m%d)
             season_last_date=$(date -d  "${seaon_next_month_first_day}   1days ago " +%Y%m%d)
             tmp_file=${season_last_date}.txt

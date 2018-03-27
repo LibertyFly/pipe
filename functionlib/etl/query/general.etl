@@ -1,0 +1,893 @@
+function kpi_DnsQua_ne()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum3.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+        _CGI=$key_cnt;\
+        _dns_cnt=$(key_cnt+1);\
+        _dns_resp_total_delay=$(key_cnt+2);\
+        _dns_noresp_cnt=$(key_cnt+3);\
+        _dns_resp_delay=(_dns_cnt+0==0?0:_dns_resp_total_delay/10^6/_dns_cnt);\
+        _dns_noresp_Rate=(_dns_cnt+0==0?0:_dns_noresp_cnt*100/_dns_cnt);\
+       printf _time",";\
+       printf("%s,%d,%d,%d,%.4f\n",\
+       _CGI,_dns_cnt,_dns_resp_delay,_dns_noresp_cnt,_dns_noresp_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_DnsQua_rai()
+{
+  kpi_DnsQua_ne $@
+}
+function kpi_DnsQua_global()
+{
+  local _time=$1
+  local _key_cnt=0
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum3.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==1){_time=$1;}else{_time=time;}\
+        _dns_cnt=$(key_cnt+1);\
+        _dns_resp_total_delay=$(key_cnt+2);\
+        _dns_noresp_cnt=$(key_cnt+3);\
+        _dns_resp_delay=(_dns_cnt+0==0?0:_dns_resp_total_delay/10^6/_dns_cnt);\
+        _dns_noresp_Rate=(_dns_cnt+0==0?0:_dns_noresp_cnt*100/_dns_cnt);\
+       printf _time",";\
+       printf("%d,%d,%d,%.4f\n",\
+       _dns_cnt,_dns_resp_delay,_dns_noresp_cnt,_dns_noresp_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_EmailQua_ne()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum2.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+       _CGI=$key_cnt;\
+        _email_cnt=$(key_cnt+1);\
+        _email_succ_cnt=$(key_cnt+2);\
+        _email_succ_Rate=(_email_cnt+0==0?0:_email_succ_cnt*100/_email_cnt);\
+       printf _time",";\
+       printf("%s,%d,%d,%.4f\n",\
+       _CGI,_email_cnt,_email_succ_cnt,_email_succ_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_EmailQua_rai()
+{
+   kpi_EmailQua_ne $@
+}
+function kpi_EmailQua_global()
+{
+  local _time=$1
+  local _key_cnt=0
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum2.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==1){_time=$1;}else{_time=time;}\
+        _email_cnt=$(key_cnt+1);\
+        _email_succ_cnt=$(key_cnt+2);\
+        _email_succ_Rate=(_email_cnt+0==0?0:_email_succ_cnt*100/_email_cnt);\
+       printf _time",";\
+       printf("%d,%d,%.4f\n",\
+       _email_cnt,_email_succ_cnt,_email_succ_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+
+function kpi_FtpQua_ne()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum4.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+        _CGI=$key_cnt;\
+        _ftp_cnt=$(key_cnt+1);\
+        _ftp_fail_cnt=$(key_cnt+2);\
+        _big_content_cnt=$(key_cnt+3);\
+        _ftp_succ_cnt=$(key_cnt+4);\
+        _ftp_fail_Rate=(_ftp_cnt+0==0?0:_ftp_fail_cnt*100/_ftp_cnt);\
+        _ftp_succ_Rate=(_ftp_cnt+0==0?0:_ftp_succ_cnt*100/_ftp_cnt);\
+       printf _time",";\
+       printf("%s,%d,%d,%d,%d,%.4f,%.4f\n",\
+       _CGI, _ftp_cnt,_ftp_fail_cnt,_big_content_cnt,_ftp_succ_cnt,_ftp_fail_Rate,_ftp_succ_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_FtpQua_rai()
+{
+  kpi_FtpQua_ne $@
+}
+function kpi_FtpQua_global()
+{
+  local _time=$1
+  local _key_cnt=0
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum4.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==1){_time=$1;}else{_time=time;}\
+        _ftp_cnt=$(key_cnt+1);\
+        _ftp_fail_cnt=$(key_cnt+2);\
+        _big_content_cnt=$(key_cnt+3);\
+        _ftp_succ_cnt=$(key_cnt+4);\
+        _ftp_fail_Rate=(_ftp_cnt+0==0?0:_ftp_fail_cnt*100/_ftp_cnt);\
+        _ftp_succ_Rate=(_ftp_cnt+0==0?0:_ftp_succ_cnt*100/_ftp_cnt);\
+       printf _time",";\
+       printf("%d,%d,%d,%d,%.4f,%.4f\n",\
+        _ftp_cnt,_ftp_fail_cnt,_big_content_cnt,_ftp_succ_cnt,_ftp_fail_Rate,_ftp_succ_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+
+function kpi_MmsTraffic_ne()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum2.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+       _CGI=$key_cnt;\
+        _up_bytes=$(key_cnt+1);\
+        _down_bytes=$(key_cnt+2);\
+       printf _time",";\
+       printf("%s,%d,%d\n",\
+        _CGI,_up_bytes,_down_bytes);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+
+function kpi_MmsTraffic_rai()
+{
+  kpi_MmsTraffic_ne $@
+}
+function kpi_MmsTraffic_global()
+{
+  local _time=$1
+  local _key_cnt=0
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum2.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==1){_time=$1;}else{_time=time;}\
+        _up_bytes=$(key_cnt+1);\
+        _down_bytes=$(key_cnt+2);\
+       printf _time",";\
+       printf("%d,%d\n",\
+        _up_bytes,_down_bytes);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_Paging_global()
+{
+  local _time=$1
+  local _key_cnt=0
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum3.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==1){_time=$1;}else{_time=time;}\
+        _Paging_succ_cnt=$(key_cnt+1);\
+        _Paging_resp_delay=$(key_cnt+2);\
+        _Paging_cnt=$(key_cnt+3);\
+        _Paging_attempt_cnt=$(key_cnt+4);\
+        _Paging_succ_Rate=(_Paging_cnt+0==0?0:100*_Paging_succ_cnt/_Paging_cnt);\
+        _Avg_Paging_resp_delay=(_Paging_cnt+0==0?0:_Paging_resp_delay/10^6/_Paging_cnt);\
+     _Avg_Paging_resp_delay=(_Avg_Paging_resp_delay>30?_Avg_Paging_resp_delay/15:_Avg_Paging_resp_delay);\
+       printf _time",";\
+       printf("%d,%d,%d,%d,%.4f,%.4f\n",\
+       _Paging_succ_cnt,_Paging_resp_delay,_Paging_cnt,_Paging_attempt_cnt,_Paging_succ_Rate,_Avg_Paging_resp_delay);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_Paging_rai()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi  
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum3.awk"
+  fi  
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+        _rai=$(key_cnt);\
+        _Paging_succ_cnt=$(key_cnt+1);\
+        _Paging_resp_delay=$(key_cnt+2);\
+        _Paging_cnt=$(key_cnt+3);\
+        _Paging_attempt_cnt=$(key_cnt+4);\
+        _Paging_succ_Rate=(_Paging_cnt+0==0?0:100*_Paging_succ_cnt/_Paging_cnt);\
+        _Avg_Paging_resp_delay=(_Paging_cnt+0==0?0:_Paging_resp_delay/10^6/_Paging_cnt);\
+        _Avg_Paging_resp_delay=(_Avg_Paging_resp_delay>30?_Avg_Paging_resp_delay/15:_Avg_Paging_resp_delay);\
+       printf _time",";\
+       printf("%s,%d,%d,%d,%d,%.4f,%.4f\n",\
+       _rai,_Paging_succ_cnt,_Paging_resp_delay,_Paging_cnt,_Paging_attempt_cnt,_Paging_succ_Rate,_Avg_Paging_resp_delay);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_Paging_ne()
+{
+  kpi_Paging_rai $@
+} 
+function kpi_PDP_Active_Cause_global()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum1.awk"
+  fi
+  echo $shellCmd|sh|awk  -v key_cnt=${_key_cnt} -v rate_col=1  -f ${AWK_FOLD}/rate_sum1.awk|\
+  awk  -v time=$_time -v timeValue=$_timeValue -v keyValue=$keyvalue \
+    -v key_cnt=${_key_cnt}\
+    -v zd_sessionCause=$SESSION_CAUSE_ZIDIAN \
+    'BEGIN{while((getline<zd_sessionCause)>0){sessionCause[$1]=$2}}\
+    {\
+        if($(key_cnt+1)==keyValue){next}\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+        _Cause=$key_cnt;\
+        _CauseName=(sessionCause[_Cause]==""?_Cause:sessionCause[_Cause]);\
+        _Cause_cnt=$(key_cnt+1);\
+        _Cause_Rate=$(key_cnt+2)*100;\
+       printf _time",";\
+       printf("%s,%d,%s,%.4f\n",\
+       _Cause,_Cause_cnt,_CauseName,_Cause_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_PerRauType_Cause_global()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum1.awk"
+  fi
+  echo $shellCmd|sh|awk  -v key_cnt=${_key_cnt} -v rate_col=1  -f ${AWK_FOLD}/rate_sum1.awk|\
+  awk  -v time=$_time -v timeValue=$_timeValue -v keyValue=$keyvalue\
+    -v key_cnt=${_key_cnt}\
+    -v zd_mobilityCause=$MOBILITY_CAUSE_ZIDIAN \
+    'BEGIN{while((getline<zd_mobilityCause)>0){mobilityCause[$1]=$2}}\
+    {\
+        if($(key_cnt+1)==keyValue){next}\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+        _Cause=$key_cnt;\
+        _CauseName=(mobilityCause[_Cause]==""?_Cause:mobilityCause[_Cause]);\
+        _Cause_cnt=$(key_cnt+1);\
+        _Cause_Rate=$(key_cnt+2)*100;\
+       printf _time",";\
+       printf("%s,%d,%s,%.4f\n",\
+       _Cause,_Cause_cnt,_CauseName,_Cause_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_PerRauType_Cause_ne()
+{
+ local _time=$1
+  local _key_cnt=2
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum1.awk"
+  fi
+  echo $shellCmd|sh|awk  -v key_cnt=${_key_cnt} -v rate_col=1  -f ${AWK_FOLD}/rate_sum1.awk|\
+  awk  -v time=$_time -v timeValue=$_timeValue -v keyValue=$keyvalue \
+    -v key_cnt=${_key_cnt}\
+    -v zd_mobilityCause=$MOBILITY_CAUSE_ZIDIAN \
+    'BEGIN{while((getline<zd_mobilityCause)>0){mobilityCause[$1]=$2}}\
+    {\
+       if($(key_cnt+1)==keyValue){next}\
+       if(key_cnt==3){_time=$1;}else{_time=time;}\
+        _CGI=$(key_cnt-1);\
+        _Cause=$key_cnt;\
+        _CauseName=(mobilityCause[_Cause]==""?_Cause:mobilityCause[_Cause]);\
+        _Cause_cnt=$(key_cnt+1);\
+        _Cause_Rate=$(key_cnt+2)*100;\
+       printf _time",";\
+       printf("%s,%s,%d,%s,%.4f\n",\
+       _CGI,_Cause,_Cause_cnt,_CauseName,_Cause_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_PerRauType_Cause_rai()
+{
+  kpi_PerRauType_Cause_ne $@
+}
+function kpi_RauType_Cause_global()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum1.awk"
+  fi
+  echo $shellCmd|sh|awk  -v key_cnt=${_key_cnt} -v rate_col=1  -f ${AWK_FOLD}/rate_sum1.awk|\
+  awk  -v time=$_time -v timeValue=$_timeValue -v keyValue=$keyvalue\
+    -v key_cnt=${_key_cnt}\
+    -v zd_mobilityCause=$MOBILITY_CAUSE_ZIDIAN \
+    'BEGIN{while((getline<zd_mobilityCause)>0){mobilityCause[$1]=$2}}\
+    {\
+        if($(key_cnt+1)==keyValue){next}\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+        _Cause=$key_cnt;\
+        _CauseName=(mobilityCause[_Cause]==""?_Cause:mobilityCause[_Cause]);\
+        _Cause_cnt=$(key_cnt+1);\
+        _Cause_Rate=$(key_cnt+2)*100;\
+       printf _time",";\
+       printf("%s,%d,%s,%.4f\n",\
+       _Cause,_Cause_cnt,_CauseName,_Cause_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_RauType_Cause_ne()
+{
+   kpi_PerRauType_Cause_ne $@
+}
+function kpi_RauType_Cause_rai()
+{
+   kpi_PerRauType_Cause_ne $@
+}
+function kpi_StreamingTraffic_host()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum4.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+        _host=$key_cnt;\
+        _Streaming_cnt=$(key_cnt+1);\
+        _up_Streaming_bytes=$(key_cnt+2);\
+        _down_Streaming_bytes=$(key_cnt+3);\
+        _Streaming_delay=$(key_cnt+4);\
+        _Streaming_Th=(_up_Streaming_bytes+_down_Streaming_bytes)/1000;\
+        _avg_Streaming_delay=(_Streaming_cnt+0==0?0:_Streaming_delay/10^6/_Streaming_cnt);\
+       printf _time",";\
+       printf("%s,%d,%d,%d,%.4f,%.4f,%.4f\n",\
+        _host,_Streaming_cnt,_up_Streaming_bytes,_down_Streaming_bytes,_Streaming_delay,_Streaming_Th,_avg_Streaming_delay);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_StreamingTraffic_host_global()
+{
+  local _time=$1
+  local _key_cnt=0
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum4.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==1){_time=$1;}else{_time=time;}\
+        _Streaming_cnt=$(key_cnt+1);\
+        _up_Streaming_bytes=$(key_cnt+2);\
+        _down_Streaming_bytes=$(key_cnt+3);\
+        _Streaming_delay=$(key_cnt+4);\
+        _Streaming_Th=(_up_Streaming_bytes+_down_Streaming_bytes)/1000;\
+        _avg_Streaming_delay=(_Streaming_cnt+0==0?0:_Streaming_delay/_Streaming_cnt/10^6);\
+       printf _time",";\
+       printf("%d,%d,%d,%.4f,%.4f,%.4f\n",\
+       _Streaming_cnt,_up_Streaming_bytes,_down_Streaming_bytes,_Streaming_delay,_Streaming_Th,_avg_Streaming_delay);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_Traffic_apn_servtype()
+{
+  local _time=$1
+  local _key_cnt=2
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum2.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    -v zd_service_type=$SERVICE_DETAIL_ZIDIAN \
+    'BEGIN{while((getline<zd_service_type)>0){service_type[$2]=$3}}\
+    {\
+       if(key_cnt==3){_time=$1;}else{_time=time;}\
+       _APN=$(key_cnt-1);\
+       _service_type_id=$key_cnt;\
+       _service_type=((service_type[_service_type_id]=="")?_service_type_id:service_type[_service_type_id]);\
+       _up_bytes=$(key_cnt+1);\
+       _down_bytes=$(key_cnt+2);\
+       printf _time",";\
+       printf("%s,%s,%d,%d,%s\n",\
+       _APN,_service_type_id,_up_bytes,_down_bytes,_service_type);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_Traffic_proto_port()
+{
+  local _time=$1
+  local _key_cnt=2
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum2.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==3){_time=$1;}else{_time=time;}\
+        _ProtoType=$(key_cnt-1);\
+        _Port=$(key_cnt);\
+        _up_bytes=$(key_cnt+1);\
+        _down_bytes=$(key_cnt+2);\
+       printf _time",";\
+       printf("%s,%s,%d,%d\n",\
+        _ProtoType,_Port,_up_bytes,_down_bytes);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_Traffic_servtype()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum2.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    -v zd_service_detail=$SERVICE_DETAIL_ZIDIAN \
+    'BEGIN{while((getline<zd_service_detail)>0){service_detail[$2]=$3}}\
+    {\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+       _service_detail_id=$(key_cnt);\
+       _service_detail=((service_detail[_service_detail_id]=="")?_service_detail_id:service_detail[_service_detail_id]);\
+       _up_bytes=$(key_cnt+1);\
+       _down_bytes=$(key_cnt+2);\
+       printf _time",";\
+       printf("%s,%d,%d,%s\n",\
+       _service_detail_id,_up_bytes,_down_bytes,_service_detail);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_Traffic_servtype_global()
+{
+  local _time=$1
+  local _key_cnt=0
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum2.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==1){_time=$1;}else{_time=time;}\
+        _up_bytes=$(key_cnt+1);\
+        _down_bytes=$(key_cnt+2);\
+       printf _time",";\
+       printf("%d,%d\n",\
+       _up_bytes,_down_bytes);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+
+function kpi_Traffic_servtype_proto()
+{
+  local _time=$1
+  local _key_cnt=2
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum2.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    -v zd_service_type=$SERVICE_DETAIL_ZIDIAN \
+    'BEGIN{while((getline<zd_service_type)>0){service_type[$2]=$3}}\
+    {\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+        _service_type_id=$(key_cnt-1);\
+        _ProtoType=$key_cnt;\
+       _service_type=((service_type[_service_type_id]=="")?_service_type_id:service_type[_service_type_id]);\
+        _up_bytes=$(key_cnt+1);\
+        _down_bytes=$(key_cnt+2);\
+       printf _time",";\
+       printf("%s,%s,%d,%d,%s\n",\
+       _service_type_id,_ProtoType,_up_bytes,_down_bytes,_service_type);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_Wapqua_ne()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum4.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+        _CGI=$key_cnt;\
+        _wap_cnt=$(key_cnt+1);\
+        _web_cnt=$(key_cnt+2);\
+        _web_succ_cnt=$(key_cnt+3);\
+        _wap_resp_total_delay=$(key_cnt+4);\
+        _wap_resp_delay=(_wap_cnt+0==0?0:_wap_resp_total_delay/10^6/_wap_cnt);\
+        _web_succ_Rate=(_web_cnt+0==0?0:_web_succ_cnt*100/_web_cnt);\
+       printf _time",";\
+       printf("%s,%d,%d,%d,%d,%d,%.4f\n",\
+        _CGI,_wap_cnt,_web_cnt,_web_succ_cnt,_wap_resp_total_delay,_wap_resp_delay,_web_succ_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_Wapqua_rai()
+{
+    kpi_Wapqua_ne $@
+}
+function kpi_Wapqua_global()
+{
+  local _time=$1
+  local _key_cnt=0
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum4.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==1){_time=$1;}else{_time=time;}\
+        _wap_cnt=$(key_cnt+1);\
+        _web_cnt=$(key_cnt+2);\
+        _web_succ_cnt=$(key_cnt+3);\
+        _wap_resp_total_delay=$(key_cnt+4);\
+        _wap_resp_delay=(_wap_cnt+0==0?0:_wap_resp_total_delay/10^6/_wap_cnt);\
+        _web_succ_Rate=(_web_cnt+0==0?0:_web_succ_cnt*100/_web_cnt);\
+       printf _time",";\
+       printf("%d,%d,%d,%d,%d,%.4f\n",\
+        _wap_cnt,_web_cnt,_web_succ_cnt,_wap_resp_total_delay,_wap_resp_delay,_web_succ_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_WapQua_ne_host()
+{
+  local _time=$1
+  local _key_cnt=2
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum2.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==3){_time=$1;}else{_time=time;}\
+       _CGI=$(key_cnt-1);\
+       _Host=$key_cnt;\
+        _firstpage_cnt=$(key_cnt+1);\
+        _firstpage_resp_delay=$(key_cnt+2);\
+        _firstPage_download_duration=(_firstpage_cnt+0==0?0:_firstpage_resp_delay/10^6/_firstpage_cnt);\
+       printf _time",";\
+       printf("%s,%s,%d,%.4f,%.4f\n",\
+       _CGI,_Host,_firstpage_cnt,_firstpage_resp_delay,_firstPage_download_duration);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_WapQua_rai_host()
+{
+   kpi_WapQua_ne_host $@
+}
+function kpi_WapTraffic_ne()
+{
+  local _time=$1
+  local _timeValue=$2
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum7.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+       _CGI=$key_cnt;\
+        _wap_up_bytes=$(key_cnt+1);\
+        _web_up_bytes=$(key_cnt+2);\
+        _wap_down_bytes=$(key_cnt+3);\
+        _web_down_bytes=$(key_cnt+4);\
+        _Wap_Big_Content_DL_Th=wap_big_content_down_bytes*8/timeValue;\
+        _Web_Big_Content_DL_Th=wap_big_content_down_bytes*8/timeValue;\
+        _Wap_Big_Content_UL_Th=wap_big_content_up_bytes*8/timeValue;\
+        _Web_Big_Content_UL_Th=wap_big_content_up_bytes*8/timeValue;\
+        _Http_up_bytes=(_wap_up_bytes+_web_up_bytes)/1024;\
+        _Http_down_bytes=(_wap_down_bytes+_web_down_bytes)/1024;\
+       printf _time",";\
+       printf("%s,%d,%d,%d,%d,%.4f,%.4f,%.4f,%.4f,%d,%d\n",\
+       _CGI,_wap_up_bytes,_web_up_bytes,_wap_down_bytes,_web_down_bytes,_Wap_Big_Content_DL_Th,_Web_Big_Content_DL_Th,_Wap_Big_Content_UL_Th,_Web_Big_Content_UL_Th,_Http_up_bytes,_Http_down_bytes);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+
+function kpi_WapTraffic_rai()
+{
+   kpi_WapTraffic_ne $@
+}
+function kpi_WapTraffic_global()
+{
+  local _time=$1
+  local _timeValue=$2
+  local _key_cnt=0
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum7.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==1){_time=$1;}else{_time=time;}\
+        _wap_up_bytes=$(key_cnt+1);\
+        _web_up_bytes=$(key_cnt+2);\
+        _wap_down_bytes=$(key_cnt+3);\
+        _web_down_bytes=$(key_cnt+4);\
+        _Wap_Big_Content_DL_Th=wap_big_content_down_bytes*8/timeValue;\
+        _Web_Big_Content_DL_Th=wap_big_content_down_bytes*8/timeValue;\
+        _Wap_Big_Content_UL_Th=wap_big_content_up_bytes*8/timeValue;\
+        _Web_Big_Content_UL_Th=wap_big_content_up_bytes*8/timeValue;\
+        _Http_up_bytes=(_wap_up_bytes+_web_up_bytes)/1024;\
+        _Http_down_bytes=(_wap_down_bytes+_web_down_bytes)/1024;\
+       printf _time",";\
+       printf("%d,%d,%d,%d,%.4f,%.4f,%.4f,%.4f,%d,%d\n",\
+       _wap_up_bytes,_web_up_bytes,_wap_down_bytes,_web_down_bytes,_Wap_Big_Content_DL_Th,_Web_Big_Content_DL_Th,_Wap_Big_Content_UL_Th,_Web_Big_Content_UL_Th,_Http_up_bytes,_Http_down_bytes);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_Wspconnect_ne()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum2.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+        _CGI=$key_cnt;\
+        _Wsp_succ_cnt=$(key_cnt+1);\
+        _Wsp_cnt=$(key_cnt+2);\
+        _Wsp_succ_Rate=(_Wsp_cnt+0==0?0:100*_Wsp_succ_cnt/_Wsp_cnt);\
+       printf _time",";\
+       printf("%s,%d,%d,%.4f\n",\
+       _CGI,_Wsp_succ_cnt,_Wsp_cnt,_Wsp_succ_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_Wspconnect_rai()
+{
+  kpi_Wspconnect_ne $@
+}
+
+function kpi_Wspconnect_global()
+{
+  local _time=$1
+  local _key_cnt=0
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum2.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==1){_time=$1;}else{_time=time;}\
+        _Wsp_succ_cnt=$(key_cnt+1);\
+        _Wsp_cnt=$(key_cnt+2);\
+        _Wsp_succ_Rate=(_Wsp_cnt+0==0?0:100*_Wsp_succ_cnt/_Wsp_cnt);\
+       printf _time",";\
+       printf("%d,%d,%.4f\n",\
+       _Wsp_succ_cnt,_Wsp_cnt,_Wsp_succ_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}

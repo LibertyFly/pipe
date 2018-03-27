@@ -1,0 +1,143 @@
+function cgi_local_total()
+{
+   _source_file="user_loc_service_group"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_local=$CGI_LOCAL_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_local)>0){cgi_local[\$1]=\$2\" \"\$3}}\
+                {if(cgi_local[\$2]!=\"\"){\$2=cgi_local[\$2];print \$0}}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="users_trans_v2.awk"
+   _sort_cmd="sort -rn -k5"
+
+}
+function cgi_local_service_group_total()
+{
+   _source_file="user_loc_service_group"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_local=$CGI_LOCAL_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_local)>0){cgi_local[\$1]=\$2\" \"\$3}}\
+                {if(cgi_local[\$2]!=\"\"){\$2=cgi_local[\$2];print \$0}}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="users_trans_v3.awk"
+   _sort_cmd="sort -rn -k6"
+
+}
+function cgi_local_service_type_total()
+{
+   _source_file="user_loc_service_type"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_local=$CGI_LOCAL_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_local)>0){cgi_local[\$1]=\$2\" \"\$3}}\
+                {if(cgi_local[\$2]!=\"\"){\$2=cgi_local[\$2];print \$0}}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="users_trans_v4.awk"
+   _sort_cmd="sort -rn -k7"
+
+}
+
+function cgi_local_service_detail_total()
+{
+   _source_file="user_loc_service_detail"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_local=$CGI_LOCAL_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_local)>0){cgi_local[\$1]=\$2\" \"\$3}}\
+                {if(cgi_local[\$2]!=\"\"){\$2=cgi_local[\$2];print \$0}}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="users_trans_v4.awk"
+   _sort_cmd="sort -rn -k7"
+
+}
+
+function cgi_city_service_group_total()
+{
+   _source_file="user_loc_service_group"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {if(cgi_to_city_area[\$2]!=\"\"){\$2=cgi_to_city_area[\$2];print \$0}}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="users_trans_v2.awk"
+   _sort_cmd="sort -rn -k5"
+
+}
+function cgi_city_service_type_total()
+{
+   _source_file="user_loc_service_type"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {if(cgi_to_city_area[\$2]!=\"\"){\$2=cgi_to_city_area[\$2];print \$0}}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="users_trans_v3.awk"
+   _sort_cmd="sort -rn -k6"
+}
+function cgi_city_service_detail_total()
+{
+   _source_file="user_loc_service_detail"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {if(cgi_to_city_area[\$2]!=\"\"){\$2=cgi_to_city_area[\$2];print \$0}}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cgi_city_service_detail.awk"
+   _sort_cmd="sort -rn -k6"
+
+}
+function cgi_city_total()
+{
+   _source_file="user_loc"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {if(cgi_to_city_area[\$2]!=\"\"){\$2=cgi_to_city_area[\$2];print \$0}}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="users_trans_v1.awk"
+   _sort_cmd="sort -rn -k4"
+}
+function cgi_area_service_group_total()
+{
+   _source_file="user_loc_service_group"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$2=(cgi_to_city_area[\$2]==\"\"?\$2\" \"\$2:cgi_to_city_area[\$2]);print \$0}}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="users_trans_v3.awk"
+   _sort_cmd="sort -rn -k6"
+
+}
+function cgi_area_service_type_total()
+{
+   _source_file="user_loc_service_type"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$2=(cgi_to_city_area[\$2]==\"\"?\$2\" \"\$2:cgi_to_city_area[\$2]);print \$0}}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="users_trans_v4.awk"
+   _sort_cmd="sort -rn -k7"
+
+}
+function cgi_area_service_detail_total()
+{
+   _source_file="user_loc_service_detail"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$2=(cgi_to_city_area[\$2]==\"\"?\$2\" \"\$2:cgi_to_city_area[\$2]);print \$0}}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="users_trans_v4.awk"
+   _sort_cmd="sort -rn -k7"
+}
+function cgi_area_total()
+{
+    _source_file="user_loc"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$2=(cgi_to_city_area[\$2]==\"\"?\$2\" \"\$2:cgi_to_city_area[\$2]);print \$0}}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="users_trans_v2.awk"
+   _sort_cmd="sort -rn -k5"
+
+}

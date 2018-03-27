@@ -1,0 +1,310 @@
+function net_que_total()
+{
+   _source_file="net_que_terminal"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v="-v key_cnt=1"
+   _awk_file="net_que.awk"
+   _sort_cmd=""
+
+}
+function net_que_phone_up_order_total()
+{
+   _source_file="net_que_user"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$2*100/(\$8==0?1:\$8))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16"
+}
+function net_que_phone_down_order_total()
+{
+   _source_file="net_que_user"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$3*100/(\$9==0?1:\$9))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16|head -n $top"
+}
+function net_que_phone_up_resend_total()
+{
+   _source_file="net_que_user"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$4*100/(\$10==0?1:\$10))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16|head -n $top"
+}
+function net_que_phone_down_resend_total()
+{
+   _source_file="net_que_user"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$5*100/(\$11==0?1:\$11))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16|head -n $top"
+}
+function net_que_phone_up_lost_total()
+{
+   _source_file="net_que_user"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$6*100/(\$12==0?1:\$12))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16|head -n $top"
+}
+function net_que_phone_down_lost_total()
+{
+   _source_file="net_que_user"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$7*100/(\$13==0?1:\$13))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16|head -n $top"
+}
+function net_que_phone_up_delay_total()
+{
+   _source_file="net_que_user"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$8*100/(\$14==0?1:\$14))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16|head -n $top"
+}
+function net_que_phone_down_delay_total()
+{
+   _source_file="net_que_user"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$9*100/(\$15==0?1:\$15))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16|head -n $top"
+}
+
+function net_que_cgi_up_order_total()
+{
+   _source_file="net_que_loc"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$2*100/(\$8==0?1:\$8))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16"
+
+}
+function net_que_cgi_down_order_total()
+{
+   _source_file="net_que_loc"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$3*100/(\$9==0?1:\$9))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16|head -n $top"
+}
+function net_que_cgi_up_resend_total()
+{
+   _source_file="net_que_loc"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$4*100/(\$10==0?1:\$10))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16|head -n $top"
+}
+function net_que_cgi_down_resend_total()
+{
+   _source_file="net_que_loc"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$5*100/(\$11==0?1:\$11))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16|head -n $top"
+}
+function net_que_cgi_up_lost_total()
+{
+   _source_file="net_que_loc"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$6*100/(\$12==0?1:\$12))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16|head -n $top"
+}
+function net_que_cgi_down_lost_total()
+{
+   _source_file="net_que_loc"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$7*100/(\$13==0?1:\$13))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16|head -n $top"
+}
+function net_que_cgi_up_delay_total()
+{
+   _source_file="net_que_loc"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$8*100/(\$14==0?1:\$14))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16|head -n $top"
+}
+function net_que_cgi_down_delay_total()
+{
+   _source_file="net_que_loc"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$9*100/(\$15==0?1:\$15))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16|head -n $top"
+}
+
+function net_que_terminal_up_order_total()
+{
+   _source_file="net_que_terminal"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$2*100/(\$8==0?1:\$8))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16"
+}
+function net_que_terminal_down_order_total()
+{
+   _source_file="net_que_terminal"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$3*100/(\$9==0?1:\$9))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16|head -n $top"
+}
+function net_que_terminal_up_resend_total()
+{
+   _source_file="net_que_terminal"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$4*100/(\$10==0?1:\$10))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16|head -n $top"
+}
+function net_que_terminal_down_resend_total()
+{
+   _source_file="net_que_terminal"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$5*100/(\$11==0?1:\$11))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16|head -n $top"
+}
+function net_que_terminal_up_lost_total()
+{
+   _source_file="net_que_terminal"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$6*100/(\$12==0?1:\$12))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16|head -n $top"
+}
+function net_que_terminal_down_lost_total()
+{
+   _source_file="net_que_terminal"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$7*100/(\$13==0?1:\$13))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16|head -n $top"
+}
+function net_que_terminal_up_delay_total()
+{
+   _source_file="net_que_terminal"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$8*100/(\$14==0?1:\$14))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16|head -n $top"
+}
+function net_que_terminal_down_delay_total()
+{
+   _source_file="net_que_terminal"
+   _source_shell="awk '{printf \$0\" \";printf(\"%.3f\n\",\$9*100/(\$15==0?1:\$15))}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k16|head -n $top"
+}
+function net_que_terminal()
+{
+   _source_file="net_que_terminal"
+   _source_shell=""
+    _trans_awk="awk '{print \$1\" \"\$21\" \"\$22}'"
+ #  _trans_awk="awk -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN \
+ #             'BEGIN{while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$2}}\
+ #               {\$1=(terminal_to_fac_type[\$1]==\"\"?\$1:terminal_to_fac_type[\$1]);\
+ #                    print \$0 }'|awk -f ${AWK_FOLD}/cycle_net_que_v1.awk|awk '{print \$1\" \"\$23\" \"\$24}'"
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}
+function net_que_service_type()
+{
+   _source_file="net_que_servtype"
+   _source_shell="awk '{print \$1\" \"\$21\" \"\$22\" \"\$23\" \"\$24}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k5"
+}
+function net_que_serverip()
+{
+   _source_file="net_que_serverip"
+   _source_shell="awk '{print \$1\" \"\$21\" \"\$22\" \"\$23\" \"\$24}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k5"
+}
+function dns_que_serverip()
+{
+   _source_file="dns_que_serverip"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k4"
+}
+function dns_que_total()
+{
+   _source_file="dns_que_serverip"
+   _source_shell=""
+   _trans_awk="awk '{\$1=\"1\";print \$0;}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd="sort -nr -k4"
+}
+function dns_que_ne1_ne2()
+{
+   _source_file="dns_que_ne1_ne2"
+   _source_shell=""
+   _trans_awk="awk '{a=\$2;\$2=\"\";print \$0;\$1=a;print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd="sort -nr -k4"
+}
+function net_que_server_quality_total()
+{
+   _source_file="net_que_server_quality"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v="-v key_cnt=3"
+   _awk_file="net_que_server_quality.awk"
+   _sort_cmd="sort -nr -k5"
+
+}
+
+function net_que_host_quality_total()
+{
+   _source_file="net_que_server_quality"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v="-v key_cnt=2"
+   _awk_file="net_que_server_quality.awk"
+   _sort_cmd="sort -nr -k4"
+  
+}
+
+

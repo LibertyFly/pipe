@@ -1,0 +1,2076 @@
+function filter_download_phone_service_type_total()
+{
+   _source_file="filter_download_user_service_type"
+   _source_shell="awk '{\$1=\"\";\$2=\"\";\$3=\"\";print \$0}'"
+   _trans_awk=""
+   _awk_v="-v key_cnt=0"
+   _awk_file="cycle_down_load.awk"
+   _sort_cmd=""
+}
+
+function filter_download_phone_service_type()
+{
+   _source_file="filter_download_user_service_type"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}
+
+function kpi_dns_city()
+{
+   _source_file="dns_que_loc_cause"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {if(cgi_to_city_area[\$1]!=\"\"){\$1=cgi_to_city_area[\$1];print \$0}}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="dns_common.awk "
+   _sort_cmd="sort -nr -k3"
+}
+
+function kpi_dns_city_fail()
+{
+   _source_file="dns_que_loc_cause"
+   _source_shell="grep -v \"C0\""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {if(cgi_to_city_area[\$1]!=\"\"){\$1=cgi_to_city_area[\$1];print \$0}}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="dns_fail_common.awk "
+   _sort_cmd=""
+}
+
+function kpi_dns_ecgi()
+{
+   _source_file="dns_que_loc_cause"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v="-v key_cnt=1"
+   _awk_file="dns_common.awk "
+   _sort_cmd="sort -nr -k3"
+}
+
+function kpi_dns_ecgi_fail()
+{
+   _source_file="dns_que_loc_cause"
+   _source_shell="grep -v \"C0\""
+   _trans_awk=""
+   _awk_v="-v key_cnt=2"
+   _awk_file="dns_fail_common.awk "
+   _sort_cmd=""
+}
+
+function kpi_dns_enb_mme()
+{
+   _source_file="dns_que_ne1_ne2_cause"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<zd_net_element)>0){net[\$1]=\$2}}\
+               { first=(net[\$1]==\"\"?\$1:net[\$1]); printf first;for(i=3;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[\$2]==\"\"?\$2:net[\$2]); printf first;for(i=3;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="dns_common.awk"
+   _sort_cmd="sort -nr -k3"
+}
+
+
+function kpi_dns_enb_mme_fail()
+{
+   _source_file="dns_que_ne1_ne2_cause"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<zd_net_element)>0){net[\$1]=\$2}}\
+               { first=(net[\$1]==\"\"?\$1:net[\$1]); printf first;for(i=3;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[\$2]==\"\"?\$2:net[\$2]); printf first;for(i=3;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"  
+   _awk_v="-v key_cnt=2"
+   _awk_file="dns_fail_common.awk "
+   _sort_cmd=""
+}
+
+
+function kpi_dns_query_name()
+{
+   _source_file="dns_que_query_name_cause"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v="-v key_cnt=1"
+   _awk_file="dns_common.awk"
+   _sort_cmd="sort -nr -k3"
+}
+
+
+function kpi_dns_query_name_fail()
+{
+   _source_file="dns_que_query_name_cause"
+   _source_shell="grep -v \"C0\""
+   _trans_awk=""
+   _awk_v="-v key_cnt=2"
+   _awk_file="dns_fail_common.awk "
+   _sort_cmd=""
+}
+
+
+function kpi_dns_total()
+{
+   _source_file="dns_que_serverip_cause"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file="dns_total.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_dns_total_fail()
+{
+   _source_file="dns_que_serverip_cause"
+   _source_shell="grep -v \"C0\""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file="dns_total_fail.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_get_post_city()
+{
+   _source_file="http_que_loc_cause"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {if(cgi_to_city_area[\$1]!=\"\"){\$1=cgi_to_city_area[\$1];print \$0}}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="get_post_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_get_post_city_fail()
+{
+   _source_file="http_que_loc_cause"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {if(cgi_to_city_area[\$1]!=\"\"){\$1=cgi_to_city_area[\$1];print \$0}}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="get_post_fail_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_get_post_ecgi()
+{
+   _source_file="http_que_loc_cause"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v="-v key_cnt=1"
+   _awk_file="get_post_common.awk "
+   _sort_cmd=""
+}
+
+
+function kpi_get_post_ecgi_fail()
+{
+   _source_file="http_que_loc_cause"
+   _source_shell="grep -v -E  \"C2|C3\""
+   _trans_awk=""
+   _awk_v="-v key_cnt=2"
+   _awk_file="get_post_fail_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_get_post_enb_mme()
+{
+   _source_file="http_que_ne1_ne2_cause"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+               { first=(net[\$1]==\"\"?\$1:net[\$1]); printf first;for(i=3;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[\$2]==\"\"?\$2:net[\$2]); printf first;for(i=3;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="get_post_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_get_post_enb_mme_fail()
+{
+   _source_file="http_que_ne1_ne2_cause"
+   _source_shell="grep -v \"C200\""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+               { first=(net[\$1]==\"\"?\$1:net[\$1]); printf first;for(i=3;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[\$2]==\"\"?\$2:net[\$2]); printf first;for(i=3;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="get_post_fail_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_get_post_serverip()
+{
+   _source_file="http_que_serverip_cause"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v="-v key_cnt=1"
+   _awk_file="get_post_common.awk "
+   _sort_cmd=""
+}
+
+
+function kpi_get_post_serverip_fail()
+{
+   _source_file="http_que_serverip_cause"
+   _source_shell="grep -v -E  \"C2|C3\""
+   _trans_awk=""
+   _awk_v="-v key_cnt=2"
+   _awk_file="get_post_fail_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_get_post_total()
+{
+   _source_file="http_que_loc_cause"
+   _source_shell="awk '{\$1=\"\";print \$0}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file="get_post.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_get_post_total_fail()
+{
+   _source_file="http_que_loc_cause"
+   _source_shell="grep -v -E  \"C2|C3\"|awk '{\$1=\"\";print \$0}'"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file="get_post_fail_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_bearer_area()
+{
+   _source_file="signal_que_gtpv2_bearer_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+
+}
+
+
+function kpi_gtpv2_bearer_area_fail()
+{
+   _source_file="signal_que_gtpv2_bearer_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_bearer_city()
+{
+   _source_file="signal_que_gtpv2_bearer_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_bearer_city_fail()
+{
+   _source_file="signal_que_gtpv2_bearer_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_bearer_ecgi()
+{
+   _source_file="signal_que_gtpv2_bearer_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_bearer_ecgi_fail()
+{
+   _source_file="signal_que_gtpv2_bearer_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_bearer_enb_mme()
+{
+   _source_file="signal_que_gtpv2_bearer_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_bearer_enb_mme_fail()
+{
+   _source_file="signal_que_gtpv2_bearer_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_gtpv2_bearer_total()
+{
+   _source_file="signal_que_gtpv2_bearer_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_bearer_total_fail()
+{
+   _source_file="signal_que_gtpv2_bearer_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_gtpv2_relocation_area()
+{
+   _source_file="signal_que_gtpv2_relocation_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_relocation_area_fail()
+{
+   _source_file="signal_que_gtpv2_relocation_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_relocation_city()
+{
+   _source_file="signal_que_gtpv2_relocation_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_relocation_city_fail()
+{
+   _source_file="signal_que_gtpv2_relocation_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_relocation_ecgi()
+{
+   _source_file="signal_que_gtpv2_relocation_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_relocation_ecgi_fail()
+{
+   _source_file="signal_que_gtpv2_relocation_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_relocation_enb_mme()
+{
+   _source_file="signal_que_gtpv2_relocation_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_relocation_enb_mme_fail()
+{
+   _source_file="signal_que_gtpv2_relocation_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+function kpi_gtpv2_relocation_total()
+{
+   _source_file="signal_que_gtpv2_relocation_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_relocation_total_fail()
+{
+   _source_file="signal_que_gtpv2_relocation_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_gtpv2_session_apn()
+{
+   _source_file="signal_que_gtpv2_session_apn_kpi"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_session_apn_fail()
+{
+   _source_file="signal_que_gtpv2_session_apn_kpi"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_session_area()
+{
+   _source_file="signal_que_gtpv2_session_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_session_area_fail()
+{
+   _source_file="signal_que_gtpv2_session_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_session_city()
+{
+   _source_file="signal_que_gtpv2_session_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_session_city_fail()
+{
+   _source_file="signal_que_gtpv2_session_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+
+function kpi_gtpv2_session_ecgi()
+{
+   _source_file="signal_que_gtpv2_session_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_gtpv2_session_ecgi_fail()
+{
+   _source_file="signal_que_gtpv2_session_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_gtpv2_session_enb_mme()
+{
+   _source_file="signal_que_gtpv2_session_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_gtpv2_session_enb_mme_fail()
+{
+   _source_file="signal_que_gtpv2_session_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_gtpv2_session_total()
+{
+   _source_file="signal_que_gtpv2_session_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_gtpv2_session_total_fail()
+{
+   _source_file="signal_que_gtpv2_session_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_handover_area()
+{
+   _source_file="signal_que_handover_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_handover_area_fail()
+{
+   _source_file="signal_que_handover_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=5"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_handover_city()
+{
+   _source_file="signal_que_handover_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_handover_city_fail()
+{
+   _source_file="signal_que_handover_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_handover_ecgi()
+{
+   _source_file="signal_que_handover_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_handover_ecgi_fail()
+{
+   _source_file="signal_que_handover_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=5"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_handover_enb_mme()
+{
+   _source_file="signal_que_handover_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_handover_enb_mme_fail()
+{
+   _source_file="signal_que_handover_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_handover_total()
+{
+   _source_file="signal_que_handover_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=2  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_handover_total_fail()
+{
+   _source_file="signal_que_handover_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=2  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_manage_ecgi()
+{
+   _source_file="signal_que_manage_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_manage_ecgi_fail()
+{
+   _source_file="signal_que_manage_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_manage_enb_mme()
+{
+   _source_file="signal_que_manage_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_manage_enb_mme_fail()
+{
+   _source_file="signal_que_manage_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_manage_total()
+{
+   _source_file="signal_que_manage_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=2  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+
+}
+
+function kpi_manage_total_fail()
+{
+   _source_file="signal_que_manage_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=2  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+function kpi_pdp_total()
+{
+   _source_file="signal_que_gn_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+function kpi_pdp_total_fail()
+{
+   _source_file="signal_que_gn_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+function kpi_pdp_ecgi()
+{
+   _source_file="signal_que_gn_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_pdp_ecgi_fail()
+{
+   _source_file="signal_que_gn_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_pdp_enb_mme()
+{
+   _source_file="signal_que_gn_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_pdp_enb_mme_fail()
+{
+   _source_file="signal_que_gn_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1ap_erab_area()
+{
+   _source_file="signal_que_s1ap_erab_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1ap_erab_area_fail()
+{
+   _source_file="signal_que_s1ap_erab_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1ap_erab_city()
+{
+   _source_file="signal_que_s1ap_erab_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1ap_erab_city_fail()
+{
+   _source_file="signal_que_s1ap_erab_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1ap_erab_ecgi()
+{
+   _source_file="signal_que_s1ap_erab_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1ap_erab_ecgi_fail()
+{
+   _source_file="signal_que_s1ap_erab_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1ap_erab_enb_mme()
+{
+   _source_file="signal_que_s1ap_erab_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1ap_erab_enb_mme_fail()
+{
+   _source_file="signal_que_s1ap_erab_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1ap_erab_total()
+{
+   _source_file="signal_que_s1ap_erab_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1ap_erab_total_fail()
+{
+   _source_file="signal_que_s1ap_erab_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_s1_csfb_city()
+{
+   _source_file="signal_que_s1_csfb_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_s1_csfb_city_fail()
+{
+   _source_file="signal_que_s1_csfb_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_s1_csfb_ecgi()
+{
+   _source_file="signal_que_s1_csfb_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_s1_csfb_ecgi_fail()
+{
+   _source_file="signal_que_s1_csfb_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_s1_csfb_enb_mme()
+{
+   _source_file="signal_que_s1_csfb_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_s1_csfb_enb_mme_fail()
+{
+   _source_file="signal_que_s1_csfb_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_s1_csfb_total()
+{
+   _source_file="signal_que_s1_csfb_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_s1_csfb_total_fail()
+{
+   _source_file="signal_que_s1_csfb_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_attach_area()
+{
+   _source_file="signal_que_s1_emm_attach_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_attach_area_fail()
+{
+   _source_file="signal_que_s1_emm_attach_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_attach_city()
+{
+   _source_file="signal_que_s1_emm_attach_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_attach_city_fail()
+{
+   _source_file="signal_que_s1_emm_attach_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_attach_ecgi()
+{
+   _source_file="signal_que_s1_emm_attach_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_attach_ecgi_fail()
+{
+   _source_file="signal_que_s1_emm_attach_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_attach_enb_mme()
+{
+   _source_file="signal_que_s1_emm_attach_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_attach_enb_mme_fail()
+{
+   _source_file="signal_que_s1_emm_attach_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_attach_total()
+{
+   _source_file="signal_que_s1_emm_attach_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_attach_total_fail()
+{
+   _source_file="signal_que_s1_emm_attach_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_paging_area()
+{
+   _source_file="signal_que_s1_emm_paging_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_paging_area_fail()
+{
+   _source_file="signal_que_s1_emm_paging_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_paging_city()
+{
+   _source_file="signal_que_s1_emm_paging_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_paging_city_fail()
+{
+   _source_file="signal_que_s1_emm_paging_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_paging_ecgi()
+{
+   _source_file="signal_que_s1_emm_paging_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_paging_ecgi_fail()
+{
+   _source_file="signal_que_s1_emm_paging_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_paging_enb_mme()
+{
+   _source_file="signal_que_s1_emm_paging_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_paging_enb_mme_fail()
+{
+   _source_file="signal_que_s1_emm_paging_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_paging_total()
+{
+   _source_file="signal_que_s1_emm_paging_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_paging_total_fail()
+{
+   _source_file="signal_que_s1_emm_paging_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_service_area()
+{
+   _source_file="signal_que_s1_emm_service_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_service_area_fail()
+{
+   _source_file="signal_que_s1_emm_service_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_service_city()
+{
+   _source_file="signal_que_s1_emm_service_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_service_city_fail()
+{
+   _source_file="signal_que_s1_emm_service_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_service_ecgi()
+{
+   _source_file="signal_que_s1_emm_service_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_service_ecgi_fail()
+{
+   _source_file="signal_que_s1_emm_service_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_service_enb_mme()
+{
+   _source_file="signal_que_s1_emm_service_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_service_enb_mme_fail()
+{
+   _source_file="signal_que_s1_emm_service_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_service_total()
+{
+   _source_file="signal_que_s1_emm_service_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_service_total_fail()
+{
+   _source_file="signal_que_s1_emm_service_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_tau_area()
+{
+   _source_file="signal_que_s1_emm_tau_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_tau_area_fail()
+{
+   _source_file="signal_que_s1_emm_tau_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_tau_city()
+{
+   _source_file="signal_que_s1_emm_tau_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_tau_city_fail()
+{
+   _source_file="signal_que_s1_emm_tau_loc_kpi"
+   _source_shell="awk '{\$1=\"\";print \$0}'"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_tau_ecgi()
+{
+   _source_file="signal_que_s1_emm_tau_loc_kpi"
+   _source_shell="awk '{\$1=\"\";print \$0}' "
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_tau_ecgi_fail()
+{
+   _source_file="signal_que_s1_emm_tau_loc_kpi"
+   _source_shell="grep -v C65534|awk '{\$1=\"\";print \$0}'"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_tau_enb_mme()
+{
+   _source_file="signal_que_s1_emm_tau_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_tau_enb_mme_fail()
+{
+   _source_file="signal_que_s1_emm_tau_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_tau_total()
+{
+   _source_file="signal_que_s1_emm_tau_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_emm_tau_total_fail()
+{
+   _source_file="signal_que_s1_emm_tau_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_esm_pdn_area()
+{
+   _source_file="signal_que_s1_esm_pdn_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_esm_pdn_area_fail()
+{
+   _source_file="signal_que_s1_esm_pdn_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2\" \"\$3}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_esm_pdn_city()
+{
+   _source_file="signal_que_s1_esm_pdn_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_esm_pdn_city_fail()
+{
+   _source_file="signal_que_s1_esm_pdn_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_esm_pdn_ecgi()
+{
+   _source_file="signal_que_s1_esm_pdn_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_esm_pdn_ecgi_fail()
+{
+   _source_file="signal_que_s1_esm_pdn_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_esm_pdn_enb_mme()
+{
+   _source_file="signal_que_s1_esm_pdn_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_esm_pdn_enb_mme_fail()
+{
+   _source_file="signal_que_s1_esm_pdn_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_esm_pdn_total()
+{
+   _source_file="signal_que_s1_esm_pdn_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_s1_esm_pdn_total_fail()
+{
+   _source_file="signal_que_s1_esm_pdn_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_s1_sms_city()
+{
+   _source_file="signal_que_s1_sms_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_s1_sms_city_fail()
+{
+   _source_file="signal_que_s1_sms_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_s1_sms_ecgi()
+{
+   _source_file="signal_que_s1_sms_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_s1_sms_ecgi_fail()
+{
+   _source_file="signal_que_s1_sms_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_s1_sms_enb_mme()
+{
+   _source_file="signal_que_s1_sms_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_s1_sms_enb_mme_fail()
+{
+   _source_file="signal_que_s1_sms_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_s1_sms_total()
+{
+   _source_file="signal_que_s1_sms_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_s1_sms_total_fail()
+{
+   _source_file="signal_que_s1_sms_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_sgs_mm_loc_city()
+{
+   _source_file="signal_que_sgs_mm_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_sgs_mm_loc_city_fail()
+{
+   _source_file="signal_que_sgs_mm_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_sgs_mm_loc_ecgi()
+{
+   _source_file="signal_que_sgs_mm_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_sgs_mm_loc_ecgi_fail()
+{
+   _source_file="signal_que_sgs_mm_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_sgs_mm_loc_enb_mme()
+{
+   _source_file="signal_que_sgs_mm_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_sgs_mm_loc_enb_mme_fail()
+{
+   _source_file="signal_que_sgs_mm_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_sgs_mm_loc_total()
+{
+   _source_file="signal_que_sgs_mm_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_sgs_mm_loc_total_fail()
+{
+   _source_file="signal_que_sgs_mm_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function kpi_tcp_city()
+{
+   _source_file="net_que_loc"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {if(cgi_to_city_area[\$1]!=\"\"){\$1=cgi_to_city_area[\$1];print \$0}}'"
+   _awk_v=""
+   _awk_file="cycle_net_que_v1.awk"
+   _sort_cmd=""
+}
+
+function kpi_tcp_ecgi()
+{
+   _source_file="net_que_loc"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}
+
+function kpi_tcp_enb_mme()
+{
+   _source_file="net_que_ne1_ne2"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+               { first=(net[\$1]==\"\"?\$1:net[\$1]); printf first;for(i=3;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[\$2]==\"\"?\$2:net[\$2]); printf first;for(i=3;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v=""
+   _awk_file="cycle_net_que_v1.awk "
+   _sort_cmd=""
+}
+
+function kpi_tcp_serverip()
+{
+   _source_file="net_que_serverip"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}
+
+function kpi_tcp_total()
+{
+   _source_file="net_que_loc"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file="net_que.awk"
+   _sort_cmd=""
+}
+
+function  kpi_uu_signal_ecgi()
+{
+   _source_file="signal_que_uu_signal_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_uu_signal_ecgi_fail()
+{
+   _source_file="signal_que_uu_signal_loc_kpi"
+   _source_shell="grep -v C65534"
+   _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$3\" \"\$1}}\
+                {\$1=((cgi_to_city_area[\$1]==\"\")?\$1\" \"\$1:cgi_to_city_area[\$1]); print \$0}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_uu_signal_enb_mme()
+{
+   _source_file="signal_que_uu_signal_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_uu_signal_enb_mme_fail()
+{
+   _source_file="signal_que_uu_signal_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+              {  split(\$1,ip,\"-\");\
+                first=(net[ip[1]]==\"\"?ip[1]:net[ip[1]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[ip[2]]==\"\"?ip[2]:net[ip[2]]); printf first;for(i=2;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_uu_signal_total()
+{
+   _source_file="signal_que_uu_signal_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function  kpi_uu_signal_total_fail()
+{
+   _source_file="signal_que_uu_signal_ne1_ne2_kpi"
+   _source_shell=""
+   _trans_awk="awk -v key_cnt=1  '{for(i=1;i<=key_cnt;i++){\$i=\"\"} print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+
+function lte_tau_cgi()
+{
+   _source_file="signal_que_s1_emm_tau_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v cgi_zidian=$CGI_ZIDIAN 'BEGIN{while((getline<cgi_zidian)>0){cgi[\$1]=1}}\
+                {if((cgi[\$1]!=1) &&(cgi[\$2]==1)){print \$0}}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="kpi_common.awk"
+   _sort_cmd=""
+}
+
+function lte_tau_cgi_fail()
+{
+   _source_file="signal_que_s1_emm_tau_loc_kpi"
+   _source_shell=""
+   _trans_awk="awk -v cgi_zidian=$CGI_ZIDIAN 'BEGIN{while((getline<cgi_zidian)>0){cgi[\$1]=1}}\
+                {if((cgi[\$1]!=1) &&(cgi[\$2]==1)){print \$0}}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="kpi_fail_common.awk"
+   _sort_cmd=""
+}
+

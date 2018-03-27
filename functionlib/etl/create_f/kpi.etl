@@ -1,0 +1,376 @@
+signal_que_gn_ne1_ne2_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_gn_loc_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+
+signal_que_manage_loc_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_manage_ne1_ne2_kpi()
+{
+  _key_cnt=4
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_s1ap_erab_loc_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_s1ap_erab_user_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_handover_loc_kpi()
+{
+  _key_cnt=4
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_handover_user_kpi()
+{
+  _key_cnt=4
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_gtpv2_bearer_loc_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_gtpv2_bearer_user_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_gtpv2_session_apn_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_gtpv2_session_loc_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_gtpv2_session_user_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_gtpv2_relocation_loc_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_gtpv2_relocation_user_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+
+signal_que_s1_emm_attach_loc_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+
+signal_que_s1_emm_attach_usr_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+
+signal_que_s1_emm_tau_loc_kpi()
+{
+  _key_cnt=4
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+
+signal_que_s1_emm_tau_user_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+
+signal_que_s1_emm_paging_loc_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_s1_emm_paging_user_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+
+signal_que_s1_emm_service_loc_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+
+signal_que_s1_emm_service_user_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_s1_esm_pdn_loc_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_s1_esm_pdn_user_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_s1ap_erab_ne1_ne2_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_handover_ne1_ne2_kpi()
+{
+  _key_cnt=4
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_gtpv2_bearer_ne1_ne2_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_gtpv2_session_ne1_ne2_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_gtpv2_relocation_ne1_ne2_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_gtpv2_relocation_ne1_ne2_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_s1_emm_attach_ne1_ne2_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_s1_emm_tau_ne1_ne2_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_s1_emm_paging_ne1_ne2_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_s1_emm_service_ne1_ne2_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_s1_esm_pdn_ne1_ne2_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+ signal_que_s1_sms_loc_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+ signal_que_s1_sms_loc_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+ signal_que_s1_sms_ne1_ne2_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+ signal_que_sgs_mm_loc_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+ signal_que_sgs_mm_loc_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+ signal_que_sgs_mm_ne1_ne2_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+ signal_que_s1_csfb_loc_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+ signal_que_s1_csfb_loc_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+ signal_que_s1_csfb_ne1_ne2_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_uu_signal_loc_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+signal_que_uu_signal_ne1_ne2_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+dns_que_serverip_cause()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_dns_quality.awk 
+}
+dns_que_query_name_cause()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_dns_quality.awk
+}
+dns_que_user()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_dns_user.awk
+}
+dns_que_loc_cause()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_dns_quality.awk
+}
+dns_que_ne1_ne2_cause()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_dns_quality.awk
+}
+net_que_loc()
+{
+  _key_cnt=0
+  _is_cut=0
+  _awk_file=cycle_net_que_v1.awk
+}
+
+net_que_user()
+{
+  _key_cnt=0
+  _is_cut=0
+  _awk_file=cycle_net_que_v1.awk
+}
+net_que_ne1_ne2()
+{
+  _key_cnt=0
+  _is_cut=0
+  _awk_file=cycle_net_que_v2.awk
+}
+net_que_serverip()
+{
+  _key_cnt=0
+  _is_cut=0
+  _awk_file=cycle_net_que_v1.awk
+}
+http_que_loc_cause()
+{
+  _key_cnt=0
+  _is_cut=0
+  _awk_file=cycle_get_post_v2.awk
+}
+http_que_user()
+{
+  _key_cnt=0
+  _is_cut=0
+  _awk_file=cycle_get_post_v2.awk
+}
+http_que_ne1_ne2_cause()
+{
+  _key_cnt=0
+  _is_cut=0
+  _awk_file=cycle_get_post_v3.awk
+}
+http_que_serverip_cause()
+{
+  _key_cnt=0
+  _is_cut=0
+  _awk_file=cycle_get_post_v2.awk
+}
+filter_download_user_service_type()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_down_load.awk
+}
+

@@ -1,0 +1,762 @@
+function kpi_AttachType_rai()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+      if [ "${detail}" -eq 1 ];then
+           _key_cnt=$((_key_cnt+1))
+       else
+          create_muti_file   "$shellCmd"
+       fi
+       shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt}  -f ${AWK_FOLD}/cycle_sum13.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue \
+    -v key_cnt=${_key_cnt} \
+    '{\
+      if(key_cnt==2){_time=$1;}else{_time=time;}\
+      _rai=$(key_cnt);\
+      _Attach_cnt=$(key_cnt+1);\
+      _Attach_succ_cnt=$(key_cnt+2);\
+      _Attach_rej_cnt=$(key_cnt+3);\
+      _Net_Detach_cnt=$(key_cnt+4);\
+      _User_Detach_cnt=$(key_cnt+5);\
+      _New_Attach_cnt=$(key_cnt+6);\
+      _RauRej_Attach_cnt=$(key_cnt+7);\
+      _Attach_auth_rej_cnt=$(key_cnt+8);\
+      _Attach_req_cnt=$(key_cnt+9);\
+      _Attach_req_cnt=(_Attach_req_cnt>10000?0:_Attach_req_cnt);\
+      _CellUpdate_Attach_cnt=$(key_cnt+10);\
+      _CellUpdate_Attach_cnt=(_CellUpdate_Attach_cnt>10000?0:_CellUpdate_Attach_cnt);\
+      _Success_Rate=(_Attach_cnt+0==0?0:100*_Attach_succ_cnt/_Attach_cnt);\
+      _Reject_Rate=(_Attach_cnt+0==0?0:100*_Attach_rej_cnt/_Attach_cnt);\
+      _New_Attach_Rate=(_Attach_cnt+0==0?0:100*_New_Attach_cnt/_Attach_cnt);\
+      _Network_Detach_Rate=(_Attach_cnt+0==0?0:100*Net_Detach_cnt/_Attach_cnt);\
+      _Mobile_Detach_Rate=(_Attach_cnt+0==0?0:100*_User_Detach_cnt/_Attach_cnt);\
+      _RA_Updt_Rej_Rate=(_Attach_cnt+0==0?0:100*_RauRej_Attach_cnt/_Attach_cnt);\
+      _Attach_auth_rej_Rate=(_Attach_cnt+0==0?0:100*_Attach_auth_rej_cnt/_Attach_cnt);\
+      _Mobility_Rate =(_Attach_cnt+0==0?0:100*_CellUpdate_Attach_cnt/_Attach_cnt);\
+       printf _time",";\
+       printf("%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",\
+          _rai,_Attach_cnt,_Attach_succ_cnt,_Attach_rej_cnt,_Net_Detach_cnt,_User_Detach_cnt,_New_Attach_cnt,_RauRej_Attach_cnt,_Attach_auth_rej_cnt,_Attach_req_cnt,_CellUpdate_Attach_cnt,_Success_Rate,_Reject_Rate,_New_Attach_Rate,_Network_Detach_Rate,_Mobile_Detach_Rate,_RA_Updt_Rej_Rate,_Attach_auth_rej_Rate,_Mobility_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_AttachType_ne()
+{
+   kpi_AttachType_rai  $@
+}
+function kpi_AttachType_global()
+{
+  local _time=$1
+  local _key_cnt=0
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+      if [ "${detail}" -eq 1 ];then
+           _key_cnt=$((_key_cnt+1))
+       else
+          create_muti_file   "$shellCmd"
+       fi
+       shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt}  -f ${AWK_FOLD}/cycle_sum13.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue \
+    -v key_cnt=${_key_cnt} \
+    '{\
+      if(key_cnt==1){_time=$1;}else{_time=time;}\
+      _Attach_cnt=$(key_cnt+1);\
+      _Attach_succ_cnt=$(key_cnt+2);\
+      _Attach_rej_cnt=$(key_cnt+3);\
+      _Net_Detach_cnt=$(key_cnt+4);\
+      _User_Detach_cnt=$(key_cnt+5);\
+      _New_Attach_cnt=$(key_cnt+6);\
+      _RauRej_Attach_cnt=$(key_cnt+7);\
+      _Attach_auth_rej_cnt=$(key_cnt+8);\
+      _Attach_req_cnt=$(key_cnt+9);\
+      _CellUpdate_Attach_cnt=$(key_cnt+10);\
+      _Success_Rate=(_Attach_cnt+0==0?0:100*_Attach_succ_cnt/_Attach_cnt);\
+      _Reject_Rate=(_Attach_cnt+0==0?0:100*_Attach_rej_cnt/_Attach_cnt);\
+      _New_Attach_Rate=(_Attach_cnt+0==0?0:100*_New_Attach_cnt/_Attach_cnt);\
+      _Network_Detach_Rate=(_Attach_cnt+0==0?0:100*Net_Detach_cnt/_Attach_cnt);\
+      _Mobile_Detach_Rate=(_Attach_cnt+0==0?0:100*_User_Detach_cnt/_Attach_cnt);\
+      _RA_Updt_Rej_Rate=(_Attach_cnt+0==0?0:100*_RauRej_Attach_cnt/_Attach_cnt);\
+      _Attach_auth_rej_Rate=(_Attach_cnt+0==0?0:100*_Attach_auth_rej_cnt/_Attach_cnt);\
+      _Mobility_Rate =(_Attach_cnt+0==0?0:100*_CellUpdate_Attach_cnt/_Attach_cnt);\
+       printf _time",";\
+       printf("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",\
+          _Attach_cnt,_Attach_succ_cnt,_Attach_rej_cnt,_Net_Detach_cnt,_User_Detach_cnt,_New_Attach_cnt,_RauRej_Attach_cnt,_Attach_auth_rej_cnt,_Attach_req_cnt,_CellUpdate_Attach_cnt,_Success_Rate,_Reject_Rate,_New_Attach_Rate,_Network_Detach_Rate,_Mobile_Detach_Rate,_RA_Updt_Rej_Rate,_Attach_auth_rej_Rate,_Mobility_Rate);\
+    }'\
+ >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_AttachType_oldne_ne()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+      if [ "${detail}" -eq 1 ];then
+           _key_cnt=$((_key_cnt+1)) 
+       else  
+          create_muti_file   "$shellCmd"
+       fi
+       shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt}  -f ${AWK_FOLD}/cycle_sum2.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue \
+    -v key_cnt=${_key_cnt} \
+    '{\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+        _CGI=$key_cnt;\
+        _In_registration=$(key_cnt+1);\
+        _Out_registration=$(key_cnt+2);\
+        printf _time",";\
+        printf("%s,%d,%d\n",\
+               _CGI,_In_registration,_Out_registration);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_AttachType_oldrai_rai()
+{
+  kpi_AttachType_oldne_ne $@
+}
+function kpi_AttachType_oldne_ne_global()
+{
+  local _time=$1
+  local _key_cnt=0
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+      if [ "${detail}" -eq 1 ];then
+           _key_cnt=$((_key_cnt+1))
+       else
+          create_muti_file   "$shellCmd"
+       fi
+       shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt}  -f ${AWK_FOLD}/cycle_sum2.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue \
+    -v key_cnt=${_key_cnt} \
+    '{\
+       if(key_cnt==1){_time=$1;}else{_time=time;}\
+        _In_registration=$(key_cnt+1);\
+        _Out_registration=$(key_cnt+2);\
+        printf _time",";\
+        printf("%d,%d\n",\
+               _In_registration,_Out_registration);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_AttachType_RadioCause_ne()
+{
+  local _time=$1
+  local _key_cnt=2
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+      if [ "${detail}" -eq 1 ];then
+           _key_cnt=$((_key_cnt+1)) 
+       else  
+          create_muti_file   "$shellCmd"
+       fi
+       shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt}  -f ${AWK_FOLD}/cycle_sum1.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue -v keyValue=$keyvalue \
+    -v key_cnt=${_key_cnt}\
+    -v zd_radioCause=$RADIO_CAUSE_ZIDIAN \
+    'BEGIN{while((getline<zd_radioCause)>0){radioCause[$1]=$2}}\
+    {\
+        if($(key_cnt+1)==keyValue){next}\
+        if(key_cnt==3){_time=$1;}else{_time=time;}\
+        _CGI=$(key_cnt-1);\
+        _Cause=$key_cnt;\
+        _CauseName=(radioCause[_Cause]==""?_Cause:radioCause[_Cause]);\
+        _Raido_Cause_cnt=$(key_cnt+1);\
+        printf _time",";\
+        printf("%s,%s,%d,%s\n",\
+               _CGI,_Cause,_Raido_Cause_cnt,_CauseName);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_AttachType_RadioCause_rai()
+{
+ kpi_AttachType_RadioCause_ne $@
+}
+function kpi_AttachType_RadioCause_global()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+      if [ "${detail}" -eq 1 ];then
+           _key_cnt=$((_key_cnt+1))
+       else
+          create_muti_file   "$shellCmd"
+       fi
+       shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt}  -f ${AWK_FOLD}/cycle_sum1.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue -v keyValue=$keyvalue\
+    -v key_cnt=${_key_cnt}\
+    -v zd_radioCause=$RADIO_CAUSE_ZIDIAN \
+    'BEGIN{while((getline<zd_radioCause)>0){radioCause[$1]=$2}}\
+    {\
+        if($(key_cnt+1)==keyValue){next}\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+        _Cause=$key_cnt;\
+        _CauseName=(radioCause[_Cause]==""?_Cause:radioCause[_Cause]);\
+        _Raido_Cause_cnt=$(key_cnt+1);\
+        printf _time",";\
+        printf("%s,%d,%s\n",\
+               _Cause,_Raido_Cause_cnt,_CauseName);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_AuthType_global()
+{
+  local _time=$1
+  local _key_cnt=0
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+      if [ "${detail}" -eq 1 ];then
+           _key_cnt=$((_key_cnt+1)) 
+       else  
+          create_muti_file   "$shellCmd"
+       fi
+       shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt}  -f ${AWK_FOLD}/cycle_sum9.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+      if(key_cnt==1){_time=$1;}else{_time=time;}\
+      _Auth_cnt=$(key_cnt+1);\
+      _Auth_succ_cnt=$(key_cnt+2);\
+      _Auth_rej_cnt=$(key_cnt+3);\
+      _Auth_Attach_rej_cnt=$(key_cnt+4);\
+      _Auth_Rau_rej_cnt=$(key_cnt+5);\
+      _Auth_Rau_cnt=$(key_cnt+6);\
+      _Auth_timeout_cnt=$(key_cnt+7);\
+      _Auth_req_cnt=$(key_cnt+8);\
+      _Auth_Attach_cnt=$(key_cnt+9);\
+      _Auth_fail_cnt=$(key_cnt+10);\
+      _Response_cnt=_Auth_succ_cnt+_Auth_rej_cnt;\
+      _Response_Rate=(_Auth_cnt+0==0?0:100*(_Auth_succ_cnt+_Auth_rej_cnt)/_Auth_cnt); \
+      _Req_Repetitions_Rate=(_Auth_req_cnt+0==0?0:100*_Auth_cnt/_Auth_req_cnt);\
+      _Reg_Rejects_Rate=(_Auth_cnt+0==0?0:100*_Auth_rej_cnt/_Auth_cnt);\
+      _Reg_Init_Rejects_Rate=(_Auth_Attach_cnt+0==0?0:100*_Auth_Attach_rej_cnt/_Auth_Attach_cnt); \
+      _RAU_Rejects_Rate=(_Auth_Rau_cnt+0==0?0:100*_Auth_Rau_rej_cnt/_Auth_Rau_cnt); \
+      _Auth_Failure_Rate=(_Auth_cnt+0==0?0:100*_Auth_fail_cnt/_Auth_cnt); \
+      _Auth_Mobility_Rate=(_Auth_cnt+0==0?0:100*_Auth_Rau_cnt/_Auth_cnt);\
+      _No_Auth_Response_Rate=(_Auth_cnt+0==0?0:100*_Auth_timeout_cnt/_Auth_cnt);\
+        printf _time",";\
+        printf("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",\
+          _Auth_cnt,_Auth_succ_cnt,_Auth_rej_cnt,_Auth_Attach_rej_cnt,_Auth_Rau_rej_cnt,_Auth_Rau_cnt,_Auth_timeout_cnt,_Auth_req_cnt,_Auth_Attach_cnt,_Auth_fail_cnt,_Response_cnt,_Response_Rate,_Req_Repetitions_Rate,_Reg_Rejects_Rate,_Reg_Init_Rejects_Rate,_RAU_Rejects_Rate,_Auth_Failure_Rate,_Auth_Mobility_Rate,_No_Auth_Response_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_AuthType_rai()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+      if [ "${detail}" -eq 1 ];then
+           _key_cnt=$((_key_cnt+1))
+       else
+          create_muti_file   "$shellCmd"
+       fi
+       shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt}  -f ${AWK_FOLD}/cycle_sum9.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+      if(key_cnt==2){_time=$1;}else{_time=time;}\
+      _rai=$(key_cnt);\
+      _Auth_cnt=$(key_cnt+1);\
+      _Auth_succ_cnt=$(key_cnt+2);\
+      _Auth_rej_cnt=$(key_cnt+3);\
+      _Auth_Attach_rej_cnt=$(key_cnt+4);\
+      _Auth_Rau_rej_cnt=$(key_cnt+5);\
+      _Auth_Rau_cnt=$(key_cnt+6);\
+      _Auth_timeout_cnt=$(key_cnt+7);\
+      _Auth_req_cnt=$(key_cnt+8);\
+      _Auth_Attach_cnt=$(key_cnt+9);\
+      _Auth_fail_cnt=$(key_cnt+10);\
+      _Response_cnt=_Auth_succ_cnt+_Auth_rej_cnt;\
+      _Response_Rate=(_Auth_cnt+0==0?0:100*(_Auth_succ_cnt+_Auth_rej_cnt)/_Auth_cnt); \
+      _Req_Repetitions_Rate=(_Auth_req_cnt+0==0?0:100*_Auth_cnt/_Auth_req_cnt);\
+      _Reg_Rejects_Rate=(_Auth_cnt+0==0?0:100*_Auth_rej_cnt/_Auth_cnt);\
+      _Reg_Init_Rejects_Rate=(_Auth_Attach_cnt+0==0?0:100*_Auth_Attach_rej_cnt/_Auth_Attach_cnt); \
+      _RAU_Rejects_Rate=(_Auth_Rau_cnt+0==0?0:100*_Auth_Rau_rej_cnt/_Auth_Rau_cnt); \
+      _Auth_Failure_Rate=(_Auth_cnt+0==0?0:100*_Auth_fail_cnt/_Auth_cnt); \
+      _Auth_Mobility_Rate=(_Auth_cnt+0==0?0:100*_Auth_Rau_cnt/_Auth_cnt);\
+      _No_Auth_Response_Rate=(_Auth_cnt+0==0?0:100*_Auth_timeout_cnt/_Auth_cnt);\
+        printf _time",";\
+        printf("%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",\
+          _rai,_Auth_cnt,_Auth_succ_cnt,_Auth_rej_cnt,_Auth_Attach_rej_cnt,_Auth_Rau_rej_cnt,_Auth_Rau_cnt,_Auth_timeout_cnt,_Auth_req_cnt,_Auth_Attach_cnt,_Auth_fail_cnt,_Response_cnt,_Response_Rate,_Req_Repetitions_Rate,_Reg_Rejects_Rate,_Reg_Init_Rejects_Rate,_RAU_Rejects_Rate,_Auth_Failure_Rate,_Auth_Mobility_Rate,_No_Auth_Response_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_AuthType_ne()
+{
+  kpi_AuthType_rai  $@
+}
+
+function kpi_DetachType_global()
+{
+  local _time=$1
+  local _key_cnt=0
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+      if [ "${detail}" -eq 1 ];then
+           _key_cnt=$((_key_cnt+1)) 
+       else  
+          create_muti_file   "$shellCmd"
+       fi
+       shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt}  -f ${AWK_FOLD}/cycle_sum3.awk"
+  fi  
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+      if(key_cnt==1){_time=$1;}else{_time=time;}\
+      _Detach_cnt=$(key_cnt+1);\
+      _Net_Detach_cnt=$(key_cnt+2);\
+      _User_Detach_cnt=$(key_cnt+3);\
+      _Net_Detach_Rate=(_Detach_cnt+0==0?0:100*_Net_Detach_cnt/_Detach_cnt);\
+      _User_Detach_Rate=(_Detach_cnt+0==0?0:100*_User_Detach_cnt/_Detach_cnt);\
+        printf _time",";\
+        printf("%d,%d,%d,%.4f,%.4f\n",
+             _Detach_cnt,_Net_Detach_cnt,_User_Detach_cnt,_Net_Detach_Rate,_User_Detach_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_DetachType_rai()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+      if [ "${detail}" -eq 1 ];then
+           _key_cnt=$((_key_cnt+1))
+       else
+          create_muti_file   "$shellCmd"
+       fi
+       shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt}  -f ${AWK_FOLD}/cycle_sum3.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+      if(key_cnt==2){_time=$1;}else{_time=time;}\
+      _rai=$(key_cnt);\
+      _Detach_cnt=$(key_cnt+1);\
+      _Net_Detach_cnt=$(key_cnt+2);\
+      _User_Detach_cnt=$(key_cnt+3);\
+      _Net_Detach_Rate=(_Detach_cnt+0==0?0:100*_Net_Detach_cnt/_Detach_cnt);\
+      _User_Detach_Rate=(_Detach_cnt+0==0?0:100*_User_Detach_cnt/_Detach_cnt);\
+        printf _time",";\
+        printf("%s,%d,%d,%d,%.4f,%.4f\n",
+             _rai,_Detach_cnt,_Net_Detach_cnt,_User_Detach_cnt,_Net_Detach_Rate,_User_Detach_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_DetachType_ne()
+{
+  kpi_DetachType_rai  $@
+}
+function kpi_PerRauType_rai()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+      if [ "${detail}" -eq 1 ];then
+           _key_cnt=$((_key_cnt+1))
+       else
+          create_muti_file   "$shellCmd"
+       fi
+       shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt}  -f ${AWK_FOLD}/cycle_sum8.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue \
+    -v key_cnt=${_key_cnt} \
+    '{\
+      if(key_cnt==2){_time=$1;}else{_time=time;}\
+      _rai=$(key_cnt);\
+      _PeriodicRau_cnt=$(key_cnt+1);\
+      _PeriodicRau_succ_cnt=$(key_cnt+2);\
+      _PeriodicRau_rej_cnt=$(key_cnt+3);\
+      _PeriodicRau_RepeatRau_cnt=$(key_cnt+4);\
+      _PeriodicRau_End_RauOut_cnt=$(key_cnt+5);\
+      _PeriodicRau_End_MsDetach_cnt=$(key_cnt+6);\
+      _PeriodicRau_End_NewAttach_cnt=$(key_cnt+7);\
+      _PeriodicRau_End_Auth_cnt=$(key_cnt+8);\
+      _PeriodicRau_success_Rate=(_PeriodicRau_cnt+0==0?0:100*_PeriodicRau_succ_cnt/_PeriodicRau_cnt);\
+      _PeriodicRau_reject_Rate=(_PeriodicRau_cnt+0==0?0:100*_PeriodicRau_rej_cnt/_PeriodicRau_cnt);\
+      _PeriodicRau_RepeatRau_Rate=(_PeriodicRau_cnt+0==0?0:100*_PeriodicRau_rej_cnt/_PeriodicRau_cnt);\
+      _PeriodicRau_End_RauOut_Rate=(_PeriodicRau_cnt+0==0?0:100*_PeriodicRau_End_RauOut_cnt/_PeriodicRau_cnt);\
+      _PeriodicRau_End_MsDetach_Rate=(_PeriodicRau_cnt+0==0?0:100*_PeriodicRau_End_MsDetach_cnt/_PeriodicRau_cnt);\
+      _PeriodicRau_End_NewAttach_Rate=(_PeriodicRau_cnt+0==0?0:100*_PeriodicRau_End_NewAttach_cnt/_PeriodicRau_cnt);\
+      _PeriodicRau_End_Auth_Rate=(_PeriodicRau_cnt+0==0?0:100*_PeriodicRau_End_Auth_cnt/_PeriodicRau_cnt);\
+        printf _time",";\
+        printf("%s,%d,%d,%d,%d,%d,%d,%d,%d,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",\
+              _rai,_PeriodicRau_cnt,_PeriodicRau_succ_cnt,_PeriodicRau_rej_cnt,_PeriodicRau_RepeatRau_cnt,_PeriodicRau_End_RauOut_cnt,_PeriodicRau_End_MsDetach_cnt,_PeriodicRau_End_NewAttach_cnt,_PeriodicRau_End_Auth_cnt,_PeriodicRau_success_Rate,_PeriodicRau_reject_Rate,_PeriodicRau_RepeatRau_Rate,_PeriodicRau_End_RauOut_Rate,_PeriodicRau_End_MsDetach_Rate,_PeriodicRau_End_NewAttach_Rate,_PeriodicRau_End_Auth_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_PerRauType_ne()
+{
+   kpi_PerRauType_rai  $@
+}
+function kpi_PerRauType_global()
+{
+  local _time=$1
+  local _key_cnt=0
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+      if [ "${detail}" -eq 1 ];then
+           _key_cnt=$((_key_cnt+1))
+       else
+          create_muti_file   "$shellCmd"
+       fi
+       shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt}  -f ${AWK_FOLD}/cycle_sum8.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue \
+    -v key_cnt=${_key_cnt} \
+    '{\
+      if(key_cnt==1){_time=$1;}else{_time=time;}\
+      _PeriodicRau_cnt=$(key_cnt+1);\
+      _PeriodicRau_succ_cnt=$(key_cnt+2);\
+      _PeriodicRau_rej_cnt=$(key_cnt+3);\
+      _PeriodicRau_RepeatRau_cnt=$(key_cnt+4);\
+      _PeriodicRau_End_RauOut_cnt=$(key_cnt+5);\
+      _PeriodicRau_End_MsDetach_cnt=$(key_cnt+6);\
+      _PeriodicRau_End_NewAttach_cnt=$(key_cnt+7);\
+      _PeriodicRau_End_Auth_cnt=$(key_cnt+8);\
+      _PeriodicRau_success_Rate=(_PeriodicRau_cnt+0==0?0:100*_PeriodicRau_succ_cnt/_PeriodicRau_cnt);\
+      _PeriodicRau_reject_Rate=(_PeriodicRau_cnt+0==0?0:100*_PeriodicRau_rej_cnt/_PeriodicRau_cnt);\
+      _PeriodicRau_RepeatRau_Rate=(_PeriodicRau_cnt+0==0?0:100*_PeriodicRau_rej_cnt/_PeriodicRau_cnt);\
+      _PeriodicRau_End_RauOut_Rate=(_PeriodicRau_cnt+0==0?0:100*_PeriodicRau_End_RauOut_cnt/_PeriodicRau_cnt);\
+      _PeriodicRau_End_MsDetach_Rate=(_PeriodicRau_cnt+0==0?0:100*_PeriodicRau_End_MsDetach_cnt/_PeriodicRau_cnt);\
+      _PeriodicRau_End_NewAttach_Rate=(_PeriodicRau_cnt+0==0?0:100*_PeriodicRau_End_NewAttach_cnt/_PeriodicRau_cnt);\
+      _PeriodicRau_End_Auth_Rate=(_PeriodicRau_cnt+0==0?0:100*_PeriodicRau_End_Auth_cnt/_PeriodicRau_cnt);\
+        printf _time",";\
+        printf("%d,%d,%d,%d,%d,%d,%d,%d,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",\
+              _PeriodicRau_cnt,_PeriodicRau_succ_cnt,_PeriodicRau_rej_cnt,_PeriodicRau_RepeatRau_cnt,_PeriodicRau_End_RauOut_cnt,_PeriodicRau_End_MsDetach_cnt,_PeriodicRau_End_NewAttach_cnt,_PeriodicRau_End_Auth_cnt,_PeriodicRau_success_Rate,_PeriodicRau_reject_Rate,_PeriodicRau_RepeatRau_Rate,_PeriodicRau_End_RauOut_Rate,_PeriodicRau_End_MsDetach_Rate,_PeriodicRau_End_NewAttach_Rate,_PeriodicRau_End_Auth_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_PerRauType_RadioCause_ne()
+{
+  local _time=$1
+  local _key_cnt=2
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+      if [ "${detail}" -eq 1 ];then
+           _key_cnt=$((_key_cnt+1)) 
+       else  
+          create_muti_file   "$shellCmd"
+       fi
+       shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt}  -f ${AWK_FOLD}/cycle_sum1.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue  -v keyValue=$keyvalue \
+    -v key_cnt=${_key_cnt} \
+    -v zd_radioCause=$RADIO_CAUSE_ZIDIAN \
+    'BEGIN{while((getline<zd_radioCause)>0){radioCause[$1]=$2}}\
+    {\
+        if($(key_cnt+1)==keyValue){next}\
+       if(key_cnt==3){_time=$1;}else{_time=time;}\
+        _CGI=$(key_cnt-1);\
+        _Cause=$key_cnt;\
+        _CauseName=(radioCause[_Cause]==""?_Cause:radioCause[_Cause]);\
+        _Raido_Cause_cnt=$(key_cnt+1);\
+        printf _time",";\
+        printf("%s,%s,%d,%s\n",\
+               _CGI,_Cause,_Raido_Cause_cnt,_CauseName);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_PerRauType_RadioCause_rai()
+{
+ kpi_PerRauType_RadioCause_ne $@
+}
+function kpi_PerRauType_RadioCause_global()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+      if [ "${detail}" -eq 1 ];then
+           _key_cnt=$((_key_cnt+1))
+       else
+          create_muti_file   "$shellCmd"
+       fi
+       shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt}  -f ${AWK_FOLD}/cycle_sum1.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue -v keyValue=$keyvalue \
+    -v key_cnt=${_key_cnt} \
+    -v zd_radioCause=$RADIO_CAUSE_ZIDIAN \
+    'BEGIN{while((getline<zd_radioCause)>0){radioCause[$1]=$2}}\
+    {\
+       if($(key_cnt+1)==keyValue){next}\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+        _Cause=$key_cnt;\
+        _CauseName=(radioCause[_Cause]==""?_Cause:radioCause[_Cause]);\
+        _Raido_Cause_cnt=$(key_cnt+1);\
+        printf _time",";\
+        printf("%s,%d,%s\n",\
+               _Cause,_Raido_Cause_cnt,_CauseName);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+
+function kpi_RauType_rai()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+      if [ "${detail}" -eq 1 ];then
+           _key_cnt=$((_key_cnt+1))
+       else
+          create_muti_file   "$shellCmd"
+       fi
+       shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt}  -f ${AWK_FOLD}/cycle_sum9.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+      if(key_cnt==2){_time=$1;}else{_time=time;}\
+      _rai=$(key_cnt);\
+      _Rau_cnt=$(key_cnt+1);
+      _Rau_succ_cnt=$(key_cnt+2);
+      _Rau_rej_cnt=$(key_cnt+3);
+      _Rau_RepeatRau_cnt=$(key_cnt+4);
+      _Rau_End_RauOut_cnt=$(key_cnt+5);
+      _Rau_End_MsDetach_cnt=$(key_cnt+6);
+      _Rau_End_NetDetach_cnt=$(key_cnt+7);
+      _Rau_End_NewAttach_cnt=$(key_cnt+8);
+      _Rau_End_Auth_cnt=$(key_cnt+9);
+      _Rau_success_Rate=(_Rau_cnt+0==0?0:100*_Rau_succ_cnt/_Rau_cnt);\
+      _Rau_reject_Rate=(_Rau_cnt+0==0?0:100*_Rau_rej_cnt/_Rau_cnt);\
+      _Rau_RepeatRau_Rate=(_Rau_cnt+0==0?0:100*_Rau_RepeatRau_cnt/_Rau_cnt);\
+      _Rau_End_RauOut_Rate=(_Rau_cnt+0==0?0:100*_Rau_End_RauOut_cnt/_Rau_cnt);\
+      _Rau_End_MsDetach_Rate=(_Rau_cnt+0==0?0:100*_Rau_End_MsDetach_cnt/_Rau_cnt);\
+      _Rau_End_NetDetach_Rate=(_Rau_cnt+0==0?0:100*_Rau_End_NetDetach_cnt/_Rau_cnt);\
+      _Rau_End_NewAttach_Rate=(_Rau_cnt+0==0?0:100*_Rau_End_NewAttach_cnt/_Rau_cnt);\
+      _Rau_End_Auth_Rate=(_Rau_cnt+0==0?0:100*_Rau_End_Auth_cnt/_Rau_cnt);\
+        printf _time",";\
+        printf("%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",\
+            _rai,_Rau_cnt,_Rau_succ_cnt,_Rau_rej_cnt,_Rau_RepeatRau_cnt,_Rau_End_RauOut_cnt,_Rau_End_MsDetach_cnt,_Rau_End_NetDetach_cnt,_Rau_End_NewAttach_cnt,_Rau_End_Auth_cnt,_Rau_success_Rate,_Rau_reject_Rate,_Rau_RepeatRau_Rate,_Rau_End_RauOut_Rate,_Rau_End_MsDetach_Rate,_Rau_End_NetDetach_Rate,_Rau_End_NewAttach_Rate,_Rau_End_Auth_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+    
+function kpi_RauType_ne()
+{
+  kpi_RauType_rai $@
+}
+function kpi_RauType_global()
+{
+  local _time=$1
+  local _key_cnt=0
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+      if [ "${detail}" -eq 1 ];then
+           _key_cnt=$((_key_cnt+1))
+       else
+          create_muti_file   "$shellCmd"
+       fi
+       shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt}  -f ${AWK_FOLD}/cycle_sum9.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+      if(key_cnt==1){_time=$1;}else{_time=time;}\
+      _Rau_cnt=$(key_cnt+1);
+      _Rau_succ_cnt=$(key_cnt+2);
+      _Rau_rej_cnt=$(key_cnt+3);
+      _Rau_RepeatRau_cnt=$(key_cnt+4);
+      _Rau_End_RauOut_cnt=$(key_cnt+5);
+      _Rau_End_MsDetach_cnt=$(key_cnt+6);
+      _Rau_End_NetDetach_cnt=$(key_cnt+7);
+      _Rau_End_NewAttach_cnt=$(key_cnt+8);
+      _Rau_End_Auth_cnt=$(key_cnt+9);
+      _Rau_success_Rate=(_Rau_cnt+0==0?0:100*_Rau_succ_cnt/_Rau_cnt);\
+      _Rau_reject_Rate=(_Rau_cnt+0==0?0:100*_Rau_rej_cnt/_Rau_cnt);\
+      _Rau_RepeatRau_Rate=(_Rau_cnt+0==0?0:100*_Rau_RepeatRau_cnt/_Rau_cnt);\
+      _Rau_End_RauOut_Rate=(_Rau_cnt+0==0?0:100*_Rau_End_RauOut_cnt/_Rau_cnt);\
+      _Rau_End_MsDetach_Rate=(_Rau_cnt+0==0?0:100*_Rau_End_MsDetach_cnt/_Rau_cnt);\
+      _Rau_End_NetDetach_Rate=(_Rau_cnt+0==0?0:100*_Rau_End_NetDetach_cnt/_Rau_cnt);\
+      _Rau_End_NewAttach_Rate=(_Rau_cnt+0==0?0:100*_Rau_End_NewAttach_cnt/_Rau_cnt);\
+      _Rau_End_Auth_Rate=(_Rau_cnt+0==0?0:100*_Rau_End_Auth_cnt/_Rau_cnt);\
+        printf _time",";\
+        printf("%d,%d,%d,%d,%d,%d,%d,%d,%d,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",\
+            _Rau_cnt,_Rau_succ_cnt,_Rau_rej_cnt,_Rau_RepeatRau_cnt,_Rau_End_RauOut_cnt,_Rau_End_MsDetach_cnt,_Rau_End_NetDetach_cnt,_Rau_End_NewAttach_cnt,_Rau_End_Auth_cnt,_Rau_success_Rate,_Rau_reject_Rate,_Rau_RepeatRau_Rate,_Rau_End_RauOut_Rate,_Rau_End_MsDetach_Rate,_Rau_End_NetDetach_Rate,_Rau_End_NewAttach_Rate,_Rau_End_Auth_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_RauType_RadioCause_ne()
+{
+  local _time=$1
+  local _key_cnt=2
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+      if [ "${detail}" -eq 1 ];then
+           _key_cnt=$((_key_cnt+1)) 
+       else  
+          create_muti_file   "$shellCmd"
+       fi
+       shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt}  -f ${AWK_FOLD}/cycle_sum1.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue -v keyValue=$keyvalue \
+    -v key_cnt=${_key_cnt}\
+    -v zd_radioCause=$RADIO_CAUSE_ZIDIAN \
+    'BEGIN{while((getline<zd_radioCause)>0){radioCause[$1]=$2}}\
+    {\
+        if($(key_cnt+1)==keyValue){next}\
+       if(key_cnt==3){_time=$1;}else{_time=time;}\
+        _CGI=$(key_cnt-1);\
+        _Cause=$key_cnt;\
+        _CauseName=(radioCause[_Cause]==""?_Cause:radioCause[_Cause]);\
+        _Raido_Cause_cnt=$(key_cnt+1);\
+        printf _time",";\
+        printf("%s,%s,%d,%s\n",\
+               _CGI,_Cause,_Raido_Cause_cnt,_CauseName);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_RauType_RadioCause_rai()
+{
+  kpi_RauType_RadioCause_ne $@
+}
+function kpi_RauType_RadioCause_global()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+      if [ "${detail}" -eq 1 ];then
+           _key_cnt=$((_key_cnt+1))
+       else
+          create_muti_file   "$shellCmd"
+       fi
+       shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt}  -f ${AWK_FOLD}/cycle_sum1.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue -v keyValue=$keyvalue \
+    -v key_cnt=${_key_cnt}\
+    -v zd_radioCause=$RADIO_CAUSE_ZIDIAN \
+    'BEGIN{while((getline<zd_radioCause)>0){radioCause[$1]=$2}}\
+    {\
+        if($(key_cnt+1)==keyValue){next}\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+        _Cause=$key_cnt;\
+        _CauseName=(radioCause[_Cause]==""?_Cause:radioCause[_Cause]);\
+        _Raido_Cause_cnt=$(key_cnt+1);\
+        printf _time",";\
+        printf("%s,%d,%s\n",\
+               _Cause,_Raido_Cause_cnt,_CauseName);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_RauType_system_global()
+{
+  local _time=$1
+  local _key_cnt=0
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+      if [ "${detail}" -eq 1 ];then
+           _key_cnt=$((_key_cnt+1)) 
+       else  
+          create_muti_file   "$shellCmd"
+       fi
+       shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt}  -f ${AWK_FOLD}/cycle_sum12.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+      if(key_cnt==1){_time=$1;}else{_time=time;}\
+      _Rau_cnt=$(key_cnt+1);\
+      _2G_IntraSgsn_Rau_cnt=$(key_cnt+2);\
+      _2G_InterSgsn_Rau_cnt=$(key_cnt+3);\
+      _3G_IntraSgsn_Rau_cnt=$(key_cnt+5);\
+      _3G_InterSgsn_Rau_cnt=$(key_cnt+6);\
+      _3G_Rau_cnt=$(key_cnt+7);\
+      _UMA_IntraSgsn_Rau_cnt=$(key_cnt+8);\
+      _UMA_InterSgsn_Rau_cnt=$(key_cnt+9);\
+      _UMA_Rau_cnt=$(key_cnt+10);\
+      _IntraSgsn_Rau_cnt=$(key_cnt+11);\
+      _InterSgsn_Rau_cnt=$(key_cnt+12);\
+      _2G_Intra_SGSN_Rate=(_Rau_cnt+0==0?0:100*_2G_IntraSgsn_Rau_cnt/_Rau_cnt);\
+      _2G_Inter_SGSN_Rate=(_Rau_cnt+0==0?0:100*_2G_InterSgsn_Rau_cnt/_Rau_cnt);\
+      _3G_Intra_SGSN_Rate=(_Rau_cnt+0==0?0:100*_3G_IntraSgsn_Rau_cnt/_Rau_cnt);\
+      _3G_Inter_SGSN_Rate=(_Rau_cnt+0==0?0:100*_3G_InterSgsn_Rau_cnt/_Rau_cnt);\
+      _UMA_Intra_SGSN_Rate=(_Rau_cnt+0==0?0:100*_UMA_IntraSgsn_Rau_cnt/_Rau_cnt);\
+      _UMA_Inter_SGSN_Rate=(_Rau_cnt+0==0?0:100*_UMA_InterSgsn_Rau_cnt/_Rau_cnt);\
+      _Intra_SGSN_Rate=(_Rau_cnt+0==0?0:100*_IntraSgsn_Rau_cnt/_Rau_cnt);\
+      _Inter_SGSN_Rate=(_Rau_cnt+0==0?0:100*_InterSgsn_Rau_cnt/_Rau_cnt);\
+        printf _time",";\
+        printf("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",\
+          _Rau_cnt,_2G_IntraSgsn_Rau_cnt,_2G_InterSgsn_Rau_cnt,_2G_Rau_cnt,_3G_IntraSgsn_Rau_cnt,_3G_InterSgsn_Rau_cnt,_3G_Rau_cnt,_UMA_IntraSgsn_Rau_cnt,_UMA_InterSgsn_Rau_cnt,_UMA_Rau_cnt,_IntraSgsn_Rau_cnt,_InterSgsn_Rau_cnt,_2G_Intra_SGSN_Rate,_2G_Inter_SGSN_Rate,_3G_Intra_SGSN_Rate,_3G_Inter_SGSN_Rate,_UMA_Intra_SGSN_Rate,_UMA_Inter_SGSN_Rate,_Intra_SGSN_Rate,_Inter_SGSN_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_RauType_system_rai()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+      if [ "${detail}" -eq 1 ];then
+           _key_cnt=$((_key_cnt+1))
+       else
+          create_muti_file   "$shellCmd"
+       fi
+       shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt}  -f ${AWK_FOLD}/cycle_sum12.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+      if(key_cnt==2){_time=$1;}else{_time=time;}\
+      _rai=$(key_cnt);\
+      _Rau_cnt=$(key_cnt+1);\
+      _2G_IntraSgsn_Rau_cnt=$(key_cnt+2);\
+      _2G_InterSgsn_Rau_cnt=$(key_cnt+3);\
+      _3G_IntraSgsn_Rau_cnt=$(key_cnt+5);\
+      _3G_InterSgsn_Rau_cnt=$(key_cnt+6);\
+      _3G_Rau_cnt=$(key_cnt+7);\
+      _UMA_IntraSgsn_Rau_cnt=$(key_cnt+8);\
+      _UMA_InterSgsn_Rau_cnt=$(key_cnt+9);\
+      _UMA_Rau_cnt=$(key_cnt+10);\
+      _IntraSgsn_Rau_cnt=$(key_cnt+11);\
+      _InterSgsn_Rau_cnt=$(key_cnt+12);\
+      _2G_Intra_SGSN_Rate=(_Rau_cnt+0==0?0:100*_2G_IntraSgsn_Rau_cnt/_Rau_cnt);\
+      _2G_Inter_SGSN_Rate=(_Rau_cnt+0==0?0:100*_2G_InterSgsn_Rau_cnt/_Rau_cnt);\
+      _3G_Intra_SGSN_Rate=(_Rau_cnt+0==0?0:100*_3G_IntraSgsn_Rau_cnt/_Rau_cnt);\
+      _3G_Inter_SGSN_Rate=(_Rau_cnt+0==0?0:100*_3G_InterSgsn_Rau_cnt/_Rau_cnt);\
+      _UMA_Intra_SGSN_Rate=(_Rau_cnt+0==0?0:100*_UMA_IntraSgsn_Rau_cnt/_Rau_cnt);\
+      _UMA_Inter_SGSN_Rate=(_Rau_cnt+0==0?0:100*_UMA_InterSgsn_Rau_cnt/_Rau_cnt);\
+      _Intra_SGSN_Rate=(_Rau_cnt+0==0?0:100*_IntraSgsn_Rau_cnt/_Rau_cnt);\
+      _Inter_SGSN_Rate=(_Rau_cnt+0==0?0:100*_InterSgsn_Rau_cnt/_Rau_cnt);\
+        printf _time",";\
+        printf("%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",\
+          _rai,_Rau_cnt,_2G_IntraSgsn_Rau_cnt,_2G_InterSgsn_Rau_cnt,_2G_Rau_cnt,_3G_IntraSgsn_Rau_cnt,_3G_InterSgsn_Rau_cnt,_3G_Rau_cnt,_UMA_IntraSgsn_Rau_cnt,_UMA_InterSgsn_Rau_cnt,_UMA_Rau_cnt,_IntraSgsn_Rau_cnt,_InterSgsn_Rau_cnt,_2G_Intra_SGSN_Rate,_2G_Inter_SGSN_Rate,_3G_Intra_SGSN_Rate,_3G_Inter_SGSN_Rate,_UMA_Intra_SGSN_Rate,_UMA_Inter_SGSN_Rate,_Intra_SGSN_Rate,_Inter_SGSN_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+
+function kpi_RauType_system_ne()
+{
+  kpi_RauType_system_rai  $@
+}

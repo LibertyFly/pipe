@@ -1,0 +1,48 @@
+function terminal_fac_total()
+{
+   _source_file="user_terminal"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN \
+              'BEGIN{while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$2}}\
+                {\$2=(terminal_to_fac_type[\$2]==\"\"?\$2:terminal_to_fac_type[\$2]);print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="users_trans_v1.awk"
+   _sort_cmd="sort -rn -k7"  
+
+}
+function terminal_type_total()
+{
+   _source_file="user_terminal"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN \
+              'BEGIN{while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$2\" \"\$3}}\
+                {\$2=(terminal_to_fac_type[\$2]==\"\"?\$2\" \"\$2:terminal_to_fac_type[\$2]);print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="users_trans_v2.awk"
+   _sort_cmd="sort -rn -k8"
+
+}
+function terminal_service_group_total()
+{
+   _source_file="user_terminal_service_group"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN \
+              'BEGIN{while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$3}}\
+                {\$2=(terminal_to_fac_type[\$2]==\"\"?\$2:terminal_to_fac_type[\$2]);print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="users_trans_v2.awk"
+   _sort_cmd="sort -rn -k8"
+
+}
+function terminal_service_type_total()
+{
+   _source_file="user_terminal_service_type"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN \
+              'BEGIN{while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$3}}\
+                {\$2=(terminal_to_fac_type[\$2]==\"\"?\$2:terminal_to_fac_type[\$2]);print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="users_trans_v3.awk"
+   _sort_cmd="sort -rn -k9"
+}
+

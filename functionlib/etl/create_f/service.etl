@@ -1,0 +1,190 @@
+function cut_common()
+{
+  version=$1
+  now=$(date  +%s);
+  local tmp_file=/tmp/${now}_$$.tmp
+  local tmp_file1=/tmp/${now}_$$_1.tmp
+   set_count_size
+   awk -v count=$count_size  -v tmpfile=$tmp_file  -f ${AWK_FOLD}/cycle_cut_v${version}.awk \
+           $source_file  > $RESULT_FOLD/$FILE_NAME
+   while [ -s $tmp_file ];do
+    mv $tmp_file $tmp_file1
+    awk -v count=$count_size  -v tmpfile=$tmp_file  -f ${AWK_FOLD}/cycle_cut_v${version}.awk \
+      $tmp_file1  >> $RESULT_FOLD/$FILE_NAME
+   done
+   rm -fr $tmp_file
+   rm -fr $tmp_file1
+}
+
+function user_service_group()
+{
+  _key_cnt=2
+  _is_cut=1
+  _awk_file=cycle_cut_topn.awk
+}
+
+function user_service_type()
+{
+  _key_cnt=3
+  _is_cut=1
+  _awk_file=cycle_cut_topn.awk
+}
+function user_service_detail()
+{
+  _key_cnt=3
+  _is_cut=1
+  _awk_file=cycle_cut_topn.awk
+}
+
+function user_loc()
+{
+  _key_cnt=2
+  _is_cut=1
+  _awk_file=cycle_cut_topn.awk
+}
+
+function user_loc_service_group()
+{
+  _key_cnt=3
+  _is_cut=1
+  _awk_file=cycle_cut_topn.awk
+}
+function user_loc_service_type()
+{
+  _key_cnt=4
+  _is_cut=1
+  _awk_file=cycle_cut_topn.awk
+}
+function user_loc_service_detail()
+{
+  _key_cnt=4
+  _is_cut=1
+  _awk_file=cycle_cut_topn.awk
+}
+function user_terminal()
+{
+  _key_cnt=2
+  _is_cut=1
+  _awk_file=cycle_cut_topn.awk
+}
+function user()
+{
+  _key_cnt=2
+  _is_cut=1
+  _awk_file=cycle_cut_topn.awk
+}
+function user_ne1_ne2()
+{
+  _key_cnt=3
+  _is_cut=1
+  _awk_file=cycle_cut_topn.awk
+}
+function user_terminal_service_group()
+{
+  _key_cnt=3
+  _is_cut=1
+  _awk_file=cycle_cut_topn.awk
+}
+function user_terminal_service_type()
+{
+  _key_cnt=4
+  _is_cut=1
+  _awk_file=cycle_cut_topn.awk
+}
+function net_que_user()
+{
+  _key_cnt=2
+  _is_cut=1
+  _awk_file=cycle_net_que_v1.awk
+}
+function net_que_terminal()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_net_que_v1.awk 
+}
+function net_que_servtype()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_net_que_v1.awk 
+}
+function net_que_serverip()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_net_que_v1.awk 
+}
+function dns_que_serverip()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+function dns_que_ne1_ne2()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+function net_que_loc()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_net_que_v1.awk 
+}
+function net_que_ne1_ne2()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_net_que_v2.awk
+}
+function signal_que_user()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_signal_que_v1.awk
+}
+function signal_que_terminal()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_signal_que_v1.awk
+}
+function signal_que_loc()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_signal_que_v1.awk 
+}
+function signal_que_ne1_ne2()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_signal_que_v2.awk
+}
+function user_imei_loc()
+{
+  _key_cnt=3
+  _is_cut=1
+  _awk_file=cycle_cut_topn.awk
+}
+
+function dns_que_loc()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_dns_quality.awk
+}
+function net_que_server_quality()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_net_que_server_quality.awk
+}
+function user_terminal_loc()
+{
+  _key_cnt=3
+  _is_cut=1
+  _awk_file=cycle_cut_topn.awk
+}

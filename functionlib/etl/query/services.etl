@@ -1,0 +1,150 @@
+function kpi_Traffic_Session_apn()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/Traffic_Session.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+        _APN=$key_cnt;\
+        _up_bytes=$(key_cnt+1);\
+        _down_bytes=$(key_cnt+2);\
+        _PDP_end_cnt=$(key_cnt+3);\
+        _PDP_DL_Pkgs=$(key_cnt+4);\
+        _PDP_DL_est_kbps=$(key_cnt+5);\
+        _PDP_DL_real_kpbs=$(key_cnt+6);\
+        _PDP_DL_real_max_kbps=$(key_cnt+7);\
+        _PDP_UL_Pkgs=$(key_cnt+8);\
+        _PDP_UL_est_kbps=$(key_cnt+9);\
+        _PDP_UL_real_kpbs=$(key_cnt+10);\
+        _PDP_UL_real_max_kbps=$(key_cnt+11);\
+        _PDP_DL_max_kbps=$(key_cnt+12);\
+        _PDP_UL_max_kbps=$(key_cnt+13);\
+        _PDP_Activation_succ_cnt=$(key_cnt+14);\
+        _PDP_Total_time=$(key_cnt+15);\
+        _Avg_Th_Samples_DL_cnt=(_PDP_end_cnt+0==0?0:_PDP_DL_Pkgs/_PDP_end_cnt);\
+        _Avg_Th_Reliability_DL_Rate=(_PDP_DL_max_kbps+0==0?0:100*_PDP_DL_est_kbps/_PDP_DL_max_kbps);\
+        _Avg_DL_session_Th=(_PDP_end_cnt+0==0?0:_PDP_DL_real_kpbs/_PDP_end_cnt);\
+        _Avg_Th_Samples_UL_cnt=(_PDP_end_cnt+0==0?0:_PDP_UL_Pkgs/_PDP_end_cnt);\
+        _Avg_Th_Reliability_UL_Rate=(_PDP_UL_max_kbps+0==0?0:100*_PDP_UL_est_kbps/_PDP_UL_max_kbps);\
+        _Avg_UL_session_Th=(_PDP_end_cnt+0==0?0:_PDP_UL_real_kpbs/_PDP_end_cnt);\
+        _Average_time=(_PDP_end_cnt+0==0?0:_PDP_Total_time/_PDP_end_cnt/10^9);\
+       printf _time",";\
+       printf("%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%.4f,%.4f,%d,%.4f,%.4f,%.4f\n",\
+        _APN,_up_bytes,_down_bytes,_PDP_end_cnt,_PDP_DL_Pkgs,_PDP_DL_est_kbps,_PDP_DL_real_kpbs,_PDP_DL_real_max_kbps,_PDP_UL_Pkgs,_PDP_UL_est_kbps,_PDP_UL_real_kpbs,_PDP_UL_real_max_kbps,_PDP_DL_max_kbps,_PDP_UL_max_kbps,_PDP_Activation_succ_cnt,_PDP_Total_time,_Avg_Th_Samples_DL_cnt,_Avg_Th_Reliability_DL_Rate,_Avg_DL_session_Th,_Avg_Th_Samples_UL_cnt,_Avg_Th_Reliability_UL_Rate,_Avg_UL_session_Th,_Average_time);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_Traffic_Session_global()
+{
+  local _time=$1
+  local _key_cnt=0
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/Traffic_Session.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==1){_time=$1;}else{_time=time;}\
+        _up_bytes=$(key_cnt+1);\
+        _down_bytes=$(key_cnt+2);\
+        _PDP_end_cnt=$(key_cnt+3);\
+        _PDP_DL_Pkgs=$(key_cnt+4);\
+        _PDP_DL_est_kbps=$(key_cnt+5);\
+        _PDP_DL_real_kpbs=$(key_cnt+6);\
+        _PDP_DL_real_max_kbps=$(key_cnt+7);\
+        _PDP_UL_Pkgs=$(key_cnt+8);\
+        _PDP_UL_est_kbps=$(key_cnt+9);\
+        _PDP_UL_real_kpbs=$(key_cnt+10);\
+        _PDP_UL_real_max_kbps=$(key_cnt+11);\
+        _PDP_DL_max_kbps=$(key_cnt+12);\
+        _PDP_UL_max_kbps=$(key_cnt+13);\
+        _PDP_Activation_succ_cnt=$(key_cnt+14);\
+        _PDP_Total_time=$(key_cnt+15);\
+        _Avg_Th_Samples_DL_cnt=(_PDP_end_cnt+0==0?0:_PDP_DL_Pkgs/_PDP_end_cnt);\
+        _Avg_Th_Reliability_DL_Rate=(_PDP_DL_max_kbps+0==0?0:100*_PDP_DL_est_kbps/_PDP_DL_max_kbps);\
+        _Avg_DL_session_Th=(_PDP_end_cnt+0==0?0:_PDP_DL_real_kpbs/_PDP_end_cnt);\
+        _Avg_Th_Samples_UL_cnt=(_PDP_end_cnt+0==0?0:_PDP_UL_Pkgs/_PDP_end_cnt);\
+        _Avg_Th_Reliability_UL_Rate=(_PDP_UL_max_kbps+0==0?0:100*_PDP_UL_est_kbps/_PDP_UL_max_kbps);\
+        _Avg_UL_session_Th=(_PDP_end_cnt+0==0?0:_PDP_UL_real_kpbs/_PDP_end_cnt);\
+        _Average_time=(_PDP_end_cnt+0==0?0:_PDP_Total_time/_PDP_end_cnt/10^9);\
+       printf _time",";\
+       printf("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%.4f,%.4f,%d,%.4f,%.4f,%.4f\n",\
+        _up_bytes,_down_bytes,_PDP_end_cnt,_PDP_DL_Pkgs,_PDP_DL_est_kbps,_PDP_DL_real_kpbs,_PDP_DL_real_max_kbps,_PDP_UL_Pkgs,_PDP_UL_est_kbps,_PDP_UL_real_kpbs,_PDP_UL_real_max_kbps,_PDP_DL_max_kbps,_PDP_UL_max_kbps,_PDP_Activation_succ_cnt,_PDP_Total_time,_Avg_Th_Samples_DL_cnt,_Avg_Th_Reliability_DL_Rate,_Avg_DL_session_Th,_Avg_Th_Samples_UL_cnt,_Avg_Th_Reliability_UL_Rate,_Avg_UL_session_Th,_Average_time);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_Traffic_Session_ne_apn()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/Traffic_Session_ne.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+        _APN=$key_cnt;\
+        Avg_Simult_Sessions_cnt=$(key_cnt+1);\
+        Max_Simult_Sessions_cnt=$(key_cnt+2);\
+       printf _time",";\
+       printf("%s,%d,%d\n",\
+        _APN,Avg_Simult_Sessions_cnt,Max_Simult_Sessions_cnt);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_Traffic_Session_rai_apn()
+{
+   kpi_Traffic_Session_ne_apn $@
+}
+function kpi_Traffic_Session_ne_apn_global()
+{
+  local _time=$1
+  local _key_cnt=0
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/Traffic_Session_ne.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==1){_time=$1;}else{_time=time;}\
+        Avg_Simult_Sessions_cnt=$(key_cnt+1);\
+        Max_Simult_Sessions_cnt=$(key_cnt+2);\
+       printf _time",";\
+       printf("%d,%d\n",\
+        Avg_Simult_Sessions_cnt,Max_Simult_Sessions_cnt);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}

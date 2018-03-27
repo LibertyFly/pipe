@@ -21,7 +21,7 @@ titleFold="$binFold/title"
 includeFold="$binFold/include"
 ZIDIAN_FOLD="$ROOT_FOLD/zidian"
 
-dataTypes=(NPM)
+dataTypes=(_2G _3G _LTE)
 dataTypes_n=${#dataTypes[*]}
 
 source $includeFold/zidian.ini
@@ -250,7 +250,7 @@ function set_source_file()
     f)
           mDATE=${shijian1:0:8}
           mHOURMinute=${shijian1:8:4}
-	 tmp_file=${mDATE}${mHOURMinute}.txt
+	 tmp_file=${mDATE}_${mHOURMinute}.txt
           ;;
      h)
          mDATE=${shijian1:0:8}
@@ -283,7 +283,7 @@ function set_pre_source_file()
          tmp_file=${pre_time}00.txt
          ;;
      *)
-        pre_time=$(date -d "${mDATE} 1days ago " +%Y%m%d)
+        pre_time=$(date -d "${mDATE} 01:00 1days ago " +%Y%m%d)
          tmp_file=${pre_time}.txt
           ;;
    esac

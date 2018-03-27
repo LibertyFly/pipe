@@ -1,0 +1,165 @@
+function signal_que_total()
+{
+ local _time=$1
+ local _id=$2
+ local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -f $AWK_FOLD/muti_signal_que.awk"
+   fi
+   echo $shellCmd|sh|\
+   awk -v time=$_time -v id=$_id -v key_cnt=0  \
+     '{\
+		_up_delay_avg=$(key_cnt+1) ;\
+		_down_delay_avg=$(key_cnt+2); \
+		_up_delay_max=$(key_cnt+3);\
+		_up_delay_min=$(key_cnt+4);\
+		_down_delay_max=$(key_cnt+5);\
+		_down_delay_min=$(key_cnt+6);\
+		printf time","id","; \
+		printf("%s,%s,%s,%s,%s,%s\n",_up_delay_avg,_down_delay_avg,_up_delay_max,\
+			_up_delay_min,_down_delay_max,_down_delay_min);  \
+       }' \
+       >>$RESULT_FOLD/$FILE_NAME
+}
+function signal_que_phone_up_delay_total()
+{
+ local _time=$1
+ local _id=$2
+ local _key_cnt=1
+ local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+        if [ "${detail}" -eq 1 ];then
+           shellCmd="cat $muti_tmp_file|awk   -f ${AWK_FOLD}/cycle_signal_que_v2.awk|sed 's/_/ /g'"   
+           _key_cnt=3
+        else
+          create_muti_file   "$shellCmd"
+          shellCmd="cat $muti_tmp_file|awk -f $AWK_FOLD/cycle_signal_que_v1.awk"
+        fi
+    fi
+   echo $shellCmd|sh|\
+   awk -v time=$_time -v id=$_id -v key_cnt=${_key_cnt}  \
+   '{\
+		if(key_cnt==3){_time=$1;_id=$2;}else{_time=time;_id=id;}\
+		_phone=$key_cnt ;\
+                _up_delay_avg=$(key_cnt+1); \
+                _down_delay_avg=$(key_cnt+2); \
+                _up_delay_max=$(key_cnt+3); \
+                _up_delay_min=$(key_cnt+4); \
+                _down_delay_max=$(key_cnt+5); \
+                _down_delay_min=$(key_cnt+6); \
+                printf _time","_id","; \
+                printf("%s,%s,%s,%s,%s,%s,%s\n",_phone,_up_delay_avg,_down_delay_avg,_up_delay_max,\
+                        _up_delay_min,_down_delay_max,_down_delay_min);
+     }' \
+     >>$RESULT_FOLD/$FILE_NAME
+}
+
+function signal_que_ggsn_sgsn_user_up_delay_total()
+{
+ local _time=$1
+ local _id=$2
+ local _key_cnt=2
+ local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+        if [ "${detail}" -eq 1 ];then
+           shellCmd="cat $muti_tmp_file|awk   -f ${AWK_FOLD}/cycle_signal_que_v3.awk|sed 's/_/ /g'"
+           _key_cnt=4
+        else
+          create_muti_file   "$shellCmd"
+          shellCmd="cat $muti_tmp_file|awk -f $AWK_FOLD/cycle_signal_que_v2.awk"
+        fi
+    fi
+   echo $shellCmd|sh|\
+   awk -v time=$_time -v id=$_id -v key_cnt=${_key_cnt}  \
+   '{\
+                if(key_cnt==4){_time=$1;_id=$2;}else{_time=time;_id=id;}\
+                _ggsn_ip=$(key_cnt-1) ;\
+		_sgsn_ip=$key_cnt	
+                _up_delay_avg=$(key_cnt+1); \
+                _down_delay_avg=$(key_cnt+2); \
+                _up_delay_max=$(key_cnt+3); \
+                _up_delay_min=$(key_cnt+4); \
+                _down_delay_max=$(key_cnt+5); \
+                _down_delay_min=$(key_cnt+6); \
+                printf _time","_id","; \
+                printf("%s,%s,%s,%s,%s,%s,%s,%s\n",_ggsn_ip,_sgsn_ip,_up_delay_avg,_down_delay_avg,_up_delay_max,\
+                        _up_delay_min,_down_delay_max,_down_delay_min);
+     }' \
+     >>$RESULT_FOLD/$FILE_NAME
+}
+
+function signal_que_terminal_up_delay_total()
+{
+ local _time=$1
+ local _id=$2
+ local _key_cnt=1
+ local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+        if [ "${detail}" -eq 1 ];then
+           shellCmd="cat $muti_tmp_file|awk   -f ${AWK_FOLD}/cycle_signal_que_v2.awk|sed 's/_/ /g'"
+           _key_cnt=3
+        else
+          create_muti_file   "$shellCmd"
+          shellCmd="cat $muti_tmp_file|awk -f $AWK_FOLD/cycle_signal_que_v1.awk"
+        fi
+    fi
+   echo $shellCmd|sh|\
+   awk  -v time=$_time -v id=$_id \
+	-v zd_terminal_type=$TERMINAL_TYPE_ZIDIAN  \
+	-v key_cnt=${_key_cnt}  \
+   'BEGIN{while((getline<zd_terminal_type)>0){terminal_type[$2]=$3}}\
+    {\
+                if(key_cnt==3){_time=$1;_id=$2;}else{_time=time;_id=id;}\
+                _terminal_type_id=$key_cnt ;\
+		_terminal_type=((terminal_type[$key_cnt]=="")?$key_cnt:terminal_type[$key_cnt]);\
+                _up_delay_avg=$(key_cnt+1); \
+                _down_delay_avg=$(key_cnt+2); \
+                _up_delay_max=$(key_cnt+3); \
+                _up_delay_min=$(key_cnt+4); \
+                _down_delay_max=$(key_cnt+5); \
+                _down_delay_min=$(key_cnt+6); \
+                printf _time","_id","; \
+                printf("%s,%s,%s,%s,%s,%s,%s,%s\n",_terminal_type_id,_terminal_type,_up_delay_avg,_down_delay_avg,_up_delay_max,\
+                        _up_delay_min,_down_delay_max,_down_delay_min);
+     }' \
+     >>$RESULT_FOLD/$FILE_NAME
+}
+
+function signal_que_cgi_up_delay_total()
+{
+ local _time=$1
+ local _id=$2
+ local _key_cnt=1
+ local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+        if [ "${detail}" -eq 1 ];then
+           shellCmd="cat $muti_tmp_file|awk   -f ${AWK_FOLD}/cycle_signal_que_v2.awk|sed 's/_/ /g'"
+           _key_cnt=3
+        else
+          create_muti_file   "$shellCmd"
+          shellCmd="cat $muti_tmp_file|awk -f $AWK_FOLD/cycle_signal_que_v1.awk"
+        fi
+    fi
+   echo $shellCmd|sh|\
+   awk  -v time=$_time -v id=$_id \
+        -v zd_cgi=$CGI_ZIDIAN  \
+        -v key_cnt=${_key_cnt}  \
+   'BEGIN{while((getline<zd_cgi)>0){cgi[$1]=$2}}\
+    {\
+                if(key_cnt==3){_time=$1;_id=$2;}else{_time=time;_id=id;}\
+                _cgi_id=$key_cnt ;\
+                _cgi=((cgi[$key_cnt]=="")?$key_cnt:cgi[$key_cnt]);\
+                _up_delay_avg=$(key_cnt+1); \
+                _down_delay_avg=$(key_cnt+2); \
+                _up_delay_max=$(key_cnt+3); \
+                _up_delay_min=$(key_cnt+4); \
+                _down_delay_max=$(key_cnt+5); \
+                _down_delay_min=$(key_cnt+6); \
+                printf _time","_id","; \
+                printf("%s,%s,%s,%s,%s,%s,%s,%s\n",_cgi_id,_cgi,_up_delay_avg,_down_delay_avg,_up_delay_max,\
+                        _up_delay_min,_down_delay_max,_down_delay_min);
+     }' \
+     >>$RESULT_FOLD/$FILE_NAME
+}
+

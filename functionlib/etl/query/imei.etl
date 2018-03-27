@@ -1,0 +1,20 @@
+function imei_cgi_total()
+{
+    local _time=$1
+    local _id=$2
+    awk  -v time=$_time -v id=$_id  \
+          'NR==FNR{a[$1]=$2}NR>FNR{ \
+                print time","id","$1","$2","((a[$2]=="")?$2:a[$2])","$3","$4","($3+$4)","$5","$6","$7}' \
+       <(cat $CGI_ZIDIAN) \
+       <(echo $grepFile|sh)\
+     >> $RESULT_FOLD/$FILE_NAME
+}
+
+function phone_imei_cgi_total()
+{
+    local _time=$1
+    local _id=$2
+    echo $grepFile|sh|awk  -v time=$_time -v id=$_id  \
+          '{ print time","id","$1","$2","$3","$4","$5","($4+$5)","$6","$7}' \
+     >> $RESULT_FOLD/$FILE_NAME
+}

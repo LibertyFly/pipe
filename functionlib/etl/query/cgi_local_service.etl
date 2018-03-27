@@ -1,0 +1,126 @@
+function cgi_local_total()
+{
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -f $AWK_FOLD/muti_users_v2.awk |sort -nr -k5"
+    fi  
+    echo $shellCmd|sh|\
+    awk  -v time=$_time -v id=$_id \
+         -v zd_location=$LOCATION_ZIDIAN \
+         -v key_cnt=0 \
+        'BEGIN{while((getline<zd_location)>0){location[$1","$2]=$3}}\
+         { \
+		_jingdu=$(key_cnt+1);\
+		_weidu=$(key_cnt+2);\
+                _location=location[$(key_cnt+1)","$(key_cnt+2)];\
+                _up_bytes=$(key_cnt+3);\
+                _down_bytes=$(key_cnt+4);\
+                _total_bytes=$(key_cnt+5);\
+		if(_location!=""){\
+                  printf("%s,%s,%s,%d,%d,%d\n",_jingdu,_weidu,_location,\
+                  _up_bytes,_down_bytes,_total_bytes)\
+		}\
+          }' \
+     >> $RESULT_FOLD/$FILE_NAME
+}
+
+function cgi_local_service_group_total()
+{
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -f $AWK_FOLD/muti_users_v3.awk |sort -nr -k6"
+    fi
+    echo $shellCmd|sh|\
+    awk  -v time=$_time -v id=$_id \
+         -v zd_location=$LOCATION_ZIDIAN \
+	 -v zd_service_group=$SERVICE_GROUP_ZIDIAN \
+         -v key_cnt=0 \
+        'BEGIN{while((getline<zd_location)>0){location[$1","$2]=$3}\
+	       while((getline<zd_service_group)>0){service_group[$1]=$2}}\
+         { \
+                _jingdu=$(key_cnt+1);\
+                _weidu=$(key_cnt+2);\
+                _location=location[$(key_cnt+1)","$(key_cnt+2)];\
+		_service_group_id=$(key_cnt+3);\
+		_service_group=((service_group[$(key_cnt+3)]=="")?$(key_cnt+3):service_group[$(key_cnt+3)]);\
+                _up_bytes=$(key_cnt+4);\
+                _down_bytes=$(key_cnt+5);\
+                _total_bytes=$(key_cnt+6);\
+                if(_location!=""){\
+                  printf("%s,%s,%s,%s,%s,%d,%d,%d\n",_jingdu,_weidu,_location,_service_group_id,_service_group,\
+                  _up_bytes,_down_bytes,_total_bytes)\
+                }\
+          }' \
+	 >>$RESULT_FOLD/$FILE_NAME
+
+}
+
+function cgi_local_service_type_total()
+{
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -f $AWK_FOLD/muti_users_v4.awk |sort -nr -k7"
+    fi
+    echo $shellCmd|sh|\
+    awk  -v time=$_time -v id=$_id \
+         -v zd_location=$LOCATION_ZIDIAN \
+         -v zd_service_type=$SERVICE_TYPE_ZIDIAN \
+         -v key_cnt=0 \
+        'BEGIN{while((getline<zd_location)>0){location[$1","$2]=$3}\
+               while((getline<zd_service_type)>0){service_type[$2]=$3}}\
+         { \
+                _jingdu=$(key_cnt+1);\
+                _weidu=$(key_cnt+2);\
+                _location=location[$(key_cnt+1)","$(key_cnt+2)];\
+                _service_group_id=$(key_cnt+3);\
+		_service_type_id=$(key_cnt+4);\
+                _service_type=((service_type[$(key_cnt+4)]=="")?$(key_cnt+4):service_type[$(key_cnt+4)]);\
+                _up_bytes=$(key_cnt+5);\
+                _down_bytes=$(key_cnt+6);\
+                _total_bytes=$(key_cnt+7);\
+                if(_location!=""){\
+                  printf("%s,%s,%s,%s,%s,%s,%d,%d,%d\n",_jingdu,_weidu,_location,_service_group_id,\
+			_service_type_id,_service_type,_up_bytes,_down_bytes,_total_bytes)\
+                }\
+          }' \
+         >>$RESULT_FOLD/$FILE_NAME
+
+}
+
+
+function cgi_local_service_detail_total()
+{
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -f $AWK_FOLD/muti_users_v4.awk |sort -nr -k7"
+    fi
+    echo $shellCmd|sh|\
+    awk  -v time=$_time -v id=$_id \
+         -v zd_location=$LOCATION_ZIDIAN \
+         -v zd_service_detail=$SERVICE_DETAIL_ZIDIAN \
+         -v key_cnt=0 \
+        'BEGIN{while((getline<zd_location)>0){location[$1","$2]=$3}\
+               while((getline<zd_service_detail)>0){service_detail[$2]=$3}}\
+         { \
+                _jingdu=$(key_cnt+1);\
+                _weidu=$(key_cnt+2);\
+                _location=location[$(key_cnt+1)","$(key_cnt+2)];\
+                _service_type_id=$(key_cnt+3);\
+                _service_detail_id=$(key_cnt+4);\
+                _service_detail=((service_detail[$(key_cnt+4)]=="")?$(key_cnt+4):service_detail[$(key_cnt+4)]);\
+                _up_bytes=$(key_cnt+5);\
+                _down_bytes=$(key_cnt+6);\
+                _total_bytes=$(key_cnt+7);\
+                if(_location!=""){\
+                  printf("%s,%s,%s,%s,%s,%s,%d,%d,%d\n",_jingdu,_weidu,_location,_service_group_id,\
+                        _service_type_id,_service_type,_up_bytes,_down_bytes,_total_bytes)\
+                }\
+          }' \
+         >>$RESULT_FOLD/$FILE_NAME
+
+}
+

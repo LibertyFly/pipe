@@ -1,0 +1,119 @@
+function service_group_total()
+{
+   _source_file="user_service_group"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v="-v key_cnt=1"
+   _awk_file="users_v1.awk"
+   _sort_cmd="sort -nr -k4"
+}
+
+function service_type_total()
+{
+   _source_file="user_service_type"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v="-v key_cnt=2"
+   _awk_file="users_v2.awk"
+   _sort_cmd="sort -nr -k5"
+}
+
+function service_detail_total()
+{
+   _source_file="user_service_detail"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v="-v key_cnt=2"
+   _awk_file="users_v2.awk"
+   _sort_cmd="sort -nr -k5"
+}
+function cgi_total()
+{
+   _source_file="user_loc"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v="-v key_cnt=1"
+   _awk_file="users_v1.awk"
+   _sort_cmd="sort -nr -k4"
+}
+function cgi_service_group_total()
+{
+   _source_file="user_loc_service_group"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v="-v key_cnt=2"
+   _awk_file="users_v2.awk"
+   _sort_cmd="sort -nr -k5"
+}
+
+function cgi_service_type_total()
+{
+   _source_file="user_loc_service_type"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v="-v key_cnt=3"
+   _awk_file="users_v3.awk"
+   _sort_cmd="sort -nr -k6"
+}
+function ggsn_sgsn_user_total()
+{
+   _source_file="user_ne1_ne2"
+   _source_shell=
+   _trans_awk="awk -v net_element=$NET_ELEMENT_ZIDIAN 'BEGIN{while((getline<net_element)>0){net[\$1]=\$2}}\
+             {  first=(net[\$2]==\"\"?\$2:net[\$2]); printf \$1\" \"first;for(i=4;i<=NF;i++){printf \" \"\$i} print \"\";\
+                first=(net[\$3]==\"\"?\$3:net[\$3]); printf \$1\" \"first;for(i=4;i<=NF;i++){printf \" \"\$i} print \"\";\
+               }'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="users_v1.awk"
+   _sort_cmd="sort -nr -k4"
+
+}
+function weixin_flow_section_up()
+{
+   _source_file="user_service_detail"
+   _source_shell="grep -E  \"^S08E0 | S08E0 \""
+   _trans_awk=""
+   _awk_v=" -v weixin_type=\"up\"  -v sec=${number}"
+   _awk_file="weixin_section.awk"
+   _sort_cmd=""
+}
+
+function weixin_flow_section_down()
+{
+   _source_file="user_service_detail"
+   _source_shell="grep -E  \"^S08E0 | S08E0 \""
+   _trans_awk=""
+   _awk_v=" -v weixin_type=\"down\"  -v sec=${number}"
+   _awk_file="weixin_section.awk"
+   _sort_cmd=""
+}
+
+function weixin_flow_section_total()
+{
+   _source_file="user_service_detail"
+   _source_shell="grep -E  \"^S08E0 | S08E0 \""
+   _trans_awk=""
+   _awk_v=" -v weixin_type=\"total\"  -v sec=${number}"
+   _awk_file="weixin_section.awk"
+   _sort_cmd=""
+}
+function weixin_msg_section()
+{
+   _source_file="user_service_detail"
+   _source_shell="grep -E  \"^S08E0 | S08E0 \""
+   _trans_awk=""
+   _awk_v=" -v weixin_type=\"msg\"  -v sec=${number}"
+   _awk_file="weixin_section.awk"
+   _sort_cmd=""
+}
+
+function total()
+{
+   _source_file="user_terminal"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file="total.awk"
+   _sort_cmd=""
+}
+

@@ -1,0 +1,310 @@
+
+function kpi_DnsQua_ne()
+{
+  _source_file="Iran_DnsQua_ne"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_DnsQua_global()
+{
+  _source_file="Iran_DnsQua_ne"
+  _source_shell=""
+  _trans_awk="awk '{\$1=\"\";print \$0;}'"
+  _awk_v="-v key_cnt=0"
+  _awk_file="cycle_sum3.awk"
+  _sort_cmd=""
+}
+function kpi_DnsQua_rai()
+{
+  _source_file="Iran_DnsQua_rai"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+
+function kpi_EmailQua_global()
+{
+  _source_file="Iran_EmailQua_ne"
+  _source_shell=""
+  _trans_awk="awk '{\$1=\"\";print \$0;}'"
+  _awk_v="-v key_cnt=0"
+  _awk_file="cycle_sum2.awk"
+  _sort_cmd=""
+}
+function kpi_EmailQua_ne()
+{
+  _source_file="Iran_EmailQua_ne"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_EmailQua_rai()
+{
+  _source_file="Iran_EmailQua_rai"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_FtpQua_ne()
+{
+  _source_file="Iran_FtpQua_ne"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_FtpQua_global()
+{
+  _source_file="Iran_FtpQua_ne"
+  _source_shell=""
+  _trans_awk="awk '{\$1=\"\";print \$0;}'"
+  _awk_v="-v key_cnt=0"
+  _awk_file="cycle_sum4.awk"
+  _sort_cmd=""
+}
+function kpi_FtpQua_rai()
+{
+  _source_file="Iran_FtpQua_rai"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_MmsTraffic_ne()
+{
+  _source_file="Iran_MmsTraffic_ne"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_MmsTraffic_rai()
+{
+  _source_file="Iran_MmsTraffic_rai"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_MmsTraffic_global()
+{
+  _source_file="Iran_MmsTraffic_ne"
+  _source_shell=""
+  _trans_awk="awk '{\$1=\"\";print \$0;}'"
+  _awk_v="-v key_cnt=0"
+  _awk_file="cycle_sum2.awk"
+  _sort_cmd=""
+}
+
+function kpi_Paging_global()
+{
+  _source_file="Iran_Paging_rai"
+  _source_shell=""
+  _trans_awk="awk '{\$1=\"\";print \$0;}'"
+  _awk_v="-v key_cnt=0"
+  _awk_file="cycle_sum4.awk"
+  _sort_cmd=""
+}
+function kpi_Paging_rai()
+{
+  _source_file="Iran_Paging_rai"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_Paging_ne()
+{
+  _source_file="Iran_Paging_ne"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+
+
+
+function kpi_StreamingTraffic_host()
+{
+  _source_file="Iran_StreamingTraffic_host"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_StreamingTraffic_host_global()
+{
+  _source_file="Iran_StreamingTraffic_host"
+  _source_shell=""
+  _trans_awk="awk '{\$1=\"\";print \$0}'"
+  _awk_v="-v key_cnt=0"
+  _awk_file="cycle_sum4.awk"
+  _sort_cmd=""
+}
+
+function kpi_Traffic_apn_servtype()
+{
+  _source_file="Iran_Traffic_apn_servtype"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+
+function kpi_Traffic_proto_port()
+{
+  _source_file="Iran_Traffic_proto_port"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+
+function kpi_Traffic_servtype()
+{
+  _source_file="Iran_Traffic_servtype"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_Traffic_servtype_global()
+{
+  _source_file="Iran_Traffic_servtype"
+  _source_shell=""
+  _trans_awk="awk '{\$1=\"\";print \$0;}'"
+  _awk_v="-v key_cnt=0"
+  _awk_file="cycle_sum2.awk"
+  _sort_cmd=""
+}
+
+function kpi_Traffic_servtype_proto()
+{
+  _source_file="Iran_Traffic_servtype_proto"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+
+function kpi_Wapqua_ne()
+{
+  _source_file="Iran_Wapqua_ne"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_Wapqua_global()
+{
+  _source_file="Iran_Wapqua_ne"
+  _source_shell=""
+  _trans_awk="awk '{\$1=\"\";print \$0;}'"
+  _awk_v="-v key_cnt=0"
+  _awk_file="cycle_sum4.awk"
+  _sort_cmd=""
+}
+function kpi_Wapqua_rai()
+{
+  _source_file="Iran_Wapqua_rai"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_WapQua_ne_host()
+{
+  _source_file="Iran_WapQua_ne_host"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_WapQua_rai_host()
+{
+  _source_file="Iran_WapQua_rai_host"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+
+function kpi_WapTraffic_ne()
+{
+  _source_file="Iran_WapTraffic_ne"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_WapTraffic_rai()
+{
+  _source_file="Iran_WapTraffic_rai"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_WapTraffic_global()
+{
+  _source_file="Iran_WapTraffic_ne"
+  _source_shell=""
+  _trans_awk="awk '{\$1=\"\";print \$0;}'"
+  _awk_v="-v key_cnt=0"
+  _awk_file="cycle_sum7.awk"
+  _sort_cmd=""
+}
+
+function kpi_Wspconnect_ne()
+{
+  _source_file="Iran_Wspconnect_ne"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_Wspconnect_global()
+{
+  _source_file="Iran_Wspconnect_ne"
+  _source_shell=""
+  _trans_awk="awk '{\$1=\"\";print \$0;}'"
+  _awk_v="-v key_cnt=0"
+  _awk_file="cycle_sum2.awk"
+  _sort_cmd=""
+}
+function kpi_Wspconnect_rai()
+{
+  _source_file="Iran_Wspconnect_rai"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}

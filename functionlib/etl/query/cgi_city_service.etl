@@ -1,0 +1,142 @@
+function cgi_city_service_group_total()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi
+   echo $shellCmd|sh|\
+   awk  -v time=$_time -v id=$_id \
+	-v cgi_city_zidian=$CGI_CITY_ZIDIAN -v service_group_zidian=$SERVICE_GROUP_ZIDIAN \
+	'BEGIN{ OFS="," ;\
+		while((getline<cgi_city_zidian)>0){cgi_city[$1]=$2} \
+	        while((getline<service_group_zidian)>0){service_group[$1]=$2}}\
+	{ if(cgi_city[$1]!=""){$1=cgi_city[$1];$2=((service_group[$2]=="")?$2:service_group[$2]);printf time","id","; print $0 } }'\
+          >$RESULT_FOLD/$FILE_NAME
+}
+function cgi_city_service_type_total()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi
+   echo $shellCmd|sh|awk '{$2="";print $0}'|\
+   awk  -v time=$_time -v id=$_id \
+        -v cgi_city_zidian=$CGI_CITY_ZIDIAN -v service_type_zidian=$SERVICE_TYPE_ZIDIAN \
+        'BEGIN{ OFS="," ;\
+                while((getline<cgi_city_zidian)>0){cgi_city[$1]=$2} \
+                while((getline<service_type_zidian)>0){service_type[$2]=$3}}\
+        { if(cgi_city[$1]!=""){$1=cgi_city[$1];$2=((service_type[$2]=="")?$2:service_type[$2]);printf time","id","; print $0 } }'\
+          >$RESULT_FOLD/$FILE_NAME
+}
+function cgi_city_total()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi
+   echo $shellCmd|sh|\
+   awk  -v time=$_time -v id=$_id \
+        -v cgi_city_zidian=$CGI_CITY_ZIDIAN  \
+        'BEGIN{ OFS="," ;\
+                while((getline<cgi_city_zidian)>0){cgi_city[$1]=$2} }\
+        { if(cgi_city[$1]!=""){$1=cgi_city[$1];printf time","id","; print $0 } }'\
+          >$RESULT_FOLD/$FILE_NAME
+}
+function cgi_city_service_detail_total()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi
+   echo $shellCmd|sh|awk '{$2="";print $0}'|\
+   awk  -v time=$_time -v id=$_id \
+        -v cgi_city_zidian=$CGI_CITY_ZIDIAN -v service_detail_zidian=$SERVICE_DETAIL_ZIDIAN \
+        'BEGIN{ OFS="," ;\
+                while((getline<cgi_city_zidian)>0){cgi_city[$1]=$2} \
+                while((getline<service_detail_zidian)>0){service_detail[$2]=$3}}\
+        { if(cgi_city[$1]!=""){$1=cgi_city[$1];$2=((service_detail[$2]=="")?$2:service_detail[$2]);printf time","id","; print $0 } }'\
+          >$RESULT_FOLD/$FILE_NAME
+}
+function cgi_area_service_group_total()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi
+   echo $shellCmd|sh|awk '{$1="";print $0}'|\
+   awk  -v time=$_time -v id=$_id \
+        -v cgi_area_zidian=$CGI_AREA_ZIDIAN -v service_group_zidian=$SERVICE_GROUP_ZIDIAN \
+        'BEGIN{ OFS="," ;\
+                while((getline<cgi_area_zidian)>0){cgi_area[$2]=$3} \
+                while((getline<service_group_zidian)>0){service_group[$1]=$2}}\
+        { if(cgi_area[$1]!=""){$1=cgi_area[$1];$2=((service_group[$2]=="")?$2:service_group[$2]);printf time","id","; print $0 } }'\
+          >$RESULT_FOLD/$FILE_NAME
+}
+function cgi_area_service_type_total()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi
+   echo $shellCmd|sh|awk '{$1="";$3="";print $0}'|\
+   awk  -v time=$_time -v id=$_id \
+        -v cgi_area_zidian=$CGI_AREA_ZIDIAN -v service_type_zidian=$SERVICE_TYPE_ZIDIAN \
+        'BEGIN{ OFS="," ;\
+                while((getline<cgi_area_zidian)>0){cgi_area[$2]=$3} \
+                while((getline<service_type_zidian)>0){service_type[$2]=$3}}\
+        { if(cgi_area[$1]!=""){$1=cgi_area[$1];$2=((service_type[$2]=="")?$2:service_type[$2]);printf time","id","; print $0 } }'\
+          >$RESULT_FOLD/$FILE_NAME
+}
+function cgi_area_total()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi
+   echo $shellCmd|sh|awk '{$1="";print $0}'|\
+   awk  -v time=$_time -v id=$_id \
+        -v cgi_area_zidian=$CGI_AREA_ZIDIAN  \
+        'BEGIN{ OFS="," ;\
+                while((getline<cgi_area_zidian)>0){cgi_area[$2]=$3} }\
+        { if(cgi_area[$1]!=""){$1=cgi_area[$1];printf time","id","; print $0 } }'\
+          >$RESULT_FOLD/$FILE_NAME
+}
+function cgi_area_service_detail_total()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi
+   echo $shellCmd|sh|awk '{$1="";$3="";print $0}'|\
+   awk  -v time=$_time -v id=$_id \
+        -v cgi_area_zidian=$CGI_AREA_ZIDIAN -v service_detail_zidian=$SERVICE_DETAIL_ZIDIAN \
+        'BEGIN{ OFS="," ;\
+                while((getline<cgi_area_zidian)>0){cgi_area[$2]=$3} \
+                while((getline<service_detail_zidian)>0){service_detail[$2]=$3}}\
+        { if(cgi_area[$1]!=""){$1=cgi_area[$1];$2=((service_detail[$2]=="")?$2:service_detail[$2]);printf time","id","; print $0 } }'\
+          >$RESULT_FOLD/$FILE_NAME
+}

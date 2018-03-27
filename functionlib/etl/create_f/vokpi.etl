@@ -1,0 +1,232 @@
+function signal_que_volte_sip_reg_ne2_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+function signal_que_volte_sip_reg_loc_kpi()
+{
+  _key_cnt=4
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+#------------------------------------------------------------
+
+function signal_que_volte_esrvcc_ne1_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_esrvcc_kpi_common.awk
+}
+function signal_que_volte_esrvcc_ne2_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_esrvcc_kpi_common.awk
+}
+function signal_que_volte_esrvcc_loc_kpi()
+{
+  _key_cnt=4
+  _is_cut=0
+  _awk_file=cycle_esrvcc_kpi_common.awk
+}
+#-----------------------------------------------------------
+function signal_que_volte_sdr_alerttime_ne1_nkpi()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_alerttime_nkpi_common.awk
+}
+function signal_que_volte_sdr_alerttime_ne2_nkpi()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_alerttime_nkpi_common.awk
+}
+function signal_que_volte_sdr_alerttime_src_loc_nkpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_alerttime_nkpi_common.awk
+}
+function signal_que_volte_sdr_alerttime_loc_nkpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_alerttime_nkpi_common.awk
+}
+#---------------------------------------------------------------
+function  signal_que_volte_sdr_call_stat_ne1_nkpi()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_call_stat_nkpi_common.awk
+}
+function  signal_que_volte_sdr_call_stat_ne2_nkpi()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_call_stat_nkpi_common.awk
+}
+function  signal_que_volte_sdr_call_stat_src_loc_nkpi()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_call_stat_nkpi_common.awk
+}
+function  signal_que_volte_sdr_call_stat_loc_nkpi()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_call_stat_nkpi_common.awk
+}
+#---------------------------------------------------------------
+function  signal_que_volte_sdr_call_stat_ne1_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_call_stat_cause_kpi_common.awk
+}
+function  signal_que_volte_sdr_call_stat_ne2_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_call_stat_cause_kpi_common.awk
+}
+function  signal_que_volte_sdr_call_stat_src_loc_kpi()
+{
+  _key_cnt=4
+  _is_cut=0
+  _awk_file=cycle_call_stat_cause_kpi_common.awk
+}
+function  signal_que_volte_sdr_call_stat_loc_kpi()
+{
+  _key_cnt=4
+  _is_cut=0
+  _awk_file=cycle_call_stat_cause_kpi_common.awk
+}
+#---------------------------------------------------------------
+function  signal_que_volte_sdr_calldelay_ne1_nkpi()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_calldelay_nkpi_common.awk
+}
+function  signal_que_volte_sdr_calldelay_ne2_nkpi()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_calldelay_nkpi_common.awk
+}
+function  signal_que_volte_sdr_calldelay_src_loc_nkpi()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_calldelay_nkpi_common.awk
+}
+function  signal_que_volte_sdr_calldelay_loc_nkpi()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_calldelay_nkpi_common.awk
+}
+#---------------------------------------------------------------
+function  signal_que_volte_sdr_call_qua_ne1_nkpi()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_call_qua_nkpi_common.awk
+}
+function  signal_que_volte_sdr_call_qua_ne2_nkpi()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_call_qua_nkpi_common.awk
+}
+function  signal_que_volte_sdr_call_qua_src_loc_nkpi()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_call_qua_nkpi_common.awk
+}
+function  signal_que_volte_sdr_call_qua_loc_nkpi()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_call_qua_nkpi_common.awk
+}
+#---------------------------------------------------------------
+function signal_que_volte_sdr_calltime_ne1_nkpi()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_calltime_kpi_common.awk
+}
+function signal_que_volte_sdr_calltime_ne2_nkpi()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_calltime_kpi_common.awk
+}
+function signal_que_volte_sdr_calltime_src_loc_nkpi()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_calltime_kpi_common.awk
+}
+function signal_que_volte_sdr_calltime_loc_nkpi()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_calltime_kpi_common.awk
+}
+#---------------------------------------------------------------
+function signal_que_volte_sdr_call_ne1_kpi()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+function signal_que_volte_sdr_call_ne2_kpi()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+function signal_que_volte_sdr_call_src_loc_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+function signal_que_volte_sdr_call_loc_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+#------------------------------------------------------------------
+function signal_que_volte_diameter_ne1_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk 
+}
+function signal_que_volte_diameter_ne2_kpi()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+function signal_que_volte_diameter_src_loc_kpi()
+{
+  _key_cnt=4
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}
+function signal_que_volte_diameter_loc_kpi()
+{
+  _key_cnt=4
+  _is_cut=0
+  _awk_file=cycle_kpi_common.awk
+}

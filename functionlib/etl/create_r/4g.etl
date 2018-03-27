@@ -1,0 +1,73 @@
+function cgi_4g_user_total()
+{
+   _source_file="user_terminal_loc"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_4g=$TERMINAL_4G_ZIDIAN \
+              'BEGIN{while((getline<zd_terminal_4g)>0){terminal_4g[\$1]=1}}\
+                {if(terminal_to_fac_type[\$2]==1){$2="";print \$0}}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="users_v1.awk"
+   _sort_cmd="sort -rn -k7"  
+
+}
+function phone_cgi_local_4g_total()
+{
+   _source_file="user_terminal_loc"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_4g=$TERMINAL_4G_ZIDIAN \
+	       -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN\
+               -v zd_cgi_local=$CGI_LOCAL_ZIDIAN\
+              'BEGIN{while((getline<zd_terminal_4g)>0){terminal_4g[\$1]=1}\
+		     while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$3}\
+		     while((getline<zd_cgi_local)>0){cgi_local[\$1]=\$2\" \"\$3}}\
+                {if((terminal_4g[\$2]==1)&&(cgi_local[\$3]!=\"\")){\
+                    \$2=(terminal_to_fac_type[\$2]==\"\"?\$2:terminal_to_fac_type[\$2]);\
+		    \$3=cgi_local[\$3];\
+			print \$0  \
+                  }}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="users_v1.awk"
+   _sort_cmd="sort -rn -k7"
+
+
+}
+
+function cgi_local_terminal_4g_user_total()
+{
+   _source_file="user_terminal_loc"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_4g=$TERMINAL_4G_ZIDIAN \
+               -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN\
+               -v zd_cgi_local=$CGI_LOCAL_ZIDIAN\
+              'BEGIN{while((getline<zd_terminal_4g)>0){terminal_4g[\$1]=1}\
+                     while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$3}\
+                     while((getline<zd_cgi_local)>0){cgi_local[\$1]=\$2\" \"\$3}}\
+                {if((terminal_4g[\$2]==1)&&(cgi_local[\$3]!=\"\")){\
+                    \$2=(terminal_to_fac_type[\$2]==\"\"?\$2:terminal_to_fac_type[\$2]);\
+                    \$3=cgi_local[\$3];\
+                        print \$0  \
+                  }}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="users_v3.awk"
+   _sort_cmd="sort -rn -k9"
+
+}
+function cgi_local_4g_user_total()
+{
+   _source_file="user_terminal_loc"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_4g=$TERMINAL_4G_ZIDIAN \
+               -v zd_cgi_local=$CGI_LOCAL_ZIDIAN\
+              'BEGIN{while((getline<zd_terminal_4g)>0){terminal_4g[\$1]=1}\
+                     while((getline<zd_cgi_local)>0){cgi_local[\$1]=\$2\" \"\$3}}\
+                {if((terminal_4g[\$2]==1)&&(cgi_local[\$3]!=\"\")){\
+		    \$2=\"\" ;  \
+                    \$3=cgi_local[\$3];\
+                        print \$0  \
+                  }}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="users_v2.awk"
+   _sort_cmd="sort -rn -k8"
+
+}
+

@@ -1,0 +1,684 @@
+function kqi_e2e_browse_total()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=0 -f ${AWK_FOLD}/cycle_kqi_e2e_browse_common.awk"
+    fi  
+   echo $shellCmd|sh|awk  -v time=$_time -v id=$_id  \
+       '{ printf time","id",";\
+	  _homepage_success_cnt=$1;\
+	  _homepage_delay=$2;\
+	  _success_cnt=$3;\
+	  _success_delay=$4;\
+	  _speed=$5;\
+	  _total_cnt=$6;\
+          _total_byte=$7;\
+	  _total_delay=$8;\
+          _total_speed=(_total_delay==0?0:_total_byte*1000000/_total_delay);\
+	  _homepage_success_rate=(_total_cnt==0?0:_homepage_success_cnt*100/_total_cnt);\
+	  _homepage_delay=((_success_cnt==0)?0:_homepage_delay/_success_cnt);\
+	  _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+	  _success_delay=((_success_cnt==0)?0:_success_delay/_success_cnt);\
+         printf("%.3f,%d,%.3f,%d,%.3f,%d,%.3f\n",_homepage_success_rate,_homepage_delay,_success_rate,\
+                 _success_delay,_speed,_total_cnt,_total_speed);}'\
+     >> $RESULT_FOLD/$FILE_NAME
+}
+function kqi_e2e_download_total()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=0 -f ${AWK_FOLD}/cycle_kqi_e2e_download_common.awk"
+    fi
+   echo $shellCmd|sh| awk  -v time=$_time -v id=$_id   \
+       '{ printf time","id",";\
+	 _success_cnt=$1;\
+         _speed=$2;\
+         _total_cnt=$3;\
+          _total_byte=$4;\
+          _total_delay=$5;\
+          _total_speed=(_total_delay==0?0:_total_byte*1000000/_total_delay);\
+         _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+         printf("%.3f,%.3f,%d,%.3f\n",_success_rate,_speed,_total_cnt,_total_speed);}'\
+     >> $RESULT_FOLD/$FILE_NAME
+}
+function kqi_e2e_im_total()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=0  -f ${AWK_FOLD}/cycle_kqi_e2e_im_common.awk"
+    fi
+   echo $shellCmd|sh| awk  -v time=$_time -v id=$_id  \
+       '{ printf time","id",";\
+	 _login_success_cnt=$1;\
+	 _login_cnt=$2;\
+	 _login_delay=$3;\
+         _offline_cnt=$4;\
+         _up_speed=$5;\
+         _down_speed=$6;\
+	 _total_cnt=$7;\
+	 _login_success_rate=(_login_cnt==0?0:_login_success_cnt*100/_login_cnt);\
+	 _login_delay=((_login_cnt==0)?0:_login_delay/_login_cnt);\
+	 _offline_rate=(_total_cnt==0?0:_offline_cnt*100/_total_cnt);\
+         printf("%.3f,%d,%.3f,%d,%.3f,%d\n",_login_success_rate,_login_delay,_offline_rate,_up_speed,_total_cnt);}'\
+     >> $RESULT_FOLD/$FILE_NAME
+}
+function kqi_e2e_video_total()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=0  -f ${AWK_FOLD}/cycle_kqi_e2e_video_common.awk"
+    fi  
+    echo $shellCmd|sh|awk  -v time=$_time -v id=$_id    \
+       '{ printf time","id",";\
+	 _success_cnt=$1;\
+         _wait_delay_total=$2;\
+         _interrupt_cnt=$3;\
+         _speed=$4;\
+         _total_cnt=$5;\
+          _total_byte=$6;\
+          _total_delay=$7;\
+          _total_speed=(_total_delay==0?0:_total_byte*1000000/_total_delay);\
+         _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+         _wait_delay=(_success_cnt==0?0:_wait_delay_total/_success_cnt);\
+         _interrupt_rate=(_total_cnt==0?0:_interrupt_cnt*100/_total_cnt);\
+         printf("%.3f,%d,%.3f,%.3f,%d,%.3f\n",_success_rate,_wait_delay,_interrupt_rate,_speed,_total_cnt,_total_speed);}'\
+     >> $RESULT_FOLD/$FILE_NAME
+}
+function kqi_e2e_browse_ne1_ne2()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=1 -f ${AWK_FOLD}/cycle_kqi_e2e_browse_common.awk"
+    fi  
+   echo $shellCmd|sh|awk  -v time=$_time -v id=$_id  \
+       '{ printf time","id",";\
+          _net=$1;\
+          _homepage_success_cnt=$2;\
+          _homepage_delay=$3;\
+          _success_cnt=$4;\
+          _success_delay=$5;\
+          _speed=$6;\
+          _total_cnt=$7;\
+          _total_byte=$8;\
+          _total_delay=$9;\
+          _total_speed=(_total_delay==0?0:_total_byte*1000000/_total_delay);\
+          _homepage_success_rate=(_total_cnt==0?0:_homepage_success_cnt*100/_total_cnt);\
+          _homepage_delay=((_success_cnt==0)?0:_homepage_delay/_success_cnt);\
+          _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+          _success_delay=((_success_cnt==0)?0:_success_delay/_success_cnt);\
+         printf("%s,%.3f,%d,%.3f,%d,%.3f,%d,%.3f\n",_net,_homepage_success_rate,_homepage_delay,_success_rate,\
+                 _success_delay,_speed,_total_cnt,_total_speed);}'\
+     >> $RESULT_FOLD/$FILE_NAME
+}
+function kqi_e2e_browse_phone()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=1 -f ${AWK_FOLD}/cycle_kqi_e2e_browse_common.awk"
+    fi
+   echo $shellCmd|sh|awk  -v time=$_time -v id=$_id  -v value=$keyvalue \
+       '{ if($7<value){next }\
+          printf time","id",";\
+	  _phone=$1;\
+          _homepage_success_cnt=$2;\
+          _homepage_delay=$3;\
+          _success_cnt=$4;\
+          _success_delay=$5;\
+          _speed=$6;\
+          _total_cnt=$7;\
+          _total_byte=$8;\
+          _total_delay=$9;\
+          _total_speed=(_total_delay==0?0:_total_byte*1000000/_total_delay);\
+          _homepage_success_rate=(_total_cnt==0?0:_homepage_success_cnt*100/_total_cnt);\
+          _homepage_delay=((_success_cnt==0)?0:_homepage_delay/_success_cnt);\
+          _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+          _success_delay=((_success_cnt==0)?0:_success_delay/_success_cnt);\
+         printf("%s,%.3f,%d,%.3f,%d,%.3f,%d,%.3f\n",_phone,_homepage_success_rate,_homepage_delay,_success_rate,\
+                 _success_delay,_speed,_total_cnt,_total_speed);}'\
+     >> $RESULT_FOLD/$FILE_NAME
+}
+function kqi_e2e_download_phone()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=1 -f ${AWK_FOLD}/cycle_kqi_e2e_download_common.awk"
+    fi  
+   echo $shellCmd|sh| awk  -v time=$_time -v id=$_id   -v value=$keyvalue \
+       '{ if($4<value){next }\
+          printf time","id",";\
+	 _phone=$1;\
+         _success_cnt=$2;\
+         _speed=$3;\
+         _total_cnt=$4;\
+          _total_byte=$5;\
+          _total_delay=$6;\
+          _total_speed=(_total_delay==0?0:_total_byte*1000000/_total_delay);\
+         _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+         printf("%s,%.3f,%.3f,%d,%.3f\n",_phone,_success_rate,_speed,_total_cnt,_total_speed);}'\
+     >> $RESULT_FOLD/$FILE_NAME
+}
+function kqi_e2e_im_phone()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_kqi_e2e_im_common.awk"
+     fi
+   echo $shellCmd|sh| awk  -v time=$_time -v id=$_id   -v value=$keyvalue \
+       '{ if($8<value){next }\
+         printf time","id",";\
+	 _phone=$1;\
+         _login_success_cnt=$2;\
+         _login_cnt=$3;\
+         _login_delay=$4;\
+         _offline_cnt=$5;\
+         _up_speed=$6;\
+         _down_speed=$7;\
+         _total_cnt=$8;\
+         _login_success_rate=(_login_cnt==0?0:_login_success_cnt*100/_login_cnt);\
+         _login_delay=((_login_cnt==0)?0:_login_delay/_login_cnt);\
+         _offline_rate=(_total_cnt==0?0:_offline_cnt*100/_total_cnt);\
+         printf("%s,%.3f,%d,%.3f,%.3f,%d\n",_phone,_login_success_rate,_login_delay,_offline_rate,_up_speed,_total_cnt);}'\
+     >> $RESULT_FOLD/$FILE_NAME
+}
+function kqi_e2e_video_phone()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_kqi_e2e_video_common.awk"
+    fi
+    echo $shellCmd|sh|awk  -v time=$_time -v id=$_id     -v value=$keyvalue \
+       '{ if($6<value){next }\
+         printf time","id",";\
+	 _phone=$1;\
+         _success_cnt=$2;\
+         _wait_delay_total=$3;\
+         _interrupt_cnt=$4;\
+         _speed=$5;\
+         _total_cnt=$6;\
+          _total_byte=$7;\
+          _total_delay=$8;\
+          _total_speed=(_total_delay==0?0:_total_byte*1000000/_total_delay);\
+         _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+         _wait_delay=(_success_cnt==0?0:_wait_delay_total/_success_cnt);\
+         _interrupt_rate=(_total_cnt==0?0:_interrupt_cnt*100/_total_cnt);\
+         printf("%s,%.3f,%d,%.3f,%.3f,%d,%.3f\n",_phone,_success_rate,_wait_delay,_interrupt_rate,_speed,_total_cnt,_total_speed);}'\
+     >> $RESULT_FOLD/$FILE_NAME
+}
+function kqi_e2e_browse_service_type()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=2 -f ${AWK_FOLD}/cycle_kqi_e2e_browse_common.awk"
+    fi
+   echo $shellCmd|sh|awk  -v time=$_time -v id=$_id  -v service_type_zidian=$SERVICE_TYPE_ZIDIAN  \
+	   'BEGIN{while((getline<service_type_zidian)>0){service_type[$2]=$3}}\
+       { printf time","id",";\
+	  _service_type_id=$2;\
+          _service_type=((service_type[$2]=="")?$2:service_type[$2]);\
+          _homepage_success_cnt=$3;\
+          _homepage_delay=$4;\
+          _success_cnt=$5;\
+          _success_delay=$6;\
+          _speed=$7;\
+          _total_cnt=$8;\
+          _total_byte=$9;\
+          _total_delay=$10;\
+          _total_speed=(_total_delay==0?0:_total_byte*1000000/_total_delay);\
+          _homepage_success_rate=(_total_cnt==0?0:_homepage_success_cnt*100/_total_cnt);\
+          _homepage_delay=((_success_cnt==0)?0:_homepage_delay/_success_cnt);\
+          _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+          _success_delay=((_success_cnt==0)?0:_success_delay/_success_cnt);\
+         printf("%s,%s,%.3f,%d,%.3f,%d,%.3f,%d,%.3f\n",_service_type_id,_service_type,_homepage_success_rate,\
+                 _homepage_delay,_success_rate,_success_delay,_speed,_total_cnt,_total_speed);}'\
+     >> $RESULT_FOLD/$FILE_NAME
+}
+
+function kqi_e2e_download_service_type()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=2  -f ${AWK_FOLD}/cycle_kqi_e2e_download_common.awk"
+    fi  
+   echo $shellCmd|sh|grep -E "S4038|S4030|S4010|S40D8|S4018|S4040|S4008|S4000|S4020|S4028" |\
+	 awk  -v time=$_time -v id=$_id  -v service_type_zidian=$SERVICE_TYPE_ZIDIAN  \
+       'BEGIN{while((getline<service_type_zidian)>0){service_type[$2]=$3}}\
+       { printf time","id",";\
+         _service_type_id=$2;\
+	 _service_type=((service_type[$2]=="")?$2:service_type[$2]);\
+         _success_cnt=$3;\
+         _speed=$4;\
+         _total_cnt=$5;\
+          _total_byte=$6;\
+          _total_delay=$7;\
+          _total_speed=(_total_delay==0?0:_total_byte*1000000/_total_delay);\
+         _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+         printf("%s,%s,%.3f,%.3f,%d,%.3f\n",_service_type_id,_service_type,_success_rate,_speed,_total_cnt,_total_speed);}'\
+     >> $RESULT_FOLD/$FILE_NAME
+
+}
+function kqi_e2e_im_service_type()
+{
+   local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk   -f ${AWK_FOLD}/cycle_kqi_e2e_im_common.awk"
+    fi  
+   echo $shellCmd|sh| awk  -v time=$_time -v id=$_id  -v service_type_zidian=$SERVICE_TYPE_ZIDIAN  \
+       'BEGIN{while((getline<service_type_zidian)>0){service_type[$2]=$3}}\
+       { printf time","id",";\
+         _service_type_id=$2;\
+	 _service_type=((service_type[_service_type_id]=="")?_service_type_id:service_type[_service_type_id]);\
+         _login_success_cnt=$3;\
+         _login_cnt=$4;\
+         _login_delay=$5;\
+         _offline_cnt=$6;\
+         _up_speed=$7;\
+         _down_speed=$8;\
+         _total_cnt=$9;\
+         _login_success_rate=(_login_cnt==0?0:_login_success_cnt*100/_login_cnt);\
+         _login_delay=((_login_cnt==0)?0:_login_delay/_login_cnt);\
+         _offline_rate=(_total_cnt==0?0:_offline_cnt*100/_total_cnt);\
+         printf("%s,%s,%.3f,%d,%.3f,%.3f,%d\n",_service_type_id,_service_type,_login_success_rate,\
+               _login_delay,_offline_rate,_up_speed,_total_cnt);}'\
+     >> $RESULT_FOLD/$FILE_NAME
+
+}
+function kqi_e2e_video_service_type()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk   -f ${AWK_FOLD}/cycle_kqi_e2e_video_common.awk"
+    fi  
+    echo $shellCmd|sh|awk  -v time=$_time -v id=$_id  -v service_type_zidian=$SERVICE_TYPE_ZIDIAN  \
+       'BEGIN{while((getline<service_type_zidian)>0){service_type[$2]=$3}}\
+       { printf time","id",";\
+         _service_type_id=$1;\
+         _service_type=((service_type[_service_type_id]=="")?_service_type_id:service_type[_service_type_id]);\
+         _success_cnt=$2;\
+         _wait_delay_total=$3;\
+         _interrupt_cnt=$4;\
+         _speed=$5;\
+         _total_cnt=$6;\
+          _total_byte=$7;\
+          _total_delay=$8;\
+          _total_speed=(_total_delay==0?0:_total_byte*1000000/_total_delay);\
+         _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+         _wait_delay=(_success_cnt==0?0:_wait_delay_total/_success_cnt);\
+         _interrupt_rate=(_total_cnt==0?0:_interrupt_cnt*100/_total_cnt);\
+         printf("%s,%s,%.3f,%d,%.3f,%.3f,%d,%.3f\n",_service_type_id,_service_type,_success_rate,\
+               _wait_delay,_interrupt_rate,_speed,_total_cnt,_total_speed);}'\
+     >> $RESULT_FOLD/$FILE_NAME
+}
+
+function kqi_e2e_browse_phone_service_type()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=2 -f ${AWK_FOLD}/cycle_cut_kqi_e2e_browse.awk"
+    fi  
+    echo $shellCmd|sh|awk  -v time=$_time -v id=$_id  -v service_type_zidian=$SERVICE_TYPE_ZIDIAN  \
+       'BEGIN{while((getline<service_type_zidian)>0){service_type[$2]=$3}}\
+       { printf time","id",";\
+	  _phone=$1;\
+          _service_type_id=$3;\
+          _service_type=((service_type[$3]=="")?$3:service_type[$3]);\
+          _homepage_success_cnt=$4;\
+          _homepage_delay=$5;\
+          _success_cnt=$6;\
+          _success_delay=$7;\
+          _speed=$8;\
+          _total_cnt=$9;\
+          _total_byte=$10;\
+          _total_delay=$11;\
+          _total_speed=(_total_delay==0?0:_total_byte*1000000/_total_delay);\
+          _homepage_success_rate=(_total_cnt==0?0:_homepage_success_cnt*100/_total_cnt);\
+          _homepage_delay=((_success_cnt==0)?0:_homepage_delay/_success_cnt);\
+          _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+          _success_delay=((_success_cnt==0)?0:_success_delay/_success_cnt);\
+         printf("%s,%s,%s,%.3f,%d,%.3f,%d,%.3f,%d,%.3f\n",_phone,_service_type_id,_service_type,_homepage_success_rate,\
+                 _homepage_delay,_success_rate,_success_delay,_speed,_total_cnt,_total_speed);}'\
+     >> $RESULT_FOLD/$FILE_NAME
+}
+
+function kqi_e2e_download_phone_service_type()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=2  -f ${AWK_FOLD}/cycle_cut_kqi_e2e_download.awk"
+    fi
+    echo $shellCmd|sh|grep -E "S4038|S4030|S4010|S40D8|S4018|S4040|S4008|S4000|S4020|S4028" |\
+	awk  -v time=$_time -v id=$_id  -v service_type_zidian=$SERVICE_TYPE_ZIDIAN  \
+       'BEGIN{while((getline<service_type_zidian)>0){service_type[$2]=$3}}\
+       { printf time","id",";\
+	 _phone=$1;\
+         _service_type_id=$3;\
+         _service_type=((service_type[$3]=="")?$3:service_type[$3]);\
+         _success_cnt=$4;\
+         _speed=$5;\
+         _total_cnt=$6;\
+         _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+          _total_byte=$7;\
+          _total_delay=$8;\
+          _total_speed=(_total_delay==0?0:_total_byte*1000000/_total_delay);\
+         printf("%s,%s,%s,%.3f,%.3f,%d,%.3f\n",_phone,_service_type_id,_service_type,_success_rate,_speed,_total_cnt,_total_speed);}'\
+     >> $RESULT_FOLD/$FILE_NAME
+
+
+}
+function kqi_e2e_im_phone_service_type()
+{
+   local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk   -f ${AWK_FOLD}/cycle_cut_kqi_e2e_im.awk"
+    fi
+   echo $shellCmd|sh| awk  -v time=$_time -v id=$_id  -v service_type_zidian=$SERVICE_TYPE_ZIDIAN  \
+       'BEGIN{while((getline<service_type_zidian)>0){service_type[$2]=$3}}\
+       { printf time","id",";\
+         _phone=$1;\
+         _service_type_id=$3;\
+         _service_type=((service_type[_service_type_id]=="")?_service_type_id:service_type[_service_type_id]);\
+         _login_success_cnt=$4;\
+         _login_cnt=$5;\
+         _login_delay=$6;\
+         _offline_cnt=$7;\
+         _up_speed=$8;\
+         _down_speed=$9;\
+         _total_cnt=$10;\
+         _login_success_rate=(_login_cnt==0?0:_login_success_cnt*100/_login_cnt);\
+         _login_delay=((_login_cnt==0)?0:_login_delay/_login_cnt);\
+         _offline_rate=(_total_cnt==0?0:_offline_cnt*100/_total_cnt);\
+         printf("%s,%s,%s,%.3f,%d,%.3f,%.3f,%d\n",_phone,_service_type_id,_service_type,_login_success_rate,\
+               _login_delay,_offline_rate,_up_speed,_total_cnt);}'\
+     >> $RESULT_FOLD/$FILE_NAME
+
+}
+function kqi_e2e_video_phone_service_type()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk   -f ${AWK_FOLD}/cycle_cut_kqi_e2e_video.awk"
+    fi
+    echo $shellCmd|sh|awk  -v time=$_time -v id=$_id  -v service_type_zidian=$SERVICE_TYPE_ZIDIAN  \
+       'BEGIN{while((getline<service_type_zidian)>0){service_type[$2]=$3}}\
+       { printf time","id",";\
+         _phone=$1;\
+         _service_type_id=$2;\
+         _service_type=((service_type[_service_type_id]=="")?_service_type_id:service_type[_service_type_id]);\
+         _success_cnt=$3;\
+         _wait_delay_total=$4;\
+         _interrupt_cnt=$5;\
+         _speed=$6;\
+         _total_cnt=$7;\
+          _total_byte=$8;\
+          _total_delay=$9;\
+          _total_speed=(_total_delay==0?0:_total_byte*1000000/_total_delay);\
+         _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+         _wait_delay=(_success_cnt==0?0:_wait_delay_total/_success_cnt);\
+         _interrupt_rate=(_total_cnt==0?0:_interrupt_cnt*100/_total_cnt);\
+         printf("%s,%s,%s,%.3f,%d,%.3f,%.3f,%d,%.3f\n",_phone,_service_type_id,_service_type,_success_rate,\
+               _wait_delay,_interrupt_rate,_speed,_total_cnt,_total_speed);}'\
+     >> $RESULT_FOLD/$FILE_NAME
+}
+
+function kqi_e2e_browse_terminal()
+{
+   kqi_e2e_browse_phone $@
+}
+
+function kqi_e2e_download_terminal()
+{
+   kqi_e2e_download_phone $@
+}
+function kqi_e2e_im_terminal()
+{
+   kqi_e2e_im_phone $@
+}
+function kqi_e2e_video_terminal()
+{
+   kqi_e2e_video_phone $@
+}
+function kqi_e2e_browse_loc()
+{
+   kqi_e2e_browse_phone $@
+}
+
+function kqi_e2e_download_loc()
+{
+   kqi_e2e_download_phone $@
+}
+function kqi_e2e_im_loc()
+{
+   kqi_e2e_im_phone $@
+}
+function kqi_e2e_video_loc()
+{
+   kqi_e2e_video_phone $@
+}
+function kqi_e2e_browse_serverip_service_type()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=2 -f ${AWK_FOLD}/cycle_cut_kqi_e2e_browse.awk"
+    fi
+   awk  -v time=$_time -v id=$_id  -v service_type_zidian=$SERVICE_TYPE_ZIDIAN  \
+                     -v zd_serverip=$SERVERIP_ZIDIAN \
+       'BEGIN{while((getline<service_type_zidian)>0){service_type[$2]=$3}}\
+function ip2num(ip){split(ip,ips,".");NUM=0;for(I=length(ips);I>=1;I--){NUM=ips[I]*256^(length(ips)-I)+NUM}return NUM }\
+function ipSearch(sips,eips,ipnum,low,high)\
+{\
+   if(low<=high){\
+      mid=int((low+high)/2);\
+      if((ipnum>=sips[mid])&&(ipnum<=eips[mid]))\
+      {return mid}else{if(ipnum<sips[mid]){return ipSearch(sips,eips,ipnum,low,mid-1)}\
+                           else{return ipSearch(sips,eips,ipnum,mid+1,high)}\
+      }\
+    }else{return -1}\
+}NR==FNR{i=i+1;sip[i]=ip2num($1);eip[i]=ip2num($2);city[i]=$3;operator[i]=$4}NR>FNR{p=ipSearch(sip,eip,ip2num($1),1,NR);if(p>0){\
+        _city=city[p];_operator=operator[p];}else{_city="unkonw";_operator="unknow"}\
+        printf time","id",";\
+                _serverip=$1;\
+          _service_type_id=$3;\
+          _service_type=((service_type[$3]=="")?$3:service_type[$3]);\
+          _homepage_success_cnt=$4;\
+          _homepage_delay=$5;\
+          _success_cnt=$6;\
+          _success_delay=$7;\
+          _speed=$8;\
+          _total_cnt=$9;\
+          _total_byte=$10;\
+          _total_delay=$11;\
+          _total_speed=(_total_delay==0?0:_total_byte*1000000/_total_delay);\
+          _homepage_success_rate=(_total_cnt==0?0:_homepage_success_cnt*100/_total_cnt);\
+          _homepage_delay=((_success_cnt==0)?0:_homepage_delay/_success_cnt);\
+          _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+          _success_delay=((_success_cnt==0)?0:_success_delay/_success_cnt);\
+         printf("%s,%s,%s,%s,%s,%.3f,%d,%.3f,%d,%.3f,%d,%.3f\n",_serverip,_city,_operator,_service_type_id,_service_type,_homepage_success_rate,\
+                 _homepage_delay,_success_rate,_success_delay,_speed,_total_cnt,_total_speed);}'\
+         <(cat $SERVERIP_ZIDIAN) <(echo $shellCmd|sh) \
+     >> $RESULT_FOLD/$FILE_NAME
+}
+
+function kqi_e2e_download_serverip_service_type()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=2  -f ${AWK_FOLD}/cycle_cut_kqi_e2e_download.awk"
+    fi
+	awk  -v time=$_time -v id=$_id  -v service_type_zidian=$SERVICE_TYPE_ZIDIAN  \
+	         -v zd_serverip=$SERVERIP_ZIDIAN \
+       'BEGIN{while((getline<service_type_zidian)>0){service_type[$2]=$3}}\
+function ip2num(ip){split(ip,ips,".");NUM=0;for(I=length(ips);I>=1;I--){NUM=ips[I]*256^(length(ips)-I)+NUM}return NUM }\
+function ipSearch(sips,eips,ipnum,low,high)\
+{\
+   if(low<=high){\
+      mid=int((low+high)/2);\
+      if((ipnum>=sips[mid])&&(ipnum<=eips[mid]))\
+      {return mid}else{if(ipnum<sips[mid]){return ipSearch(sips,eips,ipnum,low,mid-1)}\
+                           else{return ipSearch(sips,eips,ipnum,mid+1,high)}\
+      }\
+    }else{return -1}\
+}NR==FNR{i=i+1;sip[i]=ip2num($1);eip[i]=ip2num($2);city[i]=$3;operator[i]=$4}NR>FNR{p=ipSearch(sip,eip,ip2num($1),1,NR);if(p>0){\
+        _city=city[p];_operator=operator[p];}else{_city="unkonw";_operator="unknow"}\
+        printf time","id",";\
+	        _serverip=$1;\
+         _service_type_id=$3;\
+         _service_type=((service_type[$3]=="")?$3:service_type[$3]);\
+         _success_cnt=$4;\
+         _speed=$5;\
+         _total_cnt=$6;\
+         _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+          _total_byte=$7;\
+          _total_delay=$8;\
+          _total_speed=(_total_delay==0?0:_total_byte*1000000/_total_delay);\
+         printf("%s,%s,%s,%s,%s,%.3f,%.3f,%d,%.3f\n",_serverip,_city,_operator,_service_type_id,_service_type,_success_rate,_speed,_total_cnt,_total_speed);}'\
+       <(cat $SERVERIP_ZIDIAN) <(echo $shellCmd|sh|grep -E "S4038|S4030|S4010|S40D8|S4018|S4040|S4008|S4000|S4020|S4028" ) \
+     >> $RESULT_FOLD/$FILE_NAME
+}
+function kqi_e2e_im_serverip_service_type()
+{
+   local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk   -f ${AWK_FOLD}/cycle_cut_kqi_e2e_im.awk"
+    fi
+   awk  -v time=$_time -v id=$_id  -v service_type_zidian=$SERVICE_TYPE_ZIDIAN  \
+                  -v zd_serverip=$SERVERIP_ZIDIAN \
+       'BEGIN{while((getline<service_type_zidian)>0){service_type[$2]=$3}}\
+function ip2num(ip){split(ip,ips,".");NUM=0;for(I=length(ips);I>=1;I--){NUM=ips[I]*256^(length(ips)-I)+NUM}return NUM }\
+function ipSearch(sips,eips,ipnum,low,high)\
+{\
+   if(low<=high){\
+      mid=int((low+high)/2);\
+      if((ipnum>=sips[mid])&&(ipnum<=eips[mid]))\
+      {return mid}else{if(ipnum<sips[mid]){return ipSearch(sips,eips,ipnum,low,mid-1)}\
+                           else{return ipSearch(sips,eips,ipnum,mid+1,high)}\
+      }\
+    }else{return -1}\
+}NR==FNR{i=i+1;sip[i]=ip2num($1);eip[i]=ip2num($2);city[i]=$3;operator[i]=$4}NR>FNR{p=ipSearch(sip,eip,ip2num($1),1,NR);if(p>0){\
+        _city=city[p];_operator=operator[p];}else{_city="unkonw";_operator="unknow"}\
+        printf time","id",";\
+	        _serverip=$1;\
+         _service_type_id=$3;\
+         _service_type=((service_type[_service_type_id]=="")?_service_type_id:service_type[_service_type_id]);\
+         _login_success_cnt=$4;\
+         _login_cnt=$5;\
+         _login_delay=$6;\
+         _offline_cnt=$7;\
+         _up_speed=$8;\
+         _down_speed=$9;\
+         _total_cnt=$10;\
+         _login_success_rate=(_login_cnt==0?0:_login_success_cnt*100/_login_cnt);\
+         _login_delay=((_login_cnt==0)?0:_login_delay/_login_cnt);\
+         _offline_rate=(_total_cnt==0?0:_offline_cnt*100/_total_cnt);\
+         printf("%s,%s,%s,%s,%s,%.3f,%d,%.3f,%.3f,%d\n",_serverip,_city,_operator,_service_type_id,_service_type,_login_success_rate,\
+               _login_delay,_offline_rate,_up_speed,_total_cnt);}'\
+      <(cat $SERVERIP_ZIDIAN) <(echo $shellCmd|sh) \
+     >> $RESULT_FOLD/$FILE_NAME
+
+}
+
+function kqi_e2e_video_serverip_service_type()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk   -f ${AWK_FOLD}/cycle_cut_kqi_e2e_video.awk"
+    fi
+    awk  -v time=$_time -v id=$_id  -v service_type_zidian=$SERVICE_TYPE_ZIDIAN  \
+                   -v zd_serverip=$SERVERIP_ZIDIAN \
+       'BEGIN{while((getline<service_type_zidian)>0){service_type[$2]=$3}}\
+function ip2num(ip){split(ip,ips,".");NUM=0;for(I=length(ips);I>=1;I--){NUM=ips[I]*256^(length(ips)-I)+NUM}return NUM }\
+function ipSearch(sips,eips,ipnum,low,high)\
+{\
+   if(low<=high){\
+      mid=int((low+high)/2);\
+      if((ipnum>=sips[mid])&&(ipnum<=eips[mid]))\
+      {return mid}else{if(ipnum<sips[mid]){return ipSearch(sips,eips,ipnum,low,mid-1)}\
+                           else{return ipSearch(sips,eips,ipnum,mid+1,high)}\
+      }\
+    }else{return -1}\
+}NR==FNR{i=i+1;sip[i]=ip2num($1);eip[i]=ip2num($2);city[i]=$3;operator[i]=$4}NR>FNR{p=ipSearch(sip,eip,ip2num($1),1,NR);if(p>0){\
+        _city=city[p];_operator=operator[p];}else{_city="unkonw";_operator="unknow"}\
+        printf time","id",";\
+                _serverip=$1;\
+         _service_type_id=$3;\
+         _service_type=((service_type[_service_type_id]=="")?_service_type_id:service_type[_service_type_id]);\
+         _success_cnt=$4;\
+         _wait_delay_total=$5;\
+         _interrupt_cnt=$6;\
+         _speed=$7;\
+         _total_cnt=$8;\
+          _total_byte=$9;\
+          _total_delay=$10;\
+          _total_speed=(_total_delay==0?0:_total_byte*1000000/_total_delay);\
+         _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+         _wait_delay=(_success_cnt==0?0:_wait_delay_total/_success_cnt);\
+         _interrupt_rate=(_total_cnt==0?0:_interrupt_cnt*100/_total_cnt);\
+         printf("%s,%s,%s,%s,%s,%.3f,%d,%.3f,%.3f,%d,%.3f\n",_serverip,_city,_operator,_service_type_id,_service_type,_success_rate,\
+               _wait_delay,_interrupt_rate,_speed,_total_cnt,_total_speed);}'\
+       <(cat $SERVERIP_ZIDIAN) <(echo $shellCmd|sh) \
+     >> $RESULT_FOLD/$FILE_NAME
+}
+
+
+

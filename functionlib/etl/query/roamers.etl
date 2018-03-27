@@ -1,0 +1,117 @@
+function kpi_AttachType_network()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum3.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+        _RAT=$key_cnt;\
+        _Attach_cnt=$(key_cnt+1);\
+        _Attach_rej_cnt=$(key_cnt+2);\
+        _Attach_timeout_cnt=$(key_cnt+3);\
+        _Attach_rej_Rate=(_Attach_cnt+0==0?0:100*_Attach_rej_cnt/_Attach_cnt);\
+        _Attach_Ineffic_cnt=_Attach_timeout_cnt+_Attach_rej_cnt;\
+        _Attach_Ineffic_Rate=(_Attach_cnt+0==0?0:100*(_Attach_timeout_cnt+_Attach_rej_cnt)/_Attach_cnt);\
+       printf _time",";\
+       printf("%s,%d,%d,%d,%.4f,%d,%.4f\n",\
+        _RAT,_Attach_cnt,_Attach_rej_cnt,_Attach_timeout_cnt,_Attach_rej_Rate,_Attach_Ineffic_cnt,_Attach_Ineffic_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_AttachType_network_global()
+{
+  local _time=$1
+  local _key_cnt=0
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum3.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==1){_time=$1;}else{_time=time;}\
+        _Attach_cnt=$(key_cnt+1);\
+        _Attach_rej_cnt=$(key_cnt+2);\
+        _Attach_timeout_cnt=$(key_cnt+3);\
+        _Attach_rej_Rate=(_Attach_cnt+0==0?0:100*_Attach_rej_cnt/_Attach_cnt);\
+        _Attach_Ineffic_cnt=_Attach_timeout_cnt+_Attach_rej_cnt;\
+        _Attach_Ineffic_Rate=(_Attach_cnt+0==0?0:100*(_Attach_timeout_cnt+_Attach_rej_cnt)/_Attach_cnt);\
+       printf _time",";\
+       printf("%d,%d,%d,%.4f,%d,%.4f\n",\
+        _Attach_cnt,_Attach_rej_cnt,_Attach_timeout_cnt,_Attach_rej_Rate,_Attach_Ineffic_cnt,_Attach_Ineffic_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_RauType_network()
+{
+  local _time=$1
+  local _key_cnt=1
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum2.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==2){_time=$1;}else{_time=time;}\
+        _RAT=$key_cnt;\
+        _Rau_cnt=$(key_cnt+1);\
+        _Rau_rej_cnt=$(key_cnt+2);\
+        _Rau_rej_Rate=(_Rau_cnt+0==0?0:100*_Rau_rej_cnt/_Rau_cnt);\
+       printf _time",";\
+       printf("%s,%d,%d,%.4f\n",\
+        _RAT,_Rau_cnt,_Rau_rej_cnt,_Rau_rej_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}
+
+function kpi_RauType_network_global()
+{
+  local _time=$1
+  local _key_cnt=0
+  local shellCmd="$grepFile"
+  if [ "$muti" -eq 1 ];then
+    if [ "${detail}" -eq 1 ];then
+      _key_cnt=$((_key_cnt+1))
+    else
+      create_muti_file   "$shellCmd"
+    fi
+    shellCmd="cat $muti_tmp_file|awk  -v key_cnt=${_key_cnt} -f ${AWK_FOLD}/cycle_sum2.awk"
+  fi
+  echo $shellCmd|sh|\
+  awk  -v time=$_time -v timeValue=$_timeValue\
+    -v key_cnt=${_key_cnt}\
+    '{\
+       if(key_cnt==1){_time=$1;}else{_time=time;}\
+        _Rau_cnt=$(key_cnt+1);\
+        _Rau_rej_cnt=$(key_cnt+2);\
+        _Rau_rej_Rate=(_Rau_cnt+0==0?0:100*_Rau_rej_cnt/_Rau_cnt);\
+       printf _time",";\
+       printf("%d,%d,%.4f\n",\
+        _Rau_cnt,_Rau_rej_cnt,_Rau_rej_Rate);\
+    }'\
+  >>$RESULT_FOLD/$FILE_NAME
+}

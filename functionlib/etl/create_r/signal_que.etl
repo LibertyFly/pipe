@@ -1,0 +1,105 @@
+# Signal total
+function signal_que_total()
+{
+   _source_file="signal_que_terminal"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file="signal_que.awk"
+   _sort_cmd=""
+}
+
+# Signal for terminal
+
+function signal_que_terminal_up_delay_total()
+{
+   _source_file="signal_que_terminal"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN \
+              'BEGIN{while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$3}}\
+                {\$1=(terminal_to_fac_type[\$1]==\"\"?\$1:terminal_to_fac_type[\$1]);print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_signal_que_v1.awk"
+   _sort_cmd="sort -rn -k2" 
+
+
+}
+function signal_que_terminal_down_delay_total()
+{
+   _source_file="signal_que_terminal"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN \
+              'BEGIN{while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$3}}\
+                {\$1=(terminal_to_fac_type[\$1]==\"\"?\$1:terminal_to_fac_type[\$1]);print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_signal_que_v1.awk"
+   _sort_cmd="sort -rn -k3|head -n $top"
+}
+
+#  Signal for cgi.
+function signal_que_cgi_common()
+{
+   local sortId=$1
+   cat $source_file |sort -nr -k${sortId}
+}
+function signal_que_cgi_up_delay_total()
+{
+   _source_file="signal_que_loc"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k2"
+}
+function signal_que_cgi_down_delay_total()
+{
+   _source_file="signal_que_loc"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k3"
+}
+#  Signal for phone
+function signal_que_phone_up_delay_total()
+{
+   _source_file="signal_que_user"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file="cycle_signal_que_v1.awk"
+   _sort_cmd="sort -nr -k2"
+
+}
+function signal_que_phone_down_delay_total()
+{
+   _source_file="signal_que_user"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file="cycle_signal_que_v1.awk"
+   _sort_cmd="sort -nr -k3|head -n $top"
+
+
+}
+# Signal for ggsn_sgsn_user
+function signal_que_ggsn_sgsn_user_up_delay_total()
+{
+   _source_file="signal_que_ne1_ne2"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k3"
+}
+function signal_que_ggsn_sgsn_user_down_delay_total()
+{
+   _source_file="signal_que_ne1_ne2"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k4|head -n $top"
+}
+
+

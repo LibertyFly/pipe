@@ -1,0 +1,410 @@
+function kpi_AttachType_Cause_global()
+{
+  _source_file="Iran_AttachType_Cause_global"
+  _source_shell=""
+  _trans_awk="awk -v zd_mobilityCause=$MOBILITY_CAUSE_ZIDIAN -v zd_mobilityAttCause=$MOBILITY_ATTCAUSE_ZIDIAN \
+              'BEGIN{while((getline<zd_mobilityCause)>0){mobilityCause[\$1]=\$2;}\
+                    while((getline<zd_mobilityAttCause)>0){mobilityAttCause[\$1]=1;}}\
+               {causeValue=\$1;gsub(\"C\",\"\",causeValue);if((causeValue>=48)&&(causeValue<=63))\
+               {\$1=\"C48to63\";}if(mobilityAttCause[\$1]!=1){\$1=\"Cother\";}CauseList[\$1]=1;print \$0;}\
+               END{for(i in mobilityCause){if(CauseList[i]!=1){print i\" \"0}}}'"
+  _awk_v="-v key_cnt=1"
+  _awk_file="cycle_sum1.awk"
+  _sort_cmd=""
+}
+function kpi_AttachType_Cause_ne()
+{
+  _source_file="Iran_AttachType_Cause_ne"
+  _source_shell=""
+  _trans_awk="awk -v zd_mobilityCause=$MOBILITY_CAUSE_ZIDIAN -v zd_mobilityAttCause=$MOBILITY_ATTCAUSE_ZIDIAN \
+              'BEGIN{while((getline<zd_mobilityCause)>0){mobilityCause[\$1]=\$2;}\
+                    while((getline<zd_mobilityAttCause)>0){mobilityAttCause[\$1]=1;}}\
+               {causeValue=\$2;gsub(\"C\",\"\",causeValue);if((causeValue>=48)&&(causeValue<=63)){\$2=\"C48to63\";}\
+                if(mobilityAttCause[\$2]!=1){\$2=\"Cother\";}netList[\$1];CauseList[\$1\",\"\$2]=1;print \$0;}\
+              END{for(c in netList){\
+                 for(i in mobilityCause){\
+                    if(CauseList[c\",\"i]!=1){print c\" \"i\" \"0;}}}}'"
+  _awk_v="-v key_cnt=2"
+  _awk_file="cycle_sum1.awk"
+  _sort_cmd=""
+}
+function kpi_AttachType_Cause_rai()
+{
+  kpi_AttachType_Cause_ne
+  _source_file="Iran_AttachType_Cause_rai"
+}
+
+
+function kpi_AttachType_global()
+{
+  _source_file="Iran_AttachType_rai"
+  _source_shell=""
+  _trans_awk="awk '{\$1=\"\";print \$0}'"
+  _awk_v="-v key_cnt=0"
+  _awk_file="cycle_sum13.awk"
+  _sort_cmd=""
+}
+function kpi_AttachType_rai()
+{
+  _source_file="Iran_AttachType_rai"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+
+function kpi_AttachType_ne()
+{
+  _source_file="Iran_AttachType_ne"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+
+
+function kpi_AttachType_oldne_ne()
+{
+  _source_file="Iran_AttachType_oldne_ne"
+  _source_shell=""
+  _trans_awk="awk '{print \$1\" \"0\" \"\$3;print \$2\" \"\$3\" \"0}'"
+  _awk_v="-v key_cnt=1"
+  _awk_file="cycle_sum2.awk"
+  _sort_cmd=""
+}
+function kpi_AttachType_oldne_ne_global()
+{
+  _source_file="Iran_AttachType_oldne_ne"
+  _source_shell=""
+  _trans_awk="awk '{print \$3\" \"\$3;}'"
+  _awk_v="-v key_cnt=0"
+  _awk_file="cycle_sum2.awk"
+  _sort_cmd=""
+}
+function kpi_AttachType_oldrai_rai()
+{
+  _source_file="Iran_AttachType_oldrai_rai"
+  _source_shell=""
+  _trans_awk="awk '{print \$1\" \"0\" \"\$3;print \$2\" \"\$3\" \"0}'"
+  _awk_v="-v key_cnt=1"
+  _awk_file="cycle_sum2.awk"
+  _sort_cmd=""
+}
+
+function kpi_AttachType_RadioCause_ne()
+{
+  _source_file="Iran_AttachType_RadioCause_ne"
+  _source_shell=""
+  _trans_awk="awk -v zd_radioCause=$RADIO_CAUSE_ZIDIAN \
+              'BEGIN{while((getline<zd_radioCause)>0){radioCause[\$1]=\$2}}\
+               {if(radioCause[\$2]==\"\"){delete radioCause[\$2];\$2=\"C0\";}netList[\$1];CauseList[\$1\",\"\$2]=1;print \$0}\
+              END{for(c in netList){\
+                 for(i in radioCause){\
+                    if(CauseList[c\",\"i]!=1){print c\" \"i\" \"0;}}}}'"
+  _awk_v="-v key_cnt=2"
+  _awk_file="cycle_sum1.awk"
+  _sort_cmd=""
+}
+
+function kpi_AttachType_RadioCause_global()
+{
+  _source_file="Iran_AttachType_RadioCause_ne"
+  _source_shell=""
+  _trans_awk="awk -v zd_radioCause=$RADIO_CAUSE_ZIDIAN \
+              'BEGIN{while((getline<zd_radioCause)>0){radioCause[\$1]=\$2}}\
+               {\$1=\"\";if(radioCause[\$2]==\"\"){delete radioCause[\$2];\$2=\"C0\";}CauseList[\$2]=1;print \$0}\
+             END{for(i in radioCause){if(CauseList[i]!=1){print i\" \"0}}}'"
+  _awk_v="-v key_cnt=1"
+  _awk_file="cycle_sum1.awk"
+  _sort_cmd=""
+}
+function kpi_AttachType_RadioCause_rai()
+{
+  kpi_AttachType_RadioCause_ne
+  _source_file="Iran_AttachType_RadioCause_ne"
+  
+}
+
+function kpi_AuthType_global()
+{
+  _source_file="Iran_AuthType_rai"
+  _source_shell=""
+   _trans_awk="awk '{\$1=\"\";print \$0}'"
+  _awk_v="-v key_cnt=0"
+  _awk_file="cycle_sum10.awk"
+  _sort_cmd=""
+}
+
+function kpi_AuthType_rai()
+{
+  _source_file="Iran_AuthType_rai"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_AuthType_ne()
+{
+  _source_file="Iran_AuthType_ne"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+
+function kpi_DetachType_global()
+{
+  _source_file="Iran_DetachType_rai"
+  _source_shell=""
+   _trans_awk="awk '{\$1=\"\";print \$0}'"
+  _awk_v="-v key_cnt=0"
+  _awk_file="cycle_sum3.awk"
+  _sort_cmd=""
+}
+function kpi_DetachType_rai()
+{
+  _source_file="Iran_DetachType_rai"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_DetachType_ne()
+{
+  _source_file="Iran_DetachType_ne"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+
+function kpi_PerRauType_Cause_global()
+{
+  _source_file="Iran_PerRauType_Cause_global"
+  _source_shell=""
+  _trans_awk="awk -v zd_mobilityCause=$MOBILITY_CAUSE_ZIDIAN -v zd_mobilityRauCause=$MOBILITY_RAUCAUSE_ZIDIAN \
+              'BEGIN{while((getline<zd_mobilityCause)>0){mobilityCause[\$1]=\$2;}\
+                    while((getline<zd_mobilityRauCause)>0){mobilityRauCause[\$1]=1;}}\
+               {causeValue=\$1;gsub(\"C\",\"\",causeValue);if((causeValue>=48)&&(causeValue<=63))\
+               {\$1=\"C48to63\";}if(mobilityRauCause[\$1]!=1){\$1=\"Cother\";}CauseList[\$1]=1;print \$0;}\
+               END{for(i in mobilityCause){if(CauseList[i]!=1){print i\" \"0}}}'"
+  _awk_v="-v key_cnt=1"
+  _awk_file="cycle_sum1.awk"
+  _sort_cmd=""
+}
+function kpi_PerRauType_Cause_ne()
+{
+  _source_file="Iran_PerRauType_Cause_ne"
+  _source_shell=""
+  _trans_awk="awk -v zd_mobilityCause=$MOBILITY_CAUSE_ZIDIAN -v zd_mobilityRauCause=$MOBILITY_RAUCAUSE_ZIDIAN \
+              'BEGIN{while((getline<zd_mobilityCause)>0){mobilityCause[\$1]=\$2;}\
+                    while((getline<zd_mobilityRauCause)>0){mobilityRauCause[\$1]=1;}}\
+               {causeValue=\$2;gsub(\"C\",\"\",causeValue);if((causeValue>=48)&&(causeValue<=63))\
+               {\$2=\"C48to63\";}if(mobilityRauCause[\$1]!=1){\$2=\"Cother\";}netList[\$1];CauseList[\$1\",\"\$2]=1;print \$0;}\
+              END{for(c in netList){\
+                 for(i in mobilityCause){\
+                    if(CauseList[c\",\"i]!=1){print c\" \"i\" \"0;}}}}'"
+  _awk_v="-v key_cnt=2"
+  _awk_file="cycle_sum1.awk"
+  _sort_cmd=""
+}
+function kpi_PerRauType_Cause_rai()
+{
+    kpi_PerRauType_Cause_ne
+  _source_file="Iran_PerRauType_Cause_rai"
+}
+
+function kpi_PerRauType_global()
+{
+  _source_file="Iran_PerRauType_global"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_PerRauType_rai()
+{
+  _source_file="Iran_PerRauType_rai"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+
+function kpi_PerRauType_ne()
+{
+  _source_file="Iran_PerRauType_ne"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+
+function kpi_PerRauType_RadioCause_ne()
+{
+  _source_file="Iran_PerRauType_RadioCause_ne"
+  _source_shell=""
+  _trans_awk="awk -v zd_radioCause=$RADIO_CAUSE_ZIDIAN \
+              'BEGIN{while((getline<zd_radioCause)>0){radioCause[\$1]=\$2}}\
+               {if(radioCause[\$2]==\"\"){delete radioCause[\$2];\$2=\"C0\";}netList[\$1];CauseList[\$1\",\"\$2]=1;print \$0}\
+              END{for(c in netList){\
+                 for(i in radioCause){\
+                    if(CauseList[c\",\"i]!=1){print c\" \"i\" \"0;}}}}'"
+  _awk_v="-v key_cnt=2"
+  _awk_file="cycle_sum1.awk"
+  _sort_cmd=""
+}
+
+function kpi_PerRauType_RadioCause_rai()
+{
+  kpi_PerRauType_RadioCause_ne
+  _source_file="Iran_PerRauType_RadioCause_rai"
+}
+
+
+function kpi_PerRauType_RadioCause_global()
+{
+  _source_file="Iran_PerRauType_RadioCause_ne"
+  _source_shell=""
+  _trans_awk="awk -v zd_radioCause=$RADIO_CAUSE_ZIDIAN \
+              'BEGIN{while((getline<zd_radioCause)>0){radioCause[\$1]=\$2}}\
+               {\$1=\"\";if(radioCause[\$2]==\"\"){delete radioCause[\$2];\$2=\"C0\";}CauseList[\$2]=1;print \$0}\
+             END{for(i in radioCause){if(CauseList[i]!=1){print i\" \"0}}}'"
+  _awk_v="-v key_cnt=1"
+  _awk_file="cycle_sum1.awk"
+  _sort_cmd=""
+}
+
+function kpi_RauType_Cause_global()
+{
+  _source_file="Iran_RauType_Cause_global"
+  _source_shell=""
+  _trans_awk="awk -v zd_mobilityCause=$MOBILITY_CAUSE_ZIDIAN -v zd_mobilityRauCause=$MOBILITY_RAUCAUSE_ZIDIAN \
+              'BEGIN{while((getline<zd_mobilityCause)>0){mobilityCause[\$1]=\$2;}\
+                    while((getline<zd_mobilityRauCause)>0){mobilityRauCause[\$1]=1;}}\
+               {causeValue=\$1;gsub(\"C\",\"\",causeValue);if((causeValue>=48)&&(causeValue<=63))\
+               {\$1=\"C48to63\";}if(mobilityRauCause[\$1]!=1){\$1=\"Cother\";}CauseList[\$1]=1;print \$0;}\
+               END{for(i in mobilityCause){if(CauseList[i]!=1){print i\" \"0}}}'"
+  _awk_v="-v key_cnt=1"
+  _awk_file="cycle_sum1.awk"
+  _sort_cmd=""
+}
+function kpi_RauType_Cause_ne()
+{
+  _source_file="Iran_RauType_Cause_ne"
+  _source_shell=""
+  _trans_awk="awk -v zd_mobilityCause=$MOBILITY_CAUSE_ZIDIAN -v zd_mobilityRauCause=$MOBILITY_RAUCAUSE_ZIDIAN \
+              'BEGIN{while((getline<zd_mobilityCause)>0){mobilityCause[\$1]=\$2;}\
+                    while((getline<zd_mobilityRauCause)>0){mobilityRauCause[\$1]=1;}}\
+               {causeValue=\$2;gsub(\"C\",\"\",causeValue);if((causeValue>=48)&&(causeValue<=63))\
+               {\$2=\"C48to63\";}if(mobilityRauCause[\$2]!=1){\$2=\"Cother\";}netList[\$1];CauseList[\$1\",\"\$2]=1;print \$0;}\
+              END{for(c in netList){\
+                 for(i in  mobilityCause){\
+                    if(CauseList[c\",\"i]!=1){print c\" \"i\" \"0;}}}}'"
+  _awk_v="-v key_cnt=2"
+  _awk_file="cycle_sum1.awk"
+  _sort_cmd=""
+}
+function kpi_RauType_Cause_rai()
+{
+  kpi_RauType_Cause_ne
+  _source_file="Iran_RauType_Cause_rai"
+}
+function kpi_RauType_global()
+{
+  _source_file="Iran_RauType_global"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_RauType_rai()
+{
+  _source_file="Iran_RauType_rai"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+
+function kpi_RauType_ne()
+{
+  _source_file="Iran_RauType_ne"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+
+function kpi_RauType_RadioCause_ne()
+{
+  _source_file="Iran_RauType_RadioCause_ne"
+  _source_shell=""
+  _trans_awk="awk -v zd_radioCause=$RADIO_CAUSE_ZIDIAN \
+              'BEGIN{while((getline<zd_radioCause)>0){radioCause[\$1]=\$2}}\
+               {if(radioCause[\$2]==\"\"){delete radioCause[\$2];\$2=\"C0\";}netList[\$1];CauseList[\$1\",\"\$2]=1;print \$0}\
+              END{for(c in netList){\
+                 for(i in radioCause){\
+                    if(CauseList[c\",\"i]!=1){print c\" \"i\" \"0;}}}}'"
+  _awk_v="-v key_cnt=2"
+  _awk_file="cycle_sum1.awk"
+  _sort_cmd=""
+}
+
+function kpi_RauType_RadioCause_global()
+{
+  _source_file="Iran_RauType_RadioCause_ne"
+  _source_shell=""
+  _trans_awk="awk -v zd_radioCause=$RADIO_CAUSE_ZIDIAN \
+              'BEGIN{while((getline<zd_radioCause)>0){radioCause[\$1]=\$2}}\
+               {\$1=\"\";if(radioCause[\$2]==\"\"){delete radioCause[\$2];\$2=\"C0\";}CauseList[\$2]=1;print \$0}\
+             END{for(i in radioCause){if(CauseList[i]!=1){print i\" \"0}}}'"
+  _awk_v="-v key_cnt=1"
+  _awk_file="cycle_sum1.awk"
+  _sort_cmd=""
+}
+function kpi_RauType_RadioCause_rai()
+{
+  kpi_RauType_RadioCause_ne
+  _source_file="Iran_RauType_RadioCause_rai"
+}
+function kpi_RauType_system_global()
+{
+  _source_file="Iran_RauType_system_global"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+
+function kpi_RauType_system_rai()
+{
+  _source_file="Iran_RauType_system_rai"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_RauType_system_ne()
+{
+  _source_file="Iran_RauType_system_ne"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}

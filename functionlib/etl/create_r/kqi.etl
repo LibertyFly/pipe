@@ -1,0 +1,271 @@
+function kqi_e2e_browse_total()
+{
+   _source_file="kqi_e2e_browse_user_service_type"
+   _source_shell=""
+   _trans_awk="awk '{\$1=\"\";\$2=\"\";\$3=\"\";print \$0}'"
+   _awk_v="-v key_cnt=0"
+   _awk_file="cycle_kqi_e2e_browse_common.awk"
+   _sort_cmd=""
+}
+
+function kqi_e2e_download_total()
+{
+   _source_file="kqi_e2e_download_user_service_type"
+   _source_shell=""
+   _trans_awk="awk '{\$1=\"\";\$2=\"\";\$3=\"\";print \$0}'"
+   _awk_v="-v key_cnt=0"
+   _awk_file="cycle_kqi_e2e_download_common.awk"
+   _sort_cmd=""
+}
+function kqi_e2e_im_total()
+{
+   _source_file="kqi_e2e_im_user_service_type"
+   _source_shell=""
+   _trans_awk="awk '{\$1=\"\";\$2=\"\";\$3=\"\";print \$0}'"
+   _awk_v="-v key_cnt=0"
+   _awk_file="cycle_kqi_e2e_im_common.awk"
+   _sort_cmd=""
+}
+function kqi_e2e_video_total()
+{
+   _source_file="kqi_e2e_video_user_service_type"
+   _source_shell=""
+   _trans_awk="awk '{\$1=\"\";\$2=\"\";\$3=\"\";print \$0}'"
+   _awk_v="-v key_cnt=0"
+   _awk_file="cycle_kqi_e2e_video_common.awk"
+   _sort_cmd=""
+}
+
+function kqi_e2e_browse_phone()
+{
+   _source_file="kqi_e2e_browse_user_service_type"
+   _source_shell=""
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_kqi_e2e_browse_common.awk"
+   _sort_cmd=""
+}
+
+function kqi_e2e_download_phone()
+{
+   _source_file="kqi_e2e_download_user_service_type"
+   _source_shell=""
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_kqi_e2e_download_common.awk"
+   _sort_cmd=""
+}
+function kqi_e2e_im_phone()
+{
+   _source_file="kqi_e2e_im_user_service_type"
+   _source_shell=""
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_kqi_e2e_im_common.awk"
+   _sort_cmd=""
+}
+function kqi_e2e_video_phone()
+{
+   _source_file="kqi_e2e_video_user_service_type"
+   _source_shell=""
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_kqi_e2e_video_common.awk"
+   _sort_cmd=""
+}
+
+function kqi_e2e_browse_ne1_ne2()
+{
+   _source_file="kqi_e2e_browse_ne1_ne2"
+   _source_shell=""
+   _trans_awk="awk '{ne1=\$1;ne2=\$2;\$2=\"\";print \$0;\$1=ne2;print \$0;}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_kqi_e2e_browse_common.awk"
+   _sort_cmd=""
+}
+function kqi_e2e_browse_service_type()
+{
+   _source_file="kqi_e2e_browse_user_service_type"
+   _source_shell=""
+   _trans_awk="awk '{\$1=\"\";print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_kqi_e2e_browse_common.awk"
+   _sort_cmd=""
+}
+
+function kqi_e2e_download_service_type()
+{
+   _source_file="kqi_e2e_download_user_service_type"
+   _source_shell=""
+   _trans_awk="awk '{\$1=\"\";print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_kqi_e2e_download_common.awk"
+   _sort_cmd=""
+}
+function kqi_e2e_im_service_type()
+{
+   _source_file="kqi_e2e_im_user_service_type"
+   _source_shell=""
+   _trans_awk="awk '{\$1=\"\";print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_kqi_e2e_im_common.awk"
+   _sort_cmd=""
+}
+function kqi_e2e_video_service_type()
+{
+   _source_file="kqi_e2e_video_user_service_type"
+   _source_shell=""
+   _trans_awk="awk '{\$1=\"\";print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_kqi_e2e_video_common.awk"
+   _sort_cmd=""
+}
+
+function kqi_e2e_browse_phone_service_type()
+{
+   _source_file="kqi_e2e_browse_user_service_type"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}
+
+function kqi_e2e_download_phone_service_type()
+{
+   _source_file="kqi_e2e_download_user_service_type"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}
+function kqi_e2e_im_phone_service_type()
+{
+   _source_file="kqi_e2e_im_user_service_type"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}
+function kqi_e2e_video_phone_service_type()
+{
+   _source_file="kqi_e2e_video_user_service_type"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}
+function kqi_e2e_browse_terminal()
+{
+   _source_file="kqi_e2e_browse_terminal_service_type"
+   _source_shell=""
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_kqi_e2e_browse_common.awk"
+   _sort_cmd=""
+}
+
+function kqi_e2e_download_terminal()
+{
+   _source_file="kqi_e2e_download_terminal_service_type"
+   _source_shell=""
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_kqi_e2e_download_common.awk"
+   _sort_cmd=""
+}
+function kqi_e2e_im_terminal()
+{
+   _source_file="kqi_e2e_im_terminal_service_type"
+   _source_shell=""
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_kqi_e2e_im_common.awk"
+   _sort_cmd=""
+}
+function kqi_e2e_video_terminal()
+{
+   _source_file="kqi_e2e_video_terminal_service_type"
+   _source_shell=""
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_kqi_e2e_video_common.awk"
+   _sort_cmd=""
+}
+function kqi_e2e_browse_loc()
+{
+   _source_file="kqi_e2e_browse_loc_service_type"
+   _source_shell=""
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_kqi_e2e_browse_common.awk"
+   _sort_cmd=""
+}
+
+function kqi_e2e_download_loc()
+{
+   _source_file="kqi_e2e_download_loc_service_type"
+   _source_shell=""
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_kqi_e2e_download_common.awk"
+   _sort_cmd=""
+}
+function kqi_e2e_im_loc()
+{
+   _source_file="kqi_e2e_im_loc_service_type"
+   _source_shell=""
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_kqi_e2e_im_common.awk"
+   _sort_cmd=""
+}
+function kqi_e2e_video_loc()
+{
+   _source_file="kqi_e2e_video_loc_service_type"
+   _source_shell=""
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_kqi_e2e_video_common.awk"
+   _sort_cmd=""
+}
+function kqi_e2e_browse_serverip_service_type()
+{
+   _source_file="kqi_e2e_browse_serverip_service_type"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}
+
+function kqi_e2e_download_serverip_service_type()
+{
+   _source_file="kqi_e2e_download_serverip_service_type"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}
+function kqi_e2e_im_serverip_service_type()
+{
+   _source_file="kqi_e2e_im_serverip_service_type"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}
+function kqi_e2e_video_serverip_service_type()
+{
+   _source_file="kqi_e2e_video_serverip_service_type"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}

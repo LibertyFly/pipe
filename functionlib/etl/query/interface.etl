@@ -1,0 +1,3434 @@
+time_unit=1000000000
+flow_unit=$((1024*1024))
+delay_unit=1000000
+function GN_PROVINCE_CELL_WAP_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=3 -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v key_cnt=${_key_cnt} \
+           -v zd_cgi=$CGI_ZIDIAN \
+	   -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi)>0){cgi[$1]=$2}}\
+       { \
+                _lac=$1;\
+                _ci=$2;\
+		_cgi_id="460-0-"_lac"-"_ci ;\
+		_cgi=cgi[_cgi_id];\
+		_rat=$3;\
+		_total_cnt=$4;\
+		_success_cnt=$5;\
+		_total_delay=$6/_delay_unit;\
+		_success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+		_avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+		printf time",";\
+		printf("%s,%s,%s,%s,%d,%.6f,%.6f\n",_lac,_ci,_cgi,_rat,_total_cnt,_success_rate,_avg_delay);\
+	}'
+     rm -fr $muti_tmp_file
+  exit 
+}
+function GN_PROVINCE_LAC_WAP_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=1 -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+           -v zd_cgi_lac=$CGI_LAC_ZIDIAN \
+           -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi_lac)>0){cgi_lac[$1]=$2}}\
+       { \
+                _lac=$1;\
+		_cgi_lac=cgi_lac[_lac];\
+                _total_cnt=$2;\
+                _success_cnt=$3;\
+                _total_delay=$4/_delay_unit;\
+                _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                printf time",";\
+                printf("%s,%s,%d,%.6f,%.6f,%d,%.6f\n",_lac,_cgi_lac,_total_cnt,_success_rate,_avg_delay,\
+			_success_cnt,_total_delay);\
+        }'
+     rm -fr $muti_tmp_file
+  exit
+}
+
+function GN_PROVINCE_PROVINCE_WAP_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=1 -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+           -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _rat=$1;\
+                _total_cnt=$2;\
+                _success_cnt=$3;\
+                _total_delay=$4/_delay_unit;\
+                _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                printf time",";\
+                printf("%s,%d,%.6f,%.6f\n",_rat,_total_cnt,_success_rate,_avg_delay)\
+        }'
+     rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_CELL_HTTP_HO()
+{
+  GN_PROVINCE_CELL_WAP_HO $@
+}
+function GN_PROVINCE_LAC_HTTP_HO()
+{
+  GN_PROVINCE_LAC_WAP_HO $@
+}
+function GN_PROVINCE_PROVINCE_HTTP_HO()
+{
+  GN_PROVINCE_PROVINCE_WAP_HO $@
+}
+function GN_PROVINCE_CELL_CXMO_HO()
+{
+  GN_PROVINCE_CELL_WAP_HO $@
+}
+function GN_PROVINCE_LAC_CXMO_HO()
+{
+  GN_PROVINCE_LAC_WAP_HO $@
+}
+function GN_PROVINCE_PROVINCE_CXMO_HO()
+{
+  GN_PROVINCE_PROVINCE_WAP_HO $@
+}
+function GN_PROVINCE_CELL_CXMT_HO()
+{
+  GN_PROVINCE_CELL_WAP_HO $@
+}
+function GN_PROVINCE_LAC_CXMT_HO()
+{
+  GN_PROVINCE_LAC_WAP_HO $@
+}
+function GN_PROVINCE_PROVINCE_CXMT_HO()
+{
+  GN_PROVINCE_PROVINCE_WAP_HO $@
+}
+function GN_PROVINCE_CELL_CRT_PDP_HO()
+{
+  GN_PROVINCE_CELL_WAP_HO $@
+}
+function GN_PROVINCE_LAC_CRT_PDP_HO()
+{
+   GN_PROVINCE_LAC_WAP_HO $@
+}
+function GN_PROVINCE_PROVINCE_CRT_PDP_HO()
+{
+  GN_PROVINCE_PROVINCE_WAP_HO $@ 
+}
+function GN_PROVINCE_CELL_UPD_PDP_HO()
+{
+  GN_PROVINCE_CELL_WAP_HO $@
+}
+function GN_PROVINCE_LAC_UPD_PDP_HO()
+{
+  GN_PROVINCE_LAC_WAP_HO $@
+}
+function GN_PROVINCE_PROVINCE_UPD_PDP_HO()
+{
+  GN_PROVINCE_PROVINCE_WAP_HO $@
+}
+function GN_PROVINCE_CELL_WLLL_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum4.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_cgi=$CGI_ZIDIAN \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi)>0){cgi[$1]=$2}}\
+       { \
+                _lac=$1;\
+                _ci=$2;\
+                _cgi_id="460-0-"_lac"-"_ci ;\
+                _cgi=cgi[_cgi_id];\
+                _total_byte=$3/_flow_unit;\
+                _up_byte=$4/_flow_unit;\
+                _down_byte=$5/_flow_unit;\
+                _total_time=$6/_time_unit;\
+                _up_speed=(_total_time==0?0:_up_byte*8*1024/_total_time);\
+                _down_speed=(_total_time==0?0:_down_byte*8*1024/_total_time);\
+                printf time",";\
+                printf("%s,%s,%s,%.6f,%.6f,%.6f,%.6f,%.6f\n",_lac,_ci,_cgi,_total_byte,\
+                         _up_byte,_down_byte,_up_speed,_down_speed);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_LAC_WLLL_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum4.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+           -v zd_cgi_lac=$CGI_LAC_ZIDIAN \
+           -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi_lac)>0){cgi_lac[$1]=$2}}\
+       { \
+                _lac=$1;\
+		_cgi_lac=cgi_lac[_lac];\
+                _total_byte=$2/_flow_unit;\
+                _up_byte=$3/_flow_unit;\
+                _down_byte=$4/_flow_unit;\
+                _total_time=$5/_time_unit;\
+                _up_speed=(_total_time==0?0:_up_byte*8*1024/_total_time);\
+                _down_speed=(_total_time==0?0:_down_byte*8*1024/_total_time);\
+                printf time",";\
+                printf("%s,%s,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n",_lac,_cgi_lac,_total_byte,_up_byte,_down_byte,\
+                     _up_speed,_down_speed,_total_time);\
+        }'
+   rm -fr $muti_tmp_file
+   exit
+}
+function GN_PROVINCE_PROVINCE_WLLL_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum4.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+           -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+		_rat=$1;\
+                _total_byte=$2/_flow_unit;\
+                _up_byte=$3/_flow_unit;\
+                _down_byte=$4/_flow_unit;\
+                _total_time=$5/_time_unit;\
+                _up_speed=(_total_time==0?0:_up_byte*8*1024/_total_time);\
+                _down_speed=(_total_time==0?0:_down_byte*8*1024/_total_time);\
+                printf time",";\
+                printf("%s,%.6f,%.6f,%.6f,%.6f,%.6f\n",_rat,_total_byte,_up_byte,_down_byte,_up_speed,_down_speed);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_CELL_GROUP_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=4  -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi
+     echo $shellCmd|sh|awk -v key_cnt=4 -v rate_col=1 -f ${AWK_FOLD}/rate_sum2.awk|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_cgi=$CGI_ZIDIAN \
+          -v zd_service_group=$SERVICE_GROUP_ZIDIAN \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi)>0){cgi[$1]=$2}\
+         while((getline<zd_service_group)>0){service_group[$1]=$2}}\
+       { \
+                _lac=$1;\
+                _ci=$2;\
+                _cgi_id="460-0-"_lac"-"_ci ;\
+                _cgi=cgi[_cgi_id];\
+                _rat=$3;\
+                _service_group=service_group[$4];\
+                _bytes=$5/_flow_unit;\
+                _user_cnt=$6;\
+                _byte_rate=$7;\
+                printf time",";\
+                printf("%s,%s,%s,%s,%s,%.6f,%.6f,%d\n",_lac,_ci,_cgi,_rat,_service_group,_bytes,_byte_rate,_user_cnt);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_LAC_GROUP_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi
+    echo $shellCmd|sh|awk -v key_cnt=2 -v rate_col=1 -f ${AWK_FOLD}/rate_sum2.awk|\
+    awk  -v time="$_time" -v id=$_id \
+          -v zd_cgi_lac=$CGI_LAC_ZIDIAN \
+          -v zd_service_group=$SERVICE_GROUP_ZIDIAN \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi_lac)>0){cgi_lac[$1]=$2}\
+        while((getline<zd_service_group)>0){service_group[$1]=$2}}\
+       { \
+                _lac=$1;\
+		_cgi_lac=cgi_lac[_lac];\
+                _service_group=service_group[$2];\
+                _bytes=$3/_flow_unit;\
+                _user_cnt=$4;\
+                _byte_rate=$5;\
+                printf time",";\
+                printf("%s,%s,%s,%.6f,%.6f,%d\n",_lac,_cgi_lac,_service_group,_bytes,_byte_rate,_user_cnt);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_PROVINCE_GROUP_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi
+    echo $shellCmd|sh|awk -v key_cnt=2 -v rate_col=1 -f ${AWK_FOLD}/rate_sum2.awk|\
+     awk  -v time="$_time" -v id=$_id \
+	  -v zd_service_group=$SERVICE_GROUP_ZIDIAN \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_service_group)>0){service_group[$1]=$2}}\
+       { \
+                _rat=$1;\
+                _service_group=service_group[$2];\
+                _bytes=$3/_flow_unit;\
+                _user_cnt=$4;\
+                _byte_rate=$5;\
+                printf time",";\
+                printf("%s,%s,%.6f,%.6f,%d\n",_rat,_service_group,_bytes,_byte_rate,_user_cnt);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function GN_PROVINCE_CELL_LLXZ_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=4  -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi
+     echo $shellCmd|sh|awk -v key_cnt=4 -v rate_col=1 -f ${AWK_FOLD}/rate_sum2.awk|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_cgi=$CGI_ZIDIAN \
+	  -v zd_service_type=$SERVICE_TYPE_ZIDIAN \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi)>0){cgi[$1]=$2}\
+         while((getline<zd_service_type)>0){service_type[$2]=$3}}\
+       { \
+                _lac=$1;\
+                _ci=$2;\
+                _cgi_id="460-0-"_lac"-"_ci ;\
+                _cgi=cgi[_cgi_id];\
+                _rat=$3;\
+                _service_type=service_type[$4];\
+                _bytes=$5/_flow_unit;\
+                _user_cnt=$6;\
+                _byte_rate=$7;\
+                printf time",";\
+                printf("%s,%s,%s,%s,%s,%.6f,%.6f,%d\n",_lac,_ci,_cgi,_rat,_service_type,_bytes,_byte_rate,_user_cnt);\
+        }'
+    rm -fr $muti_tmp_file
+  exit
+
+}
+function GN_PROVINCE_LAC_LLXZ_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi
+    echo $shellCmd|sh|awk -v key_cnt=2 -v rate_col=1 -f ${AWK_FOLD}/rate_sum2.awk|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_cgi_lac=$CGI_LAC_ZIDIAN \
+          -v zd_service_type=$SERVICE_TYPE_ZIDIAN \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi_lac)>0){cgi_lac[$1]=$2}\
+        while((getline<zd_service_type)>0){service_type[$2]=$3}}\
+       { \
+                _lac=$1;\
+		_cgi_lac=cgi_lac[_lac];\
+                _service_type=service_type[$2];\
+                _bytes=$3/_flow_unit;\
+                _user_cnt=$4;\
+                _byte_rate=$5;\
+                printf time",";\
+                printf("%s,%s,%s,%.6f,%.6f,%d\n",_lac,_cgi_lac,_service_type,_bytes,_byte_rate,_user_cnt);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function GN_PROVINCE_PROVINCE_LLXZ_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi
+    echo $shellCmd|sh|awk -v key_cnt=2 -v rate_col=1 -f ${AWK_FOLD}/rate_sum2.awk|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_service_type=$SERVICE_TYPE_ZIDIAN \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_service_type)>0){service_type[$2]=$3}}\
+       { \
+                _rat=$1;\
+                _service_type=service_type[$2];\
+                _bytes=$3/_flow_unit;\
+                _user_cnt=$4;\
+                _byte_rate=$5;\
+                printf time",";\
+                printf("%s,%s,%.6f,%.6f,%d\n",_rat,_service_type,_bytes,_byte_rate,_user_cnt);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function GN_PROVINCE_CELL_P2PXZ_HO()
+{
+    GN_PROVINCE_CELL_LLXZ_HO $@
+}
+function GN_PROVINCE_LAC_P2PXZ_HO()
+{
+    GN_PROVINCE_LAC_LLXZ_HO $@
+}
+function GN_PROVINCE_PROVINCE_P2PXZ_HO()
+{
+    GN_PROVINCE_PROVINCE_LLXZ_HO $@
+}
+function GN_PROVINCE_CELL_JSTX_HO()
+{
+    GN_PROVINCE_CELL_LLXZ_HO $@
+}
+function GN_PROVINCE_LAC_JSTX_HO()
+{
+    GN_PROVINCE_LAC_LLXZ_HO $@
+}
+function GN_PROVINCE_PROVINCE_JSTX_HO()
+{
+    GN_PROVINCE_PROVINCE_LLXZ_HO $@
+}
+function GN_PROVINCE_CELL_SJYD_HO()
+{
+    GN_PROVINCE_CELL_LLXZ_HO $@
+}
+function GN_PROVINCE_LAC_SJYD_HO()
+{
+    GN_PROVINCE_LAC_LLXZ_HO $@
+}
+function GN_PROVINCE_PROVINCE_SJYD_HO()
+{
+    GN_PROVINCE_PROVINCE_LLXZ_HO $@
+}
+function GN_PROVINCE_CELL_WB_HO()
+{
+    GN_PROVINCE_CELL_LLXZ_HO $@
+}
+function GN_PROVINCE_LAC_WB_HO()
+{
+    GN_PROVINCE_LAC_LLXZ_HO $@
+}
+function GN_PROVINCE_PROVINCE_WB_HO()
+{
+    GN_PROVINCE_PROVINCE_LLXZ_HO $@
+}
+function GN_PROVINCE_CELL_SJSP_HO()
+{
+    GN_PROVINCE_CELL_LLXZ_HO $@
+}
+function GN_PROVINCE_LAC_SJSP_HO()
+{
+    GN_PROVINCE_LAC_LLXZ_HO $@
+}
+function GN_PROVINCE_PROVINCE_SJSP_HO()
+{
+    GN_PROVINCE_PROVINCE_LLXZ_HO $@
+}
+function GN_PROVINCE_CELL_SJP2PSP_HO()
+{
+    GN_PROVINCE_CELL_LLXZ_HO $@
+}
+function GN_PROVINCE_LAC_SJP2PSP_HO()
+{
+    GN_PROVINCE_LAC_LLXZ_HO $@
+}
+function GN_PROVINCE_PROVINCE_SJP2PSP_HO()
+{
+    GN_PROVINCE_PROVINCE_LLXZ_HO $@
+}
+function GN_PROVINCE_CELL_SJYY_HO()
+{
+    GN_PROVINCE_CELL_LLXZ_HO $@
+}
+function GN_PROVINCE_LAC_SJYY_HO()
+{
+    GN_PROVINCE_LAC_LLXZ_HO $@
+}
+function GN_PROVINCE_PROVINCE_SJYY_HO()
+{
+    GN_PROVINCE_PROVINCE_LLXZ_HO $@
+}
+function GN_PROVINCE_CELL_YYSD_HO()
+{
+    GN_PROVINCE_CELL_LLXZ_HO $@
+}
+function GN_PROVINCE_LAC_YYSD_HO()
+{
+    GN_PROVINCE_LAC_LLXZ_HO $@
+}
+function GN_PROVINCE_PROVINCE_YYSD_HO()
+{
+    GN_PROVINCE_PROVINCE_LLXZ_HO $@
+}
+function GN_PROVINCE_CELL_SJYXI_HO()
+{
+    GN_PROVINCE_CELL_LLXZ_HO $@
+}
+function GN_PROVINCE_LAC_SJYXI_HO()
+{
+    GN_PROVINCE_LAC_LLXZ_HO $@
+}
+function GN_PROVINCE_PROVINCE_SJYXI_HO()
+{
+    GN_PROVINCE_PROVINCE_LLXZ_HO $@
+}
+function GN_PROVINCE_CELL_SJYX_HO()
+{
+    GN_PROVINCE_CELL_LLXZ_HO $@
+}
+function GN_PROVINCE_LAC_SJYX_HO()
+{
+    GN_PROVINCE_LAC_LLXZ_HO $@
+}
+function GN_PROVINCE_PROVINCE_SJYX_HO()
+{
+    GN_PROVINCE_PROVINCE_LLXZ_HO $@
+}
+function GN_PROVINCE_CELL_CX_HO()
+{
+    local _time="`timeFormat.sh $1`" 
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=4  -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi   
+     echo $shellCmd|sh|awk -v key_cnt=4 -v rate_col=1 -f ${AWK_FOLD}/rate_sum2.awk|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_cgi=$CGI_ZIDIAN \
+          -v zd_service_detail=$SERVICE_DETAIL_ZIDIAN \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi)>0){cgi[$1]=$2}\
+         while((getline<zd_service_detail)>0){service_detail[$2]=$3}}\
+       { \
+                _lac=$1;\
+                _ci=$2;\
+                _cgi_id="460-0-"_lac"-"_ci ;\
+                _cgi=cgi[_cgi_id];\
+                _rat=$3;\
+                _service_detail=service_detail[$4];\
+                _bytes=$5/_flow_unit;\
+                _user_cnt=$6;\
+                _byte_rate=$7;\
+                printf time",";\
+                printf("%s,%s,%s,%s,%s,%.6f,%.6f,%d\n",_lac,_ci,_cgi,_rat,_service_detail,_bytes,_byte_rate,_user_cnt);\
+        }'
+    rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_LAC_CX_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi
+    echo $shellCmd|sh|awk -v key_cnt=2 -v rate_col=1 -f ${AWK_FOLD}/rate_sum2.awk|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_cgi_lac=$CGI_LAC_ZIDIAN \
+          -v zd_service_detail=$SERVICE_DETAIL_ZIDIAN \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi_lac)>0){cgi_lac[$1]=$2}\
+        while((getline<zd_service_detail)>0){service_detail[$2]=$3}}\
+       { \
+                _lac=$1;\
+                _cgi_lac=cgi_lac[_lac];\
+                _service_detail=service_detail[$2];\
+                _bytes=$3/_flow_unit;\
+                _user_cnt=$4;\
+                _byte_rate=$5;\
+                printf time",";\
+                printf("%s,%s,%s,%.6f,%.6f,%d\n",_lac,_cgi_lac,_service_detail,_bytes,_byte_rate,_user_cnt);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_PROVINCE_CX_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi
+    echo $shellCmd|sh|awk -v key_cnt=2 -v rate_col=1 -f ${AWK_FOLD}/rate_sum2.awk|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_service_detail=$SERVICE_DETAIL_ZIDIAN \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_service_detail)>0){service_detail[$2]=$3}}\
+       { \
+                _rat=$1;\
+                _service_detail=service_detail[$2];\
+                _bytes=$3/_flow_unit;\
+                _user_cnt=$4;\
+                _byte_rate=$5;\
+                printf time",";\
+                printf("%s,%s,%.6f,%.6f,%d\n",_rat,_service_detail,_bytes,_byte_rate,_user_cnt);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_CELL_VOIP_HO()
+{
+    GN_PROVINCE_CELL_LLXZ_HO $@
+}
+function GN_PROVINCE_LAC_VOIP_HO()
+{
+    GN_PROVINCE_LAC_LLXZ_HO $@
+}
+function GN_PROVINCE_PROVINCE_VOIP_HO()
+{
+    GN_PROVINCE_PROVINCE_LLXZ_HO $@
+}
+function GN_PROVINCE_CELL_YYSZY_HO()
+{
+    GN_PROVINCE_CELL_CX_HO $@
+}
+function GN_PROVINCE_LAC_YYSZY_HO()
+{
+    GN_PROVINCE_LAC_CX_HO $@
+}
+function GN_PROVINCE_PROVINCE_YYSZY_HO()
+{
+    GN_PROVINCE_PROVINCE_CX_HO $@
+}
+function GN_PROVINCE_CELL_SJ_HO()
+{
+    GN_PROVINCE_CELL_LLXZ_HO $@
+}
+function GN_PROVINCE_LAC_SJ_HO()
+{
+    GN_PROVINCE_LAC_LLXZ_HO $@
+}
+function GN_PROVINCE_PROVINCE_SJ_HO()
+{
+    GN_PROVINCE_PROVINCE_LLXZ_HO $@
+}
+function GN_PROVINCE_CELL_DZSW_HO()
+{
+    GN_PROVINCE_CELL_LLXZ_HO $@
+}
+function GN_PROVINCE_LAC_DZSW_HO()
+{
+    GN_PROVINCE_LAC_LLXZ_HO $@
+}
+function GN_PROVINCE_PROVINCE_DZSW_HO()
+{
+    GN_PROVINCE_PROVINCE_LLXZ_HO $@
+}
+function GN_PROVINCE_CELL_SS_HO()
+{
+    GN_PROVINCE_CELL_LLXZ_HO $@
+}
+function GN_PROVINCE_LAC_SS_HO()
+{
+    GN_PROVINCE_LAC_LLXZ_HO $@
+}
+function GN_PROVINCE_PROVINCE_SS_HO()
+{
+    GN_PROVINCE_PROVINCE_LLXZ_HO $@
+}
+function GN_PROVINCE_CELL_DH_HO()
+{
+    GN_PROVINCE_CELL_LLXZ_HO $@
+}
+function GN_PROVINCE_LAC_DH_HO()
+{
+    GN_PROVINCE_LAC_LLXZ_HO $@
+}
+function GN_PROVINCE_PROVINCE_DH_HO()
+{
+    GN_PROVINCE_PROVINCE_LLXZ_HO $@
+}
+
+function GN_PROVINCE_CELL_XLWB_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=3  -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_cgi=$CGI_ZIDIAN \
+          -v _delay_unit=$delay_unit  \
+        'BEGIN{while((getline<zd_cgi)>0){cgi[$1]=$2}}\
+       { \
+                _lac=$1;\
+                _ci=$2;\
+                _cgi_id="460-0-"_lac"-"_ci ;\
+                _cgi=cgi[_cgi_id];\
+                _rat=$3;\
+                _total_cnt=$4;\
+                _success_cnt=$5;\
+                _total_delay=$6/_delay_unit;\
+                _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                printf time",";\
+                printf("%s,%s,%s,%s,%.6f,%.6f,%d\n",_lac,_ci,_cgi,_rat,_success_rate,_avg_delay,_total_cnt);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function GN_PROVINCE_LAC_XLWB_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v key_cnt=${_key_cnt} \
+          -v zd_cgi_lac=$CGI_LAC_ZIDIAN \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi_lac)>0){cgi_lac[$1]=$2}}\
+       { \
+                _lac=$1;\
+		_cgi_lac=cgi_lac[_lac];\
+                _total_cnt=$2;\
+                _success_cnt=$3;\
+                _total_delay=$4/_delay_unit;\
+                _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                printf time",";\
+                printf("%s,%s,%.6f,%.6f,%d,%d,%.6f\n",_lac,_cgi_lac,_success_rate,_avg_delay,_total_cnt,\
+                        _success_cnt,_total_delay);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function GN_PROVINCE_PROVINCE_XLWB_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v key_cnt=${_key_cnt} \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _rat=$1;\
+                _total_cnt=$2;\
+                _success_cnt=$3;\
+                _total_delay=$4/_delay_unit;\
+                _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                printf time",";\
+                printf("%s,%.6f,%.6f,%d\n",_rat,_success_rate,_avg_delay,_total_cnt);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function GN_PROVINCE_CELL_TXWB_HO()
+{
+   GN_PROVINCE_CELL_XLWB_HO $@
+}
+function GN_PROVINCE_LAC_TXWB_HO()
+{
+  GN_PROVINCE_LAC_XLWB_HO $@
+}
+function GN_PROVINCE_PROVINCE_TXWB_HO()
+{
+  GN_PROVINCE_PROVINCE_XLWB_HO $@
+}
+function GN_PROVINCE_CELL_YDWB_HO()
+{
+   GN_PROVINCE_CELL_XLWB_HO $@
+}
+function GN_PROVINCE_LAC_YDWB_HO()
+{
+  GN_PROVINCE_LAC_XLWB_HO $@
+}
+function GN_PROVINCE_PROVINCE_YDWB_HO()
+{
+  GN_PROVINCE_PROVINCE_XLWB_HO $@
+}
+function GN_PROVINCE_CELL_WEIXIN_HO()
+{
+   GN_PROVINCE_CELL_XLWB_HO $@
+}
+function GN_PROVINCE_LAC_WEIXIN_HO()
+{
+  GN_PROVINCE_LAC_XLWB_HO $@
+}
+function GN_PROVINCE_PROVINCE_WEIXIN_HO()
+{
+  GN_PROVINCE_PROVINCE_XLWB_HO $@
+}
+function GN_PROVINCE_CELL_FEIXIN_HO()
+{
+   GN_PROVINCE_CELL_XLWB_HO $@
+}
+function GN_PROVINCE_LAC_FEIXIN_HO()
+{
+  GN_PROVINCE_LAC_XLWB_HO $@
+}
+function GN_PROVINCE_PROVINCE_FEIXIN_HO()
+{
+  GN_PROVINCE_PROVINCE_XLWB_HO $@
+}
+function GN_PROVINCE_CELL_FEILIAO_HO()
+{
+   GN_PROVINCE_CELL_XLWB_HO $@
+}
+function GN_PROVINCE_LAC_FEILIAO_HO()
+{
+  GN_PROVINCE_LAC_XLWB_HO $@
+}
+function GN_PROVINCE_PROVINCE_FEILIAO_HO()
+{
+  GN_PROVINCE_PROVINCE_XLWB_HO $@
+}
+function GN_PROVINCE_CELL_MM_HO()
+{
+   GN_PROVINCE_CELL_XLWB_HO $@
+}
+function GN_PROVINCE_LAC_MM_HO()
+{
+  GN_PROVINCE_LAC_XLWB_HO $@
+}
+function GN_PROVINCE_PROVINCE_MM_HO()
+{
+  GN_PROVINCE_PROVINCE_XLWB_HO $@
+}
+function GN_PROVINCE_CELL_QQMAIL_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=3  -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_cgi=$CGI_ZIDIAN \
+          -v _delay_unit=$delay_unit  \
+        'BEGIN{while((getline<zd_cgi)>0){cgi[$1]=$2}}\
+       { \
+                _lac=$1;\
+                _ci=$2;\
+                _cgi_id="460-0-"_lac"-"_ci ;\
+                _cgi=cgi[_cgi_id];\
+                _rat=$3;\
+                _total_cnt=$4;\
+                _success_cnt=$5;\
+                _total_delay=$6/_delay_unit;\
+                _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                printf time",";\
+                printf("%s,%s,%s,%s,%.6f,%.6f\n",_lac,_ci,_cgi,_rat,_success_rate,_avg_delay);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function GN_PROVINCE_LAC_QQMAIL_HO()
+{
+  GN_PROVINCE_LAC_XLWB_HO $@
+}
+function GN_PROVINCE_PROVINCE_QQMAIL_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v key_cnt=${_key_cnt} \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _rat=$1;\
+                _total_cnt=$2;\
+                _success_cnt=$3;\
+                _total_delay=$4/_delay_unit;\
+                _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                printf time",";\
+                printf("%s,%.6f,%.6f\n",_rat,_success_rate,_avg_delay);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function GN_PROVINCE_CELL_139MAIL_HO()
+{
+   GN_PROVINCE_CELL_QQMAIL_HO $@
+}
+function GN_PROVINCE_LAC_139MAIL_HO()
+{
+  GN_PROVINCE_LAC_XLWB_HO $@
+}
+function GN_PROVINCE_PROVINCE_139MAIL_HO()
+{
+  GN_PROVINCE_PROVINCE_QQMAIL_HO $@
+}
+function GN_PROVINCE_CELL_QQ_HO()
+{
+   GN_PROVINCE_CELL_QQMAIL_HO $@
+}
+function GN_PROVINCE_LAC_QQ_HO()
+{
+  GN_PROVINCE_LAC_XLWB_HO $@
+}
+function GN_PROVINCE_PROVINCE_QQ_HO()
+{
+  GN_PROVINCE_PROVINCE_QQMAIL_HO  $@
+}
+function GN_PROVINCE_PROVINCE_HOST50_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum1.awk"
+    fi
+     echo $shellCmd|sh|sort -nr -k2|head -n 50|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _host=$1;\
+		_byte=$2/_flow_unit;\
+                printf time",";\
+                printf("%s,%.6f\n",_host,_byte);\
+        }' 
+     rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_PROVINCE_HOSTUPFLOW50_HO()
+{
+     GN_PROVINCE_PROVINCE_HOST50_HO $@
+
+}
+function GN_PROVINCE_PROVINCE_HOSTDOWNFLOW50_HO()
+{
+    GN_PROVINCE_PROVINCE_HOST50_HO $@
+
+}
+function GN_PROVINCE_PROVINCE_HOSTHITS50_HO()
+{
+    local _time="`timeFormat.sh $1`" 
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum1.awk" 
+    fi   
+     echo $shellCmd|sh|sort -nr -k2|head -n 50|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _host=$1;\
+                _total_cnt=$2;\
+                printf time",";\
+                printf("%s,%d\n",_host,_total_cnt);\
+        }'  
+rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_PROVINCE_BRAND20_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum1.awk"
+    fi
+    echo $shellCmd|sh|awk -v key_cnt=1 -v rate_col=1 -f ${AWK_FOLD}/rate_sum1.awk|sort -nr -k2|head -n 20|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_terminal_fac=$TERMINAL_FAC_ZIDIAN  \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_terminal_fac)>0){terminal_fac[$1]=$2}}\
+       { \
+		_terminal_fac_id=$1;\
+		_terminal_fac=terminal_fac[_terminal_fac_id];\
+                _byte=$2/_flow_unit;\
+                _byte_rate=$3;\
+                printf time",";\
+                printf("%s,%.6f,%.6f\n",_terminal_fac,_byte,_byte_rate);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function GN_PROVINCE_PROVINCE_TMNL20_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum1.awk"
+    fi
+    echo $shellCmd|sh|awk -v key_cnt=2 -v rate_col=1 -f ${AWK_FOLD}/rate_sum1.awk|\
+	sort -nr -k3|head -n 20|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_terminal_fac=$TERMINAL_FAC_ZIDIAN  \
+          -v zd_terminal_type=$TERMINAL_TYPE_ZIDIAN  \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_terminal_fac)>0){terminal_fac[$1]=$2}\
+               while((getline<zd_terminal_type)>0){terminal_type[$2]=$3}}\
+       { \
+                _terminal_fac_id=$1;\
+                _terminal_fac=terminal_fac[_terminal_fac_id];\
+                _terminal_type_id=$2;\
+                _terminal_type=terminal_type[_terminal_type_id];\
+                _byte=$3/_flow_unit;\
+                _byte_rate=$4;\
+                printf time",";\
+                printf("%s,%s,%.6f,%.6f\n",_terminal_fac,_terminal_type,_byte,_byte_rate);\
+        }'   
+   rm -fr $muti_tmp_file
+  exit 
+
+}
+function GN_PROVINCE_PROVINCE_TMNLUPSPEED20_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum2.awk|\
+               awk '{speed=(\$4==0?0:\$3/\$4);print \$0\" \"speed}'"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_terminal_fac=$TERMINAL_FAC_ZIDIAN  \
+          -v zd_terminal_type=$TERMINAL_TYPE_ZIDIAN  \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_terminal_fac)>0){terminal_fac[$1]=$2}\
+               while((getline<zd_terminal_type)>0){terminal_type[$2]=$3}}\
+       { \
+                _terminal_fac_id=$1;\
+                _terminal_fac=terminal_fac[_terminal_fac_id];\
+                _terminal_type_id=$2;\
+                _terminal_type=terminal_type[_terminal_type_id];\
+		_up_byte=$3/_flow_unit;\
+		_total_time=$4/_time_unit;
+                _up_speed=(_total_time==0?0:_up_byte*8*1024/_total_time);\
+                printf time",";\
+                printf("%s,%s,%.6f,%.6f\n",_terminal_fac,_terminal_type,_up_speed,_up_byte);\
+        }'|sort -t, -nr -k3 |head -n 20 
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_PROVINCE_TMNLDOWNSPEED20_HO()
+{
+   GN_PROVINCE_PROVINCE_TMNLUPSPEED20_HO $@
+}
+function GN_PROVINCE_PROVINCE_BRANDUSER20_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum2.awk "
+    fi
+    echo $shellCmd|sh|sort -nr -k3|head -n 20|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_terminal_fac=$TERMINAL_FAC_ZIDIAN  \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_terminal_fac)>0){terminal_fac[$1]=$2}}\
+       { \
+
+                _terminal_fac_id=$1;\
+                _terminal_fac=terminal_fac[_terminal_fac_id];\
+		_user_cnt=$3;\
+                printf time",";\
+                printf("%s,%d\n",_terminal_fac,_user_cnt); \
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function GN_PROVINCE_PROVINCE_TMNLUSER20_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum1.awk "
+    fi
+    echo $shellCmd|sh|sort -nr -k3|head -n 20|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_terminal_fac=$TERMINAL_FAC_ZIDIAN  \
+          -v zd_terminal_type=$TERMINAL_TYPE_ZIDIAN  \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_terminal_fac)>0){terminal_fac[$1]=$2}\
+               while((getline<zd_terminal_type)>0){terminal_type[$2]=$3}}\
+       { \
+                _terminal_fac_id=$1;\
+                _terminal_fac=terminal_fac[_terminal_fac_id];\
+                _terminal_type_id=$2;\
+                _terminal_type=terminal_type[_terminal_type_id];\
+                _user_cnt=$3;\
+		printf time","; \
+                printf("%s,%s,%d\n",_terminal_fac,_terminal_type,_user_cnt); \
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_PROVINCE_LARGETFC20_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum1.awk "
+    fi
+    echo $shellCmd|sh|sort -nr -k2|head -n 20|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+		_msisdn=$1;\
+		_byte=$2/_flow_unit;\
+                printf time",";\
+                printf("%s,%.6f\n",_msisdn,_byte); \
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function GN_PROVINCE_PROVINCE_ABNORMALPDP20_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum1.awk "
+    fi
+    echo $shellCmd|sh|sort -nr -k2|head -n 20|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _msisdn=$1;\
+                _pdp_cnt=$2;\
+                printf time",";\
+                printf("%s,%d\n",_msisdn,_pdp_cnt); \
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_PROVINCE_LONGONLINE20_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum1.awk "
+    fi
+    echo $shellCmd|sh|sort -nr -k2|head -n 20|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _msisdn=$1;\
+                _online_time=$2/_time_unit;\
+                printf time",";\
+                printf("%s,%d\n",_msisdn,_online_time); \
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function GN_PROVINCE_PROVINCE_ABNORMALPORTSCAN20_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum1.awk "
+    fi
+    echo $shellCmd|sh|sort -nr -k2|head -n 20|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _msisdn=$1;\
+		_cnt=$2;\
+                printf time",";\
+                printf("%s,%d\n",_msisdn,_cnt); \
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function GN_PROVINCE_PROVINCE_SVCINCRE10_DA()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum2.awk "
+    fi
+    echo $shellCmd|sh|sort -nr -k3|head -n 10|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_service_type=$SERVICE_TYPE_ZIDIAN \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_service_type)>0){service_type[$2]=$3}}\
+       { \
+		_service_type=service_type[$1];\
+                _inc_byte=$3/_flow_unit;\
+                printf time",";\
+                printf("%s,%.6f\n",_service_type,_inc_byte); \
+        }'   
+   rm -fr $muti_tmp_file
+  exit 
+
+}
+function GN_PROVINCE_PROVINCE_SVCINCRERANGE10_DA()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum2.awk "
+    fi   
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_service_type=$SERVICE_TYPE_ZIDIAN \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_service_type)>0){service_type[$2]=$3}}\
+       { \
+                _service_type=service_type[$1];\
+		_inc_rate=($2==0?0:$3/$2);\
+                printf time",";\
+                printf("%s,%.6f\n",_service_type,_inc_rate); \
+        }'  |sort -t, -nr -k3|head -n 10 
+   rm -fr $muti_tmp_file
+  exit 
+
+}
+function GN_PROVINCE_PROVINCE_TMNLCLASS_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_terminal_class=$TERMINAL_CLASS_ZIDIAN \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_terminal_class)>0){terminal_class[$1]=$2}}\
+       { \
+		_terminal_class_id=$1;
+                _terminal_class=terminal_class[_terminal_class_id];\
+                _byte=$2/_flow_unit;\
+                _user_cnt=$3;\
+                printf time",";\
+                printf("%s,%.6f,%d\n",_terminal_class,_byte,_user_cnt);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function GN_PROVINCE_PROVINCE_SPECIALSVCUSER_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk   -v key_cnt=2 -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_service_type=$SERVICE_TYPE_ZIDIAN \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_service_type)>0){service_type[$2]=$3}}\
+	{\
+                _service_type_id=$2;\
+                _service_type=service_type[_service_type_id];\
+                _user_cnt=$4;\
+                printf time",";\
+		printf("%s,%d\n",_service_type,_user_cnt);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_SGSN_WAP_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi   
+    echo $shellCmd|sh|\
+    awk  -v time="$_time" -v id=$_id \
+          -v _delay_unit=$delay_unit  \
+        'BEGIN{}\
+       { \
+		_sgsn=($1=="no"?"":$1);\
+                _total_cnt=$2;\
+                _success_cnt=$3;\
+                _total_delay=$4/_delay_unit;\
+                _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                printf time",";\
+                printf("%s,%d,%.6f,%.6f\n",_sgsn,_total_cnt,_success_rate,_avg_delay); \
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_GGSN_WAP_HO()
+{
+  GN_PROVINCE_SGSN_WAP_HO $@
+}
+function GN_PROVINCE_SGSN_HTTP_HO()
+{
+  GN_PROVINCE_SGSN_WAP_HO $@
+}
+function GN_PROVINCE_GGSN_HTTP_HO()
+{
+  GN_PROVINCE_SGSN_WAP_HO $@
+}
+function GN_PROVINCE_SGSN_MMSMO_HO()
+{
+   GN_PROVINCE_SGSN_WAP_HO $@
+}
+function GN_PROVINCE_GGSN_MMSMO_HO()
+{
+   GN_PROVINCE_SGSN_WAP_HO $@
+}
+function GN_PROVINCE_SGSN_MMSMT_HO()
+{
+  GN_PROVINCE_SGSN_WAP_HO $@
+}
+function GN_PROVINCE_GGSN_MMSMT_HO()
+{
+   GN_PROVINCE_SGSN_WAP_HO $@ 
+}
+function GN_PROVINCE_PROVINCE_DNS_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=0  -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+    echo $shellCmd|sh|\
+    awk  -v time="$_time" -v id=$_id \
+          -v _delay_unit=$delay_unit  \
+        'BEGIN{}\
+       { \
+                _total_cnt=$1;\
+                _success_cnt=$2;\
+                _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                printf time",";\
+                printf("%d,%.6f\n",_total_cnt,_success_rate); \
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_SGSN_CRTPDP_HO()
+{
+   GN_PROVINCE_SGSN_WAP_HO $@
+}
+function GN_PROVINCE_GGSN_CRTPDP_HO()
+{
+   GN_PROVINCE_SGSN_WAP_HO $@
+}
+function GN_PROVINCE_SGSN_UPDPDP_HO()
+{
+  GN_PROVINCE_SGSN_WAP_HO $@
+}
+function GN_PROVINCE_GGSN_UPDPDP_HO()
+{
+  GN_PROVINCE_SGSN_WAP_HO $@
+}
+function GN_PROVINCE_SGSN_SVC_HO()
+{
+    local _time="`timeFormat.sh $1`" 
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum4.awk"
+    fi   
+     echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+		_sgsn=($1=="no"?"":$1);\
+                _total_byte=$2/_flow_unit;\
+                _up_byte=$3/_flow_unit;\
+                _down_byte=$4/_flow_unit;\
+                _total_time=$5/_time_unit;\
+                _up_speed=(_total_time==0?0:_up_byte*8*1024/_total_time);\
+                _down_speed=(_total_time==0?0:_down_byte*8*1024/_total_time);\
+                printf time",";\
+                printf("%s,%.6f,%.6f,%.6f,%.6f,%.6f\n",_sgsn,_total_byte,_up_byte,_down_byte,_up_speed,_down_speed);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_GGSN_SVC_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum4.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _sgsn=($1=="no"?"":$1);\
+                _total_byte=$2/_flow_unit;\
+                _up_byte=$3/_flow_unit;\
+                _down_byte=$4/_flow_unit;\
+                _total_time=$5/_time_unit;\
+                _up_speed=(_total_time==0?0:_up_byte*8*1024/_total_time);\
+                _down_speed=(_total_time==0?0:_down_byte*8*1024/_total_time);\
+                printf time",";\
+                printf("%s,%.6f,%.6f,%.6f,%.6f,%.6f\n",_sgsn,_total_byte,_up_byte,_down_byte,_up_speed,_down_speed);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_PROVINCE_HOSTTOTAL20_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum1.awk"
+    fi
+     echo $shellCmd|sh|sort -nr -k2|head -n 20|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _host=$1;\
+                _total_byte=$2/_flow_unit;\
+                printf time",";\
+                printf("%s,%.6f\n",_host,_total_byte);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_PROVINCE_HOSTUP20_HO()
+{
+  GN_PROVINCE_PROVINCE_HOSTTOTAL20_HO $@
+}
+function GN_PROVINCE_PROVINCE_HOSTDOWN20_HO()
+{
+  GN_PROVINCE_PROVINCE_HOSTTOTAL20_HO $@
+}
+function GN_PROVINCE_PROVINCE_HOSTSPEEDUP20_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _host=$1;\
+                _up_byte=$2/_flow_unit;\
+		_total_time=$3/_time_unit;\
+		_up_speed=(_total_time==0?0:_up_byte*8*1024/_total_time);
+                printf time",";\
+                printf("%s,%.6f\n",_host,_up_speed);\
+        }'|sort -t, -nr -k3|head -n 20
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_PROVINCE_HOSTSPEEDDOWN20_HO()
+{
+  GN_PROVINCE_PROVINCE_HOSTSPEEDUP20_HO $@
+}
+function GN_PROVINCE_PROVINCE_TMNLUP20_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum1.awk"
+    fi
+     echo $shellCmd|sh|sort -nr -k3|head -n 20|\
+     awk  -v time="$_time" -v id=$_id \
+	  -v zd_terminal_fac=$TERMINAL_FAC_ZIDIAN  \
+          -v zd_terminal_type=$TERMINAL_TYPE_ZIDIAN  \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_terminal_fac)>0){terminal_fac[$1]=$2}\
+               while((getline<zd_terminal_type)>0){terminal_type[$2]=$3}}\
+       { \
+                _terminal_fac_id=$1;\
+		 _terminal_fac=terminal_fac[_terminal_fac_id];\
+                _terminal_type_id=$2;\
+                _terminal_type=terminal_type[_terminal_type_id];\
+                _up_byte=$3/_flow_unit;\
+                printf time",";\
+                printf("%s,%s,%.6f\n",_terminal_fac,_terminal_type,_up_byte);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_PROVINCE_TMNLDOWN20_HO()
+{
+   GN_PROVINCE_PROVINCE_TMNLUP20_HO $@ 
+}
+function GN_PROVINCE_PROVINCE_OTHERSVC_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_service_type=$SERVICE_TYPE_ZIDIAN \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_service_type)>0){service_type[$2]=$3}}\
+       { \
+                _service_type=service_type[$1];\
+                _total_byte=$2/_flow_unit;\
+		_up_byte=$3/_flow_unit;\
+		_down_byte=$4/_flow_unit;\
+                printf time",";\
+                printf("%s,%.6f,%.6f,%.6f\n",_service_type,_total_byte,_up_byte,_down_byte);\
+        }'
+   rm -fr $muti_tmp_file
+  exit 
+}
+function GN_PROVINCE_PROVINCE_RAT_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum4.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _rat=$1;\
+                _total_byte=$2/_flow_unit;\
+                _up_byte=$3/_flow_unit;\
+                _down_byte=$4/_flow_unit;\
+                _total_time=$5/_time_unit;\
+                _up_speed=(_total_time==0?0:_up_byte*8*1024/_total_time);\
+                _down_speed=(_total_time==0?0:_down_byte*8*1024/_total_time);\
+                printf time",";\
+                printf("%s,%.6f,%.6f,%.6f,%.6f,%.6f\n",_rat,_total_byte,_up_byte,_down_byte,_up_speed,_down_speed);\
+        }'   
+   rm -fr $muti_tmp_file
+  exit 
+}
+function GN_PROVINCE_PROVINCE_SVCINTEROPERATOR_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum4.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+          -v zd_flow_split=$FLOW_SPLIT_ZIDIAN \
+        'BEGIN{while((getline<zd_flow_split)>0){flow_split[$1]=$2}}\
+       { \
+                _direct=flow_split[$1];\
+                _total_byte=$2/_flow_unit;\
+                _up_byte=$3/_flow_unit;\
+                _down_byte=$4/_flow_unit;\
+                _total_time=$5/_time_unit;\
+                _up_speed=(_total_time==0?0:_up_byte*8*1024/_total_time);\
+                _down_speed=(_total_time==0?0:_down_byte*8*1024/_total_time);\
+                printf time",";\
+                printf("%s,%.6f,%.6f,%.6f,%.6f,%.6f\n",_direct,_total_byte,_up_byte,_down_byte,_up_speed,_down_speed);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_PROVINCE_CMSVC_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_service_detail=$SERVICE_DETAIL_ZIDIAN \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_service_detail)>0){service_detail[$2]=$3}}\
+       { \
+                _service_detail=service_detail[$1];\
+                _total_byte=$2/_flow_unit;\
+                _up_byte=$3/_flow_unit;\
+                _down_byte=$4/_flow_unit;\
+                printf time",";\
+                printf("%s,%.6f,%.6f,%.6f\n",_service_detail,_total_byte,_up_byte,_down_byte);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_PROVINCE_PROVINCE_SPECIALSVC_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum4.awk"
+    fi
+    echo $shellCmd|sh|awk -v key_cnt=1 -v rate_col=1 -f ${AWK_FOLD}/rate_sum4.awk|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_service_detail=$SERVICE_DETAIL_ZIDIAN \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_service_detail)>0){service_detail[$2]=$3}}\
+       { \
+                _service_detail=service_detail[$1];\
+                _total_byte=$2/_flow_unit;\
+                _up_byte=$3/_flow_unit;\
+                _down_byte=$4/_flow_unit;\
+                _total_time=$5/_time_unit;\
+		_byte_rate=$6;\
+                _up_speed=(_total_time==0?0:_up_byte*8*1024/_total_time);\
+                _down_speed=(_total_time==0?0:_down_byte*8*1024/_total_time);\
+                printf time",";\
+                printf("%s,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n",_service_detail,_total_byte,_up_byte,_down_byte,\
+                        _up_speed,_down_speed,_byte_rate);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function CRT_PDP_LAC()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_cgi_lac=$CGI_LAC_ZIDIAN \
+          -v _delay_unit=$delay_unit  \
+        'BEGIN{while((getline<zd_cgi_lac)>0){cgi_lac[$1]=$2}}\
+       { \
+                _lac=$1;\
+		_cgi_lac=cgi_lac[_lac];\
+		_total_cnt=$2;\
+		_success_cnt=$3;\
+                _total_delay=$4/_delay_unit;\
+                _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                printf time",";\
+                printf("%s,%s,%d,%.6f,%.6f,%d,%.6f\n",_lac,_cgi_lac,_total_cnt,_success_rate,\
+                   _avg_delay,_success_cnt,_total_delay); \
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function CRT_PDP_GGSN()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=3  -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _delay_unit=$delay_unit  \
+        'BEGIN{}\
+       { \
+                _ggsn=($1=="no"?"":$1);\
+		_apn=$2;\
+		_rat=$3;\
+                _total_cnt=$4;\
+                _success_cnt=$5;\
+                _total_delay=$6/_delay_unit;\
+                _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                printf time",";\
+                printf("%s,%s,%s,%d,%.6f,%.6f,%d,%.6f\n",_ggsn,_apn,_rat,_total_cnt,_success_rate,\
+                  _avg_delay,_success_cnt,_total_delay); \
+        }'              
+   rm -fr $muti_tmp_file
+  exit 
+
+}
+function CRT_PDP_GD()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _delay_unit=$delay_unit  \
+        'BEGIN{}\
+       { \
+		_rat=$1;\
+                _total_cnt=$2;\
+                _success_cnt=$3;\
+                _total_delay=$4/_delay_unit;\
+                _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                printf time",";\
+                printf("%s,%d,%.6f,%.6f\n",_rat,_total_cnt,_success_rate, _avg_delay); \
+	}'
+   rm -fr $muti_tmp_file
+  exit
+}
+function UPD_PDP_LAC()
+{
+  CRT_PDP_LAC $@ 
+}
+function UPD_PDP_GGSN()
+{
+  CRT_PDP_GGSN $@
+}
+function UPD_PDP_GD()
+{
+   CRT_PDP_GD $@
+}
+function DNS_GD()
+{   
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi    
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _delay_unit=$delay_unit  \
+        'BEGIN{}\
+       { \
+		_rat=$1;\
+		_dns_ip=$2;\
+                _total_cnt=$3;\
+                _success_cnt=$4;\
+                _total_delay=$5/_delay_unit;\
+                _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                printf time",";\
+                printf("%s,%s,%d,%.6f,%.6f\n",_rat,_dns_ip,_total_cnt,_success_rate, _avg_delay); \
+       }'
+
+   rm -fr $muti_tmp_file
+  exit         
+}
+function HTTP_LAC()
+{
+   CRT_PDP_LAC $@
+}
+function HTTP_GGSN()
+{
+  CRT_PDP_GGSN $@
+}
+function HTTP_GD()
+{
+  CRT_PDP_GD $@
+}
+function DOWNLOADRATE_TD_500K_LAC()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_cgi_lac=$CGI_LAC_ZIDIAN \
+          -v _time_unit=$time_unit  -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi_lac)>0){cgi_lac[$1]=$2}}\
+       { \
+                _lac=$1;\
+		_cgi_lac=cgi_lac[_lac];\
+                _apn=$2;\
+                _total_byte=$3/_flow_unit;\
+                _total_time=$4/_time_unit;\
+                _avg_speed=(_total_time==0?0:_total_byte*8*1024/_total_time);\
+                printf time",";\
+                printf("%s,%s,%s,%.6f,%.6f,%.6f\n",_lac,_cgi_lac,_apn,_total_byte,_total_time,_avg_speed); \
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function DOWNLOADRATE_TD_500K_GGSN()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=2 -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _ggsn=($1=="no"?"":$1);\
+                _apn=$2;\
+                _total_byte=$3/_flow_unit;\
+                _total_time=$4/_time_unit;\
+                _avg_speed=(_total_time==0?0:(_total_byte*8*1024/_total_time));\
+                printf time",";\
+                printf("%s,%s,%.6f,%.6f,%.6f\n",_ggsn,_apn,_total_byte,_total_time,_avg_speed);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function DOWNLOADRATE_TD_500K_GD()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=0  -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_cgi=$CGI_ZIDIAN \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+		
+                _total_byte=$1/_flow_unit;\
+                _total_time=$2/_time_unit;\
+                _avg_speed=(_total_time==0?0:(_total_byte*8*1024/_total_time));\
+                printf time",";\
+                printf("%.6f,%.6f,%.6f\n",_total_byte,_total_time,_avg_speed);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function UPLOADRATE_TD_100K_LAC()
+{
+  DOWNLOADRATE_TD_500K_LAC $@
+}
+function UPLOADRATE_TD_100K_GGSN()
+{
+  DOWNLOADRATE_TD_500K_GGSN $@
+}
+function UPLOADRATE_TD_100K_GD()
+{
+  DOWNLOADRATE_TD_500K_GD $@
+}
+function DOWNLOADRATE_200K_LAC()
+{
+  DOWNLOADRATE_TD_500K_LAC $@
+}
+function DOWNLOADRATE_200K_GGSN()
+{
+  DOWNLOADRATE_TD_500K_GGSN $@
+}
+function DOWNLOADRATE_200K_GD()
+{
+  DOWNLOADRATE_TD_500K_GD $@
+}
+function UPLOADRATE_100K_LAC()
+{
+  DOWNLOADRATE_TD_500K_LAC $@
+}
+function UPLOADRATE_100K_GGSN()
+{
+  DOWNLOADRATE_TD_500K_GGSN $@
+}
+function UPLOADRATE_100K_GD()
+{
+  DOWNLOADRATE_TD_500K_GD $@
+}
+function TDDURATIONRATE_500kbps_LAC()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum4.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_cgi_lac=$CGI_LAC_ZIDIAN \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi_lac)>0){cgi_lac[$1]=$2}}\
+       { \
+                _lac=$1;\
+		_cgi_lac=cgi_lac[_lac];\
+                _tran_time=$2/_time_unit;\
+                _total_time=$3/_time_unit;\
+                _byte=$4/_flow_unit;\
+                _total_byte=$5/_flow_unit;\
+                _time_rate=(_total_time==0?0:_tran_time/_total_time);\
+                printf time",";\
+                printf("%s,%s,%.6f,%.6f,%.6f,%.6f,%.6f\n",_lac,_cgi_lac,_tran_time,_total_time,_byte,\
+                        _total_byte,_time_rate);\
+        }'   
+   rm -fr $muti_tmp_file
+  exit 
+
+}
+function TDDURATIONRATE_500kbps_GGSN()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum4.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _ggsn=($1=="no"?"":$1);\
+                _tran_time=$2/_time_unit;\
+                _total_time=$3/_time_unit;\
+		_byte=$4/_flow_unit;\
+		_total_byte=$5/_flow_unit;\
+                _time_rate=(_total_time==0?0:_tran_time/_total_time);\
+                printf time",";\
+                printf("%s,%.6f,%.6f,%.6f,%.6f,%.6f\n",_ggsn,_tran_time,_total_time,_byte,\
+                        _total_byte,_time_rate);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function TDDURATIONRATE_500kbps_GD()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=0  -f ${AWK_FOLD}/cycle_sum4.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _tran_time=$1/_time_unit;\
+                _total_time=$2/_time_unit;\
+                _byte=$3/_flow_unit;\
+                _total_byte=$4/_flow_unit;\
+                _time_rate=(_total_time==0?0:_tran_time/_total_time);\
+                printf time",";\
+                printf("%.6f,%.6f,%.6f,%.6f,%.6f\n",_tran_time,_total_time,_byte,\
+                        _total_byte,_time_rate);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function GP_DOWNLOADRATE_TD_500K_LAC()
+{
+    local _time="`timeFormat.sh $1`" 
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=2 -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi   
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_cgi_lac=$CGI_LAC_ZIDIAN \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi_lac)>0){cgi_lac[$1]=$2}}\
+       { \
+                _lac=$1;\
+		_cgi_lac=cgi_lac[_lac];\
+                _apn=$2;\
+                _total_byte=$3/_flow_unit;\
+                _total_time=$4/_time_unit;\
+                _avg_speed=(_total_time==0?0:(_total_byte*8*1024/_total_time));\
+                printf time",";\
+                printf("%s,%s,%s,%.6f,%.6f,%.6f\n",_lac,_cgi_lac,_apn,_total_byte,_total_time,_avg_speed);\
+        }'   
+   rm -fr $muti_tmp_file
+  exit 
+
+}
+function GP_DOWNLOADRATE_TD_500K_GGSN()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=2 -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _ggsn=($1=="no"?"":$1);\
+                _apn=$2;\
+                _total_byte=$3/_flow_unit;\
+                _total_time=$4/_time_unit;\
+                _avg_speed=(_total_time==0?0:(_total_byte*8*1024/_total_time));\
+                printf time",";\
+		printf("%s,%s,%.6f,%.6f,%.6f\n",_ggsn,_apn,_total_byte,_total_time,_avg_speed);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function GP_DOWNLOADRATE_TD_500K_GD()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=0 -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _total_byte=$1/_flow_unit;\
+                _total_time=$2/_time_unit;\
+                _avg_speed=(_total_time==0?0:(_total_byte*8*1024/_total_time));\
+                printf time",";\
+                printf("%.6f,%.6f,%.6f\n",_total_byte,_total_time,_avg_speed);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function SVC_CM_CITY()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum4.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+	 -v zd_cgi_city=$CGI_CITY_ZIDIAN -v zd_service_detail=$SERVICE_DETAIL_ZIDIAN \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi_city)>0){cgi_city[$1]=$2}\
+                while((getline<zd_service_detail)>0){service_detail[$2]=$3}}\
+       { \
+                _city_id=$1;\
+		_city=cgi_city[_city_id];\
+                _service_detail_id=$2;\
+		_service_detail=service_detail[_service_detail_id];\
+                _total_byte=$3/_flow_unit;\
+		_up_byte=$4/_flow_unit;\
+		_down_byte=$5/_flow_unit;\
+		_total_time=$6/_time_unit;\
+                _up_speed=(_total_time==0?0:_up_byte*8*1024/_total_time);\
+		_down_speed=(_total_time==0?0:_down_byte*8*1024/_total_time);\
+                printf time",";\
+                printf("%s,%s,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n",_city,_service_detail,_total_byte,_up_byte,_down_byte,\
+                        _total_time,_up_speed,_down_speed);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function SVC_CM_QUALITY_CITY()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+         -v zd_cgi_city=$CGI_CITY_ZIDIAN -v zd_service_detail=$SERVICE_DETAIL_ZIDIAN \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi_city)>0){cgi_city[$1]=$2}\
+                while((getline<zd_service_detail)>0){service_detail[$2]=$3}}\
+       { \
+                _city_id=$1;\
+		_city=cgi_city[_city_id];\
+                _service_detail_id=$2;\
+                _service_detail=service_detail[_service_detail_id];\
+                _total_cnt=$3;\
+                _success_cnt=$4;\
+                _total_delay=$5/_delay_unit;\
+		_delay_cnt=$3;\
+                _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                printf time",";\
+                printf("%s,%s,%d,%d,%.6f,%.6f,%.6f,%.6f\n",_city,_service_detail,_total_cnt,_success_cnt,_success_rate,\
+                        _total_delay,_delay_cnt,_avg_delay);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function MMS_MO_CITY()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+         -v zd_cgi_city=$CGI_CITY_ZIDIAN  \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi_city)>0){cgi_city[$1]=$2}}\
+       { \
+                _city_id=$1;\
+		_city=cgi_city[_city_id];\
+                _total_cnt=$2;\
+                _success_cnt=$3;\
+                _total_delay=$4/_delay_unit;\
+                _delay_cnt=$2;\
+                _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                printf time",";\
+                printf("%s,%d,%d,%.6f,%.6f,%.6f,%.6f\n",_city,_total_cnt,_success_cnt,_success_rate,\
+                        _total_delay,_delay_cnt,_avg_delay);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function MMS_MT_CITY()
+{
+   MMS_MO_CITY $@
+}
+function MPAPER_CITY()
+{
+     local _time="`timeFormat.sh $1`" 
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi   
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+         -v zd_cgi_city=$CGI_CITY_ZIDIAN  \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi_city)>0){cgi_city[$1]=$2}}\
+       { \  
+                _city_id=$1;\
+		_city=cgi_city[_city_id];\
+		_subject=$2;\
+                _total_cnt=$3;\
+                _success_cnt=$4;\
+                _total_delay=$5/_delay_unit;\
+                _delay_cnt=$6;\
+                _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                printf time",";\
+                printf("%s,%s,%d,%d,%.6f,%.6f,%d,%.6f\n",_city,_subject,_total_cnt,_success_cnt,_success_rate,\
+                        _total_delay,_delay_cnt,_avg_delay);\
+        }'
+   rm -fr $muti_tmp_file
+  exit 
+}
+function HOST_FLOW1000_PROVINCE()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+	 create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum7.awk"
+    fi
+    echo $shellCmd|sh|sort -nr -k2|head -n 1000|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _host=$1;\
+                _total_byte=$2/_flow_unit;\
+                _up_byte=$3/_flow_unit;\
+                _down_byte=$4/_flow_unit;\
+                _total_cnt=$5;\
+                _success_cnt=$6;\
+		 _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+		_total_delay=$7/_delay_unit;\
+		_delay_cnt=$5;\
+                _avg_delay=(_delay_cnt==0?0:_total_delay/_delay_cnt);\
+		_total_time=$8/_time_unit ;\
+		_avg_up_speed=(_total_time==0?0:_up_byte*8*1024/_total_time);\
+		_avg_down_speed=(_total_time==0?0:_down_byte*8*1024/_total_time);\
+                printf time",";\
+                printf("%s,%.6f,%.6f,%.6f,%d,%d,%.6f,%.6f,%d,%.6f,%.6f,%.6f,%.6f\n",_host,_total_byte,_up_byte,\
+			_down_byte,_total_cnt,_success_cnt,_success_rate,_total_delay,_delay_cnt,_avg_delay,\
+                        _total_time,_avg_up_speed,_avg_down_speed);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function HOST_HITS1000_PROVINCE()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum7.awk"
+    fi
+    echo $shellCmd|sh|sort -nr -k5|head -n 1000|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _host=$1;\
+                _total_byte=$2/_flow_unit;\
+                _up_byte=$3/_flow_unit;\
+                _down_byte=$4/_flow_unit;\
+                _total_cnt=$5;\
+                _success_cnt=$6;\
+                 _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                _total_delay=$7/_delay_unit;\
+                _delay_cnt=$5;\
+                _avg_delay=(_delay_cnt==0?0:_total_delay/_delay_cnt);\
+                _total_time=$8/_time_unit ;\
+                _avg_up_speed=(_total_time==0?0:_up_byte*8*1024/_total_time);\
+                _avg_down_speed=(_total_time==0?0:_down_byte*8*1024/_total_time);\
+                printf time",";\
+                printf("%s,%.6f,%.6f,%.6f,%d,%d,%.6f,%.6f,%d,%.6f,%.6f,%.6f,%.6f\n",_host,_total_byte,_up_byte,\
+                        _down_byte,_total_cnt,_success_cnt,_success_rate,_total_delay,_delay_cnt,_avg_delay,\
+                        _total_time,_avg_up_speed,_avg_down_speed);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function DOWNLOADRATE_CELL()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=3 -f ${AWK_FOLD}/cycle_sum36.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _lac=$1;\
+                _ci=$2;\
+                _apn=$3;\
+                _down_byte_10K=$5/_flow_unit;\
+		_down_time_10K=$7/_time_unit;\
+                _down_byte_30K=$9/_flow_unit;\
+		_down_time_30K=$11/_time_unit;\
+		_down_byte_60K=$13/_flow_unit;\
+		_down_time_60K=$15/_time_unit;\
+                _down_byte_100K=$17/_flow_unit;\
+                _down_time_100K=$19/_time_unit;\
+                _down_byte_200K=$21/_flow_unit;\
+                _down_time_200K=$23/_time_unit;\
+                _down_byte_300K=$25/_flow_unit;\
+                _down_time_300K=$27/_time_unit;\
+                _down_byte_400K=$29/_flow_unit;\
+                _down_time_400K=$31/_time_unit;\
+                _down_byte_500K=$33/_flow_unit;\
+                _down_time_500K=$35/_time_unit;\
+		_down_byte_gt500K=$37/_flow_unit;\
+                _down_time_gt500K=$39/_time_unit;\
+                printf time",";\
+                printf("%s,%s,%s,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n",\
+                _lac,_ci,_apn,\
+		_down_byte_10K,_down_time_10K,_down_byte_30K,_down_time_30K,_down_byte_60K,_down_time_60K,\
+                _down_byte_100K,_down_time_100K,_down_byte_200K,_down_time_200K,_down_byte_300K,_down_time_300K,\
+                _down_byte_400K,_down_time_400K,_down_byte_500K,_down_time_500K,_down_byte_gt500K,_down_time_gt500K);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function UPLOADRATE_CELL()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=3 -f ${AWK_FOLD}/cycle_sum36.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _lac=$1;\
+                _ci=$2;\
+                _apn=$3;\
+                _up_byte_10K=$4/_flow_unit;\
+                _up_time_10K=$6/_time_unit;\
+                _up_byte_30K=$8/_flow_unit;\
+                _up_time_30K=$10/_time_unit;\
+                _up_byte_60K=$12/_flow_unit;\
+                _up_time_60K=$14/_time_unit;\
+                _up_byte_100K=$16/_flow_unit;\
+                _up_time_100K=$18/_time_unit;\
+                _up_byte_200K=$20/_flow_unit;\
+                _up_time_200K=$22/_time_unit;\
+                _up_byte_300K=$24/_flow_unit;\
+                _up_time_300K=$26/_time_unit;\
+                _up_byte_400K=$28/_flow_unit;\
+                _up_time_400K=$30/_time_unit;\
+                _up_byte_500K=$32/_flow_unit;\
+                _up_time_500K=$34/_time_unit;\
+                _up_byte_gt500K=$36/_flow_unit;\
+                _up_time_gt500K=$38/_time_unit;\
+                printf time",";\
+                printf("%s,%s,%s,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n",\
+                 _lac,_ci,_apn,\
+                _up_byte_10K,_up_time_10K,_up_byte_30K,_up_time_30K,_up_byte_60K,_up_time_60K,\
+                _up_byte_100K,_up_time_100K,_up_byte_200K,_up_time_200K,_up_byte_300K,_up_time_300K,\
+                _up_byte_400K,_up_time_400K,_up_byte_500K,_up_time_500K,_up_byte_gt500K,_up_time_gt500K);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function DOWNLOADRATE_GGSN()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=3 -f ${AWK_FOLD}/cycle_sum36.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _ggsn=($1=="no"?"":$1);\
+                _apn=$2;\
+                _rat=$3;\
+                _down_byte_10K=$5/_flow_unit;\
+                _down_time_10K=$7/_time_unit;\
+                _down_byte_30K=$9/_flow_unit;\
+                _down_time_30K=$11/_time_unit;\
+                _down_byte_60K=$13/_flow_unit;\
+                _down_time_60K=$15/_time_unit;\
+                _down_byte_100K=$17/_flow_unit;\
+                _down_time_100K=$19/_time_unit;\
+                _down_byte_200K=$21/_flow_unit;\
+                _down_time_200K=$23/_time_unit;\
+                _down_byte_300K=$25/_flow_unit;\
+                _down_time_300K=$27/_time_unit;\
+                _down_byte_400K=$29/_flow_unit;\
+                _down_time_400K=$31/_time_unit;\
+                _down_byte_500K=$33/_flow_unit;\
+                _down_time_500K=$35/_time_unit;\
+                _down_byte_gt500K=$37/_flow_unit;\
+                _down_time_gt500K=$39/_time_unit;\
+                printf time",";\
+                printf("%s,%s,%s,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n",\
+                 _ggsn,_rat,_apn,\
+                _down_byte_10K,_down_time_10K,_down_byte_30K,_down_time_30K,_down_byte_60K,_down_time_60K,\
+                _down_byte_100K,_down_time_100K,_down_byte_200K,_down_time_200K,_down_byte_300K,_down_time_300K,\
+                _down_byte_400K,_down_time_400K,_down_byte_500K,_down_time_500K,_down_byte_gt500K,_down_time_gt500K);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function UPLOADRATE_GGSN()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=3 -f ${AWK_FOLD}/cycle_sum36.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _ggsn=($1=="no"?"":$1);\
+                _apn=$2;\
+                _rat=$3;\
+                _up_byte_10K=$4/_flow_unit;\
+                _up_time_10K=$6/_time_unit;\
+                _up_byte_30K=$8/_flow_unit;\
+                _up_time_30K=$10/_time_unit;\
+                _up_byte_60K=$12/_flow_unit;\
+                _up_time_60K=$14/_time_unit;\
+                _up_byte_100K=$16/_flow_unit;\
+                _up_time_100K=$18/_time_unit;\
+                _up_byte_200K=$20/_flow_unit;\
+                _up_time_200K=$22/_time_unit;\
+                _up_byte_300K=$24/_flow_unit;\
+                _up_time_300K=$26/_time_unit;\
+                _up_byte_400K=$28/_flow_unit;\
+                _up_time_400K=$30/_time_unit;\
+                _up_byte_500K=$32/_flow_unit;\
+                _up_time_500K=$34/_time_unit;\
+                _up_byte_gt500K=$36/_flow_unit;\
+                _up_time_gt500K=$38/_time_unit;\
+                printf time",";\
+                printf("%s,%s,%s,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n",\
+                 _ggsn,_rat,_apn,\
+                _up_byte_10K,_up_time_10K,_up_byte_30K,_up_time_30K,_up_byte_60K,_up_time_60K,\
+                _up_byte_100K,_up_time_100K,_up_byte_200K,_up_time_200K,_up_byte_300K,_up_time_300K,\
+                _up_byte_400K,_up_time_400K,_up_byte_500K,_up_time_500K,_up_byte_gt500K,_up_time_gt500K);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function HTTP_TDDURATIONRATE_500kbps_LAC()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk   -v key_cnt=1 -f ${AWK_FOLD}/cycle_sum4.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _lac=$1;\
+                _tran_time=$2/_time_unit;\
+                _total_time=$3/_time_unit;\
+                _byte=$4/_flow_unit;\
+                _total_byte=$5/_flow_unit;\
+                _time_rate=(_total_time==0?0:_tran_time/_total_time);
+                printf time",";\
+                printf("%s,%.6f,%.6f,%.6f,%.6f,%.6f\n",_lac,_tran_time,_total_time,_byte,\
+                        _total_byte,_time_rate);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function HTTP_TDDURATIONRATE_500kbps_GGSN()
+{
+  HTTP_TDDURATIONRATE_500kbps_LAC $@ 
+}
+function HTTP_TDDURATIONRATE_60kbps_LAC()
+{
+  HTTP_TDDURATIONRATE_500kbps_LAC $@
+}
+function HTTP_TDDURATIONRATE_60kbps_GGSN()
+{
+  HTTP_TDDURATIONRATE_500kbps_LAC $@
+}
+function TCP_GGSN()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=3  -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _ggsn=($1=="no"?"":$1);\
+                _apn=$2;\
+                _rat=$3;\
+                _total_cnt=$4;\
+                _success_cnt=$5;\
+                _total_delay=$6/_delay_unit;\
+                _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                printf time",";\
+                printf("%s,%s,%s,%d,%.6f,%.6f,%d,%.6f\n",_ggsn,_apn,_rat,_total_cnt,_success_rate,_avg_delay,\
+                        _success_cnt,_total_delay);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function TCP_LAC()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _lac=$1;\
+                _apn=$2;\
+                _total_cnt=$3;\
+                _success_cnt=$4;\
+                _total_delay=$5/_delay_unit;\
+                _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                printf time",";\
+                printf("%s,%s,%d,%.6f,%.6f,%d,%.6f\n",_lac,_apn,_total_cnt,_success_rate,_avg_delay,\
+                        _success_cnt,_total_delay);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function DNS_GGSN()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local _key_cnt=2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _ggsn=($1=="no"?"":$1);\
+                _rat=$2;\
+                _total_cnt=$3;\
+                _success_cnt=$4;\
+                _total_delay=$5/_delay_unit;\
+                _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                printf time",";\
+                printf("%s,%s,%d,%.6f,%.6f,%d,%.6f\n",_ggsn,_rat,_total_cnt,_success_rate,_avg_delay,\
+                        _success_cnt,_total_delay);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function DNS_LAC()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local _key_cnt=2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _lac=$1
+                _total_cnt=$2;\
+                _success_cnt=$3;\
+                _total_delay=$4/_delay_unit;\
+                _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                printf time",";\
+                printf("%s,%d,%.6f,%.6f,%d,%.6f\n",_lac,_total_cnt,_success_rate,_avg_delay,\
+                        _success_cnt,_total_delay);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function FLOW_LAC()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _lac=$1;\
+		_rat=$2;\
+                _total_byte=$3/_flow_unit;\
+                _up_byte=$4/_flow_unit;\
+                _down_byte=$5/_flow_unit;\
+                printf time",";\
+                printf("%s,%s,%.6f,%.6f,%.6f\n",_lac,_rat,_up_byte,_down_byte,_total_byte);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function FLOW_GGSN()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=3  -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi          
+     echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+                _ggsn=($1=="no"?"":$1);\
+		_apn=$2;\
+		_rat=$3;\
+                _up_byte=$4/_flow_unit;\
+                _down_byte=$5/_flow_unit;\
+		_total_byte=_up_byte+_down_byte;\
+                printf time",";\
+                printf("%s,%s,%s,%.6f,%.6f,%.6f\n",_ggsn,_apn,_rat,_up_byte,_down_byte,_total_byte);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function 234_DOWNLOADRATE_2G_100K_LAC()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=3  -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_service_type=$SERVICE_TYPE_ZIDIAN \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_service_type)>0){service_type[$2]=$3}}\
+       { \
+                _lac=$1;\
+                _apn=$2;\
+                _service_type_id=$3;\
+                _service_type=service_type[_service_type_id];\
+                _total_byte=$4/_flow_unit;\
+                _total_time=$5/_time_unit;\
+                _avg_speed=(_total_time==0?0:_total_byte*8*1024/_total_time);\
+                printf time",";\
+                printf("%s,%s,%s,%.6f,%.6f,%.6f\n",_service_type,_lac,_apn,\
+                      _total_byte,_total_time,_avg_speed);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function 234_DOWNLOADRATE_TD_500K_LAC()
+{
+  234_DOWNLOADRATE_2G_100K_LAC $@ 
+}
+function 234_TDDURATIONRATE_TD_500kbps_LAC()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum4.awk"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_service_type=$SERVICE_TYPE_ZIDIAN \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_service_type)>0){service_type[$2]=$3}}\
+       { \
+                _lac=$1;\
+                _service_type_id=$2;\
+                _service_type=service_type[_service_type_id];\
+		_byte=$3/_flow_unit;\
+                _total_byte=$4/_flow_unit;\
+		_tran_time=$5/_time_unit;\
+                _total_time=$6/_time_unit;\
+                _time_rate=(_total_time==0?0:_tran_time/_total_time);\
+                printf time",";\
+                printf("%s,%s,%.6f,%.6f,%.6f,%.6f,%.6f\n",_service_type,_lac,\
+                      _tran_time,_total_time,_byte,_total_byte,_time_rate);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function GN_AREA_CELL_WAP_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=4 -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v key_cnt=${_key_cnt} \
+           -v zd_cgi=$CGI_ZIDIAN \
+	   -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi)>0){cgi[$1]=$2}}\
+       { \
+                _area=$1;\
+                _lac=$2;\
+                _ci=$3;\
+		_cgi_id="460-0-"_lac"-"_ci ;\
+		_cgi=cgi[_cgi_id];\
+		_rat=$4;\
+		_total_cnt=$5;\
+		_success_cnt=$6;\
+		_total_delay=$7/_delay_unit;\
+		_success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+		_avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+		printf time",";\
+		printf("%s,%s,%s,%s,%s,%d,%.6f,%.6f\n",_area,_lac,_ci,_cgi,_rat,_total_cnt,_success_rate,_avg_delay);\
+	}'
+     rm -fr $muti_tmp_file
+  exit 
+}
+function GN_AREA_AREA_WAP_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -v key_cnt=2 -f ${AWK_FOLD}/cycle_sum3.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+           -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+		_area=$1;\
+                _rat=$2;\
+                _total_cnt=$3;\
+                _success_cnt=$4;\
+                _total_delay=$5/_delay_unit;\
+                _success_rate=(_total_cnt==0?0:_success_cnt/_total_cnt);\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                printf time",";\
+                printf("%s,%s,%d,%.6f,%.6f\n",_area,_rat,_total_cnt,_success_rate,_avg_delay)\
+        }'
+     rm -fr $muti_tmp_file
+  exit
+}
+function GN_AREA_CELL_HTTP_HO()
+{
+  GN_AREA_CELL_WAP_HO $@
+}
+
+function GN_AREA_AREA_HTTP_HO()
+{
+   GN_AREA_AREA_WAP_HO $@
+}
+function GN_AREA_CELL_CXMO_HO()
+{
+   GN_AREA_CELL_WAP_HO $@
+}
+function GN_AREA_AREA_CXMO_HO()
+{
+ GN_AREA_AREA_WAP_HO $@  
+}
+function GN_AREA_CELL_CXMT_HO()
+{
+  GN_AREA_CELL_WAP_HO $@
+}
+function GN_AREA_AREA_CXMT_HO()
+{
+  GN_AREA_AREA_WAP_HO $@
+}
+function GN_AREA_CELL_CRT-PDP_HO()
+{
+ GN_AREA_CELL_WAP_HO $@
+}
+function GN_AREA_AREA_CRT-PDP_HO()
+{
+ GN_AREA_AREA_WAP_HO $@
+}
+function GN_AREA_CELL_UPD-PDP_HO()
+{
+  GN_AREA_CELL_WAP_HO $@
+}
+function GN_AREA_AREA_UPD-PDP_HO()
+{
+  GN_AREA_AREA_WAP_HO $@
+}
+function GN_AREA_CELL_WLLL_HO()
+{
+      local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=3  -f ${AWK_FOLD}/cycle_sum4.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_cgi=$CGI_ZIDIAN \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi)>0){cgi[$1]=$2}}\
+       { \
+		_area=$1;\
+                _lac=$2;\
+                _ci=$3;\
+                _cgi_id="460-0-"_lac"-"_ci ;\
+                _cgi=cgi[_cgi_id];\
+                _total_byte=$4/_flow_unit;\
+                _up_byte=$5/_flow_unit;\
+                _down_byte=$6/_flow_unit;\
+                _total_time=$7/_time_unit;\
+                _up_speed=(_total_time==0?0:_up_byte*8*1024/_total_time);\
+                _down_speed=(_total_time==0?0:_down_byte*8*1024/_total_time);\
+                printf time",";\
+                printf("%s,%s,%s,%s,%.6f,%.6f,%.6f,%.6f,%.6f\n",_area,_lac,_ci,_cgi,_total_byte,\
+                         _up_byte,_down_byte,_up_speed,_down_speed);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_AREA_AREA_WLLL_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum4.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+           -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{}\
+       { \
+		 _area=$1;\
+		 _rat=$2;\
+                _total_byte=$3/_flow_unit;\
+                _up_byte=$4/_flow_unit;\
+                _down_byte=$5/_flow_unit;\
+                _total_time=$6/_time_unit;\
+                _up_speed=(_total_time==0?0:_up_byte*8*1024/_total_time);\
+                _down_speed=(_total_time==0?0:_down_byte*8*1024/_total_time);\
+                printf time",";\
+                printf("%s,%s,%.6f,%.6f,%.6f,%.6f,%.6f\n",_area,_rat,_total_byte,_up_byte,_down_byte,_up_speed,_down_speed);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_AREA_CELL_GROUP_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=5  -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi
+     echo $shellCmd|sh|awk -v key_cnt=5 -v rate_col=1 -f ${AWK_FOLD}/rate_sum2.awk|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_cgi=$CGI_ZIDIAN \
+          -v zd_service_group=$SERVICE_GROUP_ZIDIAN \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi)>0){cgi[$1]=$2}\
+         while((getline<zd_service_group)>0){service_group[$1]=$2}}\
+       { \
+		_area=$1;\
+                _lac=$2;\
+                _ci=$3;\
+                _cgi_id="460-0-"_lac"-"_ci ;\
+                _cgi=cgi[_cgi_id];\
+                _rat=$4;\
+                _service_group=service_group[$5];\
+                _bytes=$6/_flow_unit;\
+                _user_cnt=$7;\
+                _byte_rate=$8;\
+                printf time",";\
+                printf("%s,%s,%s,%s,%s,%s,%.6f,%.6f,%d\n",_area,_lac,_ci,_cgi,_rat,_service_group,_bytes,_byte_rate,_user_cnt);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_AREA_AREA_GROUP_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=3  -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi
+    echo $shellCmd|sh|awk -v key_cnt=3 -v rate_col=1 -f ${AWK_FOLD}/rate_sum2.awk|\
+     awk  -v time="$_time" -v id=$_id \
+	  -v zd_service_group=$SERVICE_GROUP_ZIDIAN \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_service_group)>0){service_group[$1]=$2}}\
+       { \
+		_area=$1;\
+                _rat=$2;\
+                _service_group=service_group[$3];\
+                _bytes=$4/_flow_unit;\
+                _user_cnt=$5;\
+                _byte_rate=$6;\
+                printf time",";\
+                printf("%s,%s,%s,%.6f,%.6f,%d\n",_area,_rat,_service_group,_bytes,_byte_rate,_user_cnt);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_AREA_CELL_LLXZ_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=5  -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi
+     echo $shellCmd|sh|awk -v key_cnt=5 -v rate_col=1 -f ${AWK_FOLD}/rate_sum2.awk|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_cgi=$CGI_ZIDIAN \
+	  -v zd_service_type=$SERVICE_TYPE_ZIDIAN \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi)>0){cgi[$1]=$2}\
+         while((getline<zd_service_type)>0){service_type[$2]=$3}}\
+       { \
+		_area=$1;\
+                _lac=$2;\
+                _ci=$3;\
+                _cgi_id="460-0-"_lac"-"_ci ;\
+                _cgi=cgi[_cgi_id];\
+                _rat=$4;\
+                _service_type=service_type[$5];\
+                _bytes=$6/_flow_unit;\
+                _user_cnt=$7;\
+                _byte_rate=$8;\
+                printf time",";\
+                printf("%s,%s,%s,%s,%s,%s,%.6f,%.6f,%d\n",_area,_lac,_ci,_cgi,_rat,_service_type,_bytes,_byte_rate,_user_cnt);\
+        }'
+    rm -fr $muti_tmp_file
+  exit
+}
+function GN_AREA_AREA_LLXZ_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=3  -f ${AWK_FOLD}/cycle_sum2.awk"
+    fi
+    echo $shellCmd|sh|awk -v key_cnt=3 -v rate_col=1 -f ${AWK_FOLD}/rate_sum2.awk|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_service_type=$SERVICE_TYPE_ZIDIAN \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_service_type)>0){service_type[$2]=$3}}\
+       { \
+		_area=$1;\
+                _rat=$2;\
+                _service_type=service_type[$3];\
+                _bytes=$4/_flow_unit;\
+                _user_cnt=$5;\
+                _byte_rate=$6;\
+                printf time",";\
+                printf("%s,%s,%s,%.6f,%.6f,%d\n",_area,_rat,_service_type,_bytes,_byte_rate,_user_cnt);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_AREA_CELL_P2PXZ_HO()
+{
+  GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_P2PXZ_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_JSTX_HO()
+{
+  GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_JSTX_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_SJYD_HO()
+{
+  GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_SJYD_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_WB_HO()
+{
+  GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_WB_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_SJSP_HO()
+{
+   GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_SJSP_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_SJP2PSP_HO()
+{
+   GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_SJP2PSP_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_SJYY_HO()
+{
+   GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_SJYY_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_YYSD_HO()
+{
+   GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_YYSD_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_SJYXI_HO()
+{
+  GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_SJYXI_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_SJYX_HO()
+{
+   GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_SJYX_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_CX_HO()
+{
+   GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_CX_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_VOIP_HO()
+{
+   GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_VOIP_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_YYSZY_HO()
+{
+   GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_YYSZY_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_SJ_HO()
+{
+   GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_SJ_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_DZSW_HO()
+{
+   GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_DZSW_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_SS_HO()
+{
+   GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_SS_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_DH_HO()
+{
+  GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_DH_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_XLWB_HO()
+{
+   GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_XLWB_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_TXWB_HO()
+{
+  GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_TXWB_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_YDWB_HO()
+{
+   GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_YDWB_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_WEIXIN_HO()
+{
+   GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_WEIXIN_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_FEIXIN_HO()
+{
+   GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_FEIXIN_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_FEILIAO_HO()
+{
+   GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_FEILIAO_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_MM_HO()
+{
+   GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_MM_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_QQMAIL_HO()
+{
+   GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_QQMAIL_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_139MAIL_HO()
+{
+   GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_139MAIL_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_QQ_HO()
+{
+   GN_AREA_CELL_LLXZ_HO $@
+}
+function GN_AREA_AREA_QQ_HO()
+{
+  GN_AREA_AREA_LLXZ_HO $@
+}
+function GN_AREA_CELL_USER_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=4  -f ${AWK_FOLD}/cycle_sum1.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_cgi=$CGI_ZIDIAN \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi)>0){cgi[$1]=$2}}\
+       { \
+	 	 _area=$1;\
+                _lac=$2;\
+                _ci=$3;\
+                _cgi_id="460-0-"_lac"-"_ci ;\
+                _cgi=cgi[_cgi_id];\
+                _rat=$4;\
+                _user_cnt=$5;\
+                printf time",";\
+                printf("%s,%s,%s,%s,%s,%d\n",_area,_lac,_ci,_cgi,_rat,_user_cnt);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_AREA_AREA_USER_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum1.awk"
+    fi   
+     echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_cgi=$CGI_ZIDIAN \
+          -v _delay_unit=$delay_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_cgi)>0){cgi[$1]=$2}}\
+       { \
+                _area=$1;\
+                _rat=$2;\
+                _user_cnt=$3;\
+                printf time",";\
+                printf("%s,%s,%d\n",_area,_rat,_user_cnt);\
+        }'   
+   rm -fr $muti_tmp_file
+  exit 
+}
+function GN_AREA_AREA_TMNL-TOTAL-BRAND-TOP20_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=2  -f ${AWK_FOLD}/cycle_sum1.awk"
+    fi
+    echo $shellCmd|sh|awk -v key_cnt=2 -v rate_col=1 -f ${AWK_FOLD}/rate_sum1.awk|sort -nr -k3|head -n 20|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_terminal_fac=$TERMINAL_FAC_ZIDIAN  \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_terminal_fac)>0){terminal_fac[$1]=$2}}\
+       { \
+		_area=$1;\
+		_terminal_fac_id=$2;\
+		_terminal_fac=terminal_fac[_terminal_fac_id];\
+                _byte=$3/_flow_unit;\
+                _byte_rate=$4;\
+                printf time",";\
+                printf("%s,%s,%.6f,%.6f\n",_area,_terminal_fac,_byte,_byte_rate);\
+        }'
+   rm -fr $muti_tmp_file
+  exit
+
+}
+function GN_AREA_AREA_TMNL-TOTAL-TOP20_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=3  -f ${AWK_FOLD}/cycle_sum1.awk"
+    fi
+    echo $shellCmd|sh|awk -v key_cnt=3 -v rate_col=1 -f ${AWK_FOLD}/rate_sum1.awk|\
+	sort -nr -k4|head -n 20|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_terminal_fac=$TERMINAL_FAC_ZIDIAN  \
+          -v zd_terminal_type=$TERMINAL_TYPE_ZIDIAN  \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_terminal_fac)>0){terminal_fac[$1]=$2}\
+               while((getline<zd_terminal_type)>0){terminal_type[$2]=$3}}\
+       { \
+				_area=$1;\
+                _terminal_fac_id=$2;\
+                _terminal_fac=terminal_fac[_terminal_fac_id];\
+                _terminal_type_id=$3;\
+                _terminal_type=terminal_type[_terminal_type_id];\
+                _byte=$4/_flow_unit;\
+                _byte_rate=$5;\
+                printf time",";\
+                printf("%s,%s,%.6f,%.6f\n",_terminal_fac,_terminal_type,_byte,_byte_rate);\
+        }'   
+   rm -fr $muti_tmp_file
+  exit 
+}
+function GN_AREA_AREA_TMNL-SPEED-U-TOP20_HO()
+{
+    local _time="`timeFormat.sh $1`"
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=3  -f ${AWK_FOLD}/cycle_sum2.awk|\
+               awk '{speed=(\$5==0?0:\$4/\$5);print \$0\" \"speed}'"
+    fi
+    echo $shellCmd|sh|\
+     awk  -v time="$_time" -v id=$_id \
+          -v zd_terminal_fac=$TERMINAL_FAC_ZIDIAN  \
+          -v zd_terminal_type=$TERMINAL_TYPE_ZIDIAN  \
+          -v _time_unit=$time_unit -v _flow_unit=$flow_unit \
+        'BEGIN{while((getline<zd_terminal_fac)>0){terminal_fac[$1]=$2}\
+               while((getline<zd_terminal_type)>0){terminal_type[$2]=$3}}\
+       { \
+		_area=$1;\
+                _terminal_fac_id=$2;\
+                _terminal_fac=terminal_fac[_terminal_fac_id];\
+                _terminal_type_id=$3;\
+                _terminal_type=terminal_type[_terminal_type_id];\
+		        _up_byte=$4/_flow_unit;\
+		        _total_time=$5/_time_unit;
+                _up_speed=(_total_time==0?0:_up_byte*8*1024/_total_time);\
+                printf time",";\
+                printf("%s,%s,%s,%.6f\n",_area,_terminal_fac,_terminal_type,_up_speed);\
+        }'|sort -t, -nr -k4 |head -n 20 
+   rm -fr $muti_tmp_file
+  exit
+}
+function GN_AREA_AREA_TMNL-SPEED-D-TOP20_HO()
+{
+  GN_AREA_AREA_TMNL-SPEED-U-TOP20_HO $@
+}
+

@@ -1,0 +1,124 @@
+function kqi_cut_common()
+{
+  kqi_type=$1
+  now=$(date  +%s);
+  local tmp_file=/tmp/${now}_$$.tmp
+  local tmp_file1=/tmp/${now}_$$_1.tmp
+   set_count_size
+   awk -v count=$count_size  -v tmpfile=$tmp_file  -f ${AWK_FOLD}/cycle_cut_${kqi_type}.awk \
+           $source_file  > $RESULT_FOLD/$FILE_NAME
+   while [ -s $tmp_file ];do
+    mv $tmp_file $tmp_file1
+    awk -v count=$count_size  -v tmpfile=$tmp_file  -f ${AWK_FOLD}/cycle_cut_v${kqi_type}.awk \
+      $tmp_file1  >> $RESULT_FOLD/$FILE_NAME
+   done
+   rm -fr $tmp_file
+   rm -fr $tmp_file1
+}
+
+function kqi_e2e_browse_user_service_type()
+{
+  _key_cnt=0
+  _is_cut=1
+  _awk_file=cycle_cut_kqi_e2e_browse.awk
+}
+function kqi_e2e_browse_ne1_ne2()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_kqi_e2e_browse_common.awk
+}
+function kqi_e2e_download_user_service_type()
+{
+  _key_cnt=0
+  _is_cut=1
+  _awk_file=cycle_cut_kqi_e2e_download.awk
+}
+function kqi_e2e_im_user_service_type()
+{
+  _key_cnt=0
+  _is_cut=1
+  _awk_file=cycle_cut_kqi_e2e_im.awk
+}
+function kqi_e2e_video_user_service_type()
+{
+  _key_cnt=0
+  _is_cut=1
+  _awk_file=cycle_cut_kqi_e2e_video.awk
+}
+function kqi_e2e_browse_terminal_service_type()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kqi_e2e_browse_common.awk
+}
+function kqi_e2e_browse_loc_service_type()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kqi_e2e_browse_common.awk
+}
+function kqi_e2e_browse_serverip_service_type()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kqi_e2e_browse_common.awk
+}
+function kqi_e2e_download_terminal_service_type()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kqi_e2e_download_common.awk
+}
+function kqi_e2e_download_loc_service_type()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kqi_e2e_download_common.awk
+}
+function kqi_e2e_download_serverip_service_type()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kqi_e2e_download_common.awk
+}
+function kqi_e2e_im_terminal_service_type()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kqi_e2e_im_common.awk
+}
+function kqi_e2e_im_loc_service_type()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kqi_e2e_im_common.awk
+}
+function kqi_e2e_im_serverip_service_type()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kqi_e2e_im_common.awk
+}
+function kqi_e2e_video_terminal_service_type()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kqi_e2e_video_common.awk
+}
+function kqi_e2e_video_loc_service_type()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kqi_e2e_video_common.awk
+}
+function kqi_e2e_video_serverip_service_type()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_kqi_e2e_video_common.awk
+}
+
+
+
+

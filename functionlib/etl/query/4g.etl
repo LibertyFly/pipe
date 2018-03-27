@@ -1,0 +1,103 @@
+function cgi_local_4g_user_total()
+{
+    local _time=$1
+    local _id=$2
+    local _key_cnt=0
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+        if [ "${detail}" -eq 1 ];then
+           shellCmd="cat $muti_tmp_file|awk   -f ${AWK_FOLD}/muti_users_v3.awk|sed 's/_/ /g'"   
+           _key_cnt=2
+        else
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -f $AWK_FOLD/muti_users_v2.awk |sort -nr -k5"
+	fi
+    fi
+   echo $shellCmd|sh |\
+   awk  -v time=$_time -v id=$_id -v key_cnt=${_key_cnt} \
+	-v zd_location=$LOCATION_ZIDIAN \
+	'BEGIN{ while((getline<zd_location)>0){location[$1","$2]=$3}}\
+	{\
+	   if(key_cnt==2){_time=$1;_id=$2;}else{_time=time;_id=id;}\
+	    _jingdu=$(key_cnt+1);\
+	    _weidu=$(key_cnt+2);\
+	    _location=location[$(key_cnt+1)","$(key_cnt+2)];\
+	    _up_bytes=$(key_cnt+3);\
+	    _down_bytes=$(key_cnt+4);\
+	    _total_bytes=$(key_cnt+5);\
+            _msg_count=$(key_cnt+6);\
+            _online_time=$(key_cnt+7);\
+            _total_users=$(key_cnt+8);\
+            if(_location!=""){\
+                  printf("%s,%s,%s,%d,%d,%d,%d,%d,%d\n",_jingdu,_weidu,_location,\
+				_up_bytes,_down_bytes,_total_bytes,_msg_count,_online_time,_total_users)\
+                }\
+	}'\
+       >> $RESULT_FOLD/$FILE_NAME
+}
+
+function phone_cgi_local_4g_total()
+{
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=4 -f  $AWK_FOLD/common.awk|sort -nr -k7"
+    fi
+    echo $shellCmd|sh |awk -v key_cnt=4 -f  $AWK_FOLD/common.awk|sort -nr -k7|\
+    awk  -v time=$_time -v id=$_id -v key_cnt=2 \
+        -v zd_location=$LOCATION_ZIDIAN \
+	-v zd_terminal_type= $TERMINAL_TYPE_ZIDIAN \
+        'BEGIN{ while((getline<zd_location)>0){location[$1","$2]=$3} \
+		while((getline<zd_terminal_type)>0){terminal_type[$2]=$3} }\
+        {\
+	    _phone=$1;\
+	    _terminal_type=((terminal_type[$2]=="")?$2:terminal_type[$2]);\
+            _jingdu=$(key_cnt+1);\
+            _weidu=$(key_cnt+2);\
+            _location=location[$(key_cnt+1)","$(key_cnt+2)];\
+            _up_bytes=$(key_cnt+3);\
+            _down_bytes=$(key_cnt+4);\
+            _total_bytes=$(key_cnt+5);\
+            _msg_count=$(key_cnt+6);\
+            _online_time=$(key_cnt+7);\
+            if(_location!=""){\
+                  printf("%s,%s,%s,%d,%d,%d,%d,%d\n",_jingdu,_weidu,_location,\
+                                _up_bytes,_down_bytes,_total_bytes,_msg_count,_online_time)\
+                }\  
+        }'\  
+     >> $RESULT_FOLD/$FILE_NAME
+}
+
+function cgi_local_terminal_4g_user_total()
+{
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -f  $AWK_FOLD/muti_users_v3.awk"
+    fi
+    set_cgi_local_4g
+    echo $shellCmd|sh|\
+    awk  -v time=$_time -v id=$_id -v key_cnt=1 \
+         -v zd_location=$LOCATION_ZIDIAN \
+         -v zd_terminal_type=$TERMINAL_TYPE_ZIDIAN \
+        'BEGIN{ while((getline<zd_location)>0){location[$1","$2]=$3} \
+                while((getline<zd_terminal_type)>0){terminal_type[$2]=$3} }\
+        {\
+            _terminal_type=((terminal_type[$1]=="")?$1:terminal_type[$1]);\
+            _jingdu=$(key_cnt+1);\
+            _weidu=$(key_cnt+2);\
+            _location=location[$(key_cnt+1)","$(key_cnt+2)];\
+            _up_bytes=$(key_cnt+3);\
+            _down_bytes=$(key_cnt+4);\
+            _total_bytes=$(key_cnt+5);\
+            _msg_count=$(key_cnt+6);\
+            _online_time=$(key_cnt+7);\
+	    _user_count=$(key_cnt+8);\
+	    _user_rate=(_user_count==0?0:_user_count*100/t_user_count);\
+            if(_location!=""){\
+                  printf("%s,%s,%s,%d,%d,%d,%d,%d,%d,%.3f\n",_jingdu,_weidu,_location,\
+                         _up_bytes,_down_bytes,_total_bytes,_msg_count,_online_time,_user_count,_user_rate)\
+                }\
+        }'\
+     >> $RESULT_FOLD/$FILE_NAME
+}

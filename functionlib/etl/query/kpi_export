@@ -1,0 +1,1018 @@
+function kpi_total_common()
+{
+    local _time=$1
+    local _id=$2
+    local key_cnt=0
+    local fail_zidian_file=$4
+    local _title=`echo $src_head|sed -r 's/(_ecgi_fail|_enb_mme_fail|_area_fail|_city_fail)//g'`
+     case ${_title} in 
+         kpi_x2_handover)
+                 fail_zidian_file=$X2_CORE_ZIDIAN ;;
+     esac
+    awk  -v time=$_time -v id=$_id -v key_cnt=$key_cnt  \
+                  -v msg_type_zidian=<(get_kpi_info.sh -H ${kpi_type}  -a zidian  -f|awk -F, '{print $1" "$2}')  \
+                'BEGIN{ while((getline<msg_type_zidian)>0){msg_type[$1]=$2} }\
+                { \
+		if(msg_type[$1]==""){next }	\
+         	printf  msg_type[$1]","; #msg_type \
+                printf("%.3f,%d,%d,%.3f,%d,%.3f",$(key_cnt+3)==0?0:$(key_cnt+2)/$(key_cnt+3)/1000000,$(key_cnt+3),$(key_cnt+4),\
+                $(key_cnt+3)==0?0:$(key_cnt+4)*100/$(key_cnt+3),\
+				$(key_cnt+3)-$(key_cnt+4),$(key_cnt+3)==0?0:($(key_cnt+3)-$(key_cnt+4))*100/$(key_cnt+3));\
+                for(i=(key_cnt+5);i<=NF;i++){printf ","$i}\
+                   print ""\
+		   }'\
+       <(awk  -v fail_zidian=$fail_zidian_file -v key_cnt=$key_cnt \
+             'BEGIN{while((getline<fail_zidian)>0){fail[$1]=$2}}\
+              NR==FNR{fail_cnt[$1","$2]=$4}\
+              NR>FNR{printf $0;\
+                  for(i in fail_cnt){\
+                      split(i,ar,",");\
+                          if($1==ar[1]){if(fail_cnt[i]>0) printf " "(fail[ar[2]]==""?ar[2]:fail[ar[2]])"["fail_cnt[i]"]"}\
+                   }\
+                print ""\
+              } ' <(cat $fail_source_file)  <(cat $source_file|sort -nr -k $((key_cnt+2)))\
+        ) >> $RESULT_FOLD/$FILE_NAME
+}
+function kpi_cgi_common()
+{
+    local _time=$1
+    local _id=$2
+    local key_cnt=$3
+    local fail_zidian_file=$4
+    local _title=`echo $src_head|sed -r 's/(_ecgi_fail|_enb_mme_fail|_area_fail|_city_fail)//g'`
+     case ${_title} in 
+         kpi_x2_handover)
+                 fail_zidian_file=$X2_CORE_ZIDIAN ;;
+     esac
+   #  CGI data first column is area id for area query.
+    awk  -v time=$_time -v id=$_id -v key_cnt=$key_cnt  \
+		  -v diretion_zidian=$HANDOVER_DIRECTION_ZIDIAN  \
+                  -v msg_type_zidian=<(get_kpi_info.sh -H ${kpi_type}  -a zidian  -f|awk -F, '{print $1" "$2}')  \
+          'BEGIN{while((getline<diretion_zidian)>0){direction[$1]=$2}\
+                 while((getline<msg_type_zidian)>0){msg_type[$1]=$2} }\
+                NR==FNR{a[$1]=$2}NR>FNR{ \
+				printf $2","((a[$2]=="")?$2:a[$2])","; #cgi \
+		if(key_cnt==3){printf("%s,",msg_type[$3]==""?$3:msg_type[$3]) ;} #msg_type\
+		else{printf("%s,%s,%s,",$3,((direction[$3]=="")?$3:direction[$3]),msg_type[$4]==""?$4:msg_type[$4]) ;} #direction,msg_type\
+                printf("%.3f,%d,%d,%.3f,%d,%.3f",$(key_cnt+2)==0?0:$(key_cnt+1)/$(key_cnt+2)/1000000,$(key_cnt+2),$(key_cnt+3),\
+                $(key_cnt+2)==0?0:$(key_cnt+3)*100/$(key_cnt+2),\
+				$(key_cnt+2)-$(key_cnt+3),$(key_cnt+2)==0?0:($(key_cnt+2)-$(key_cnt+3))*100/$(key_cnt+2));\
+                for(i=(key_cnt+4);i<=NF;i++){printf ","$i}\
+                   print ""\
+		   }'\
+       <(cat $CGI_ZIDIAN) \
+       <(awk  -v fail_zidian=$fail_zidian_file -v key_cnt=$key_cnt \
+             'BEGIN{while((getline<fail_zidian)>0){fail[$1]=$2}}\
+              NR==FNR{if(key_cnt==3){fail_cnt[$2","$3","$4]=$6}else{fail_cnt[$2","$3","$4","$5]=$7}}\
+              NR>FNR{printf $0;\
+                  for(i in fail_cnt){\
+                      split(i,ar,",");\
+                      if(key_cnt==3){\
+                          if($2","$3==ar[1]","ar[2]){if(fail_cnt[i]>0) printf " "(fail[ar[3]]==""?ar[3]:fail[ar[3]])"["fail_cnt[i]"]"}\
+                       }else{\
+                         if($2","$3","$4==ar[1]","ar[2]","ar[3]){if(fail_cnt[i]>0) printf " "(fail[ar[4]]==""?ar[4]:fail[ar[4]])"["fail_cnt[i]"]"}\
+                       }\
+                   }\
+                print ""\
+              } ' <(cat $fail_source_file)  <(cat $source_file|sort -nr -k $((key_cnt+2)))\
+        ) >> $RESULT_FOLD/$FILE_NAME
+}
+function kpi_apn_common()
+{
+    local _time=$1
+    local _id=$2
+    local key_cnt=$3
+    local fail_zidian_file=$4
+    local _title=`echo $src_head|sed -r 's/(_ecgi_fail|_enb_mme_fail|_area_fail|_city_fail)//g'`
+     case ${_title} in 
+         kpi_x2_handover)
+                 fail_zidian_file=$X2_CORE_ZIDIAN ;;
+     esac 
+    awk  -v fail_zidian=$fail_zidian_file -v key_cnt=$key_cnt \
+             'BEGIN{while((getline<fail_zidian)>0){fail[$1]=$2}}\
+              NR==FNR{fail_cnt[$1","$2","$3]=$5}\
+              NR>FNR{printf $0;\
+                  for(i in fail_cnt){\
+                          split(i,ar,",");\
+                          if($1","$2==ar[1]","ar[2]){if(fail_cnt[i]>0) printf " "(fail[ar[3]]==""?ar[3]:fail[ar[3]])"["fail_cnt[i]"]"}\
+                   }\
+                print ""\
+              } ' <(cat $fail_source_file)  <(cat $source_file|sort -nr -k $((key_cnt+2)))\
+  |awk  -v time=$_time -v id=$_id -v key_cnt=$key_cnt  \
+                -v msg_type_zidian=<(get_kpi_info.sh -H ${kpi_type}  -a zidian  -f|awk -F, '{print $1" "$2}')  \
+                'BEGIN{ while((getline<msg_type_zidian)>0){msg_type[$1]=$2}  }\
+                 {  printf $1","; #apn  \
+                printf("%s,",msg_type[$2]==""?$2:msg_type[$2]) ; #msg_type\
+                printf("%.3f,%d,%d,%.3f,%d,%.3f",$(key_cnt+2)==0?0:$(key_cnt+1)/$(key_cnt+2)/1000000,$(key_cnt+2),$(key_cnt+3),\
+                $(key_cnt+2)==0?0:$(key_cnt+3)*100/$(key_cnt+2),\
+                                $(key_cnt+2)-$(key_cnt+3),$(key_cnt+2)==0?0:($(key_cnt+2)-$(key_cnt+3))*100/$(key_cnt+2));\
+                for(i=(key_cnt+4);i<=NF;i++){printf ","$i}\
+                   print ""\
+                   }'  >> $RESULT_FOLD/$FILE_NAME
+}
+function lte_tau_cgi()
+{
+    local _time=$1
+    local _id=$2
+    local key_cnt=2
+    local fail_zidian_file=$4
+    local _title=`echo $src_head|sed -r 's/(_ecgi_fail|_enb_mme_fail|_area_fail|_city_fail)//g'`
+     case ${_title} in 
+         kpi_x2_handover)
+                 fail_zidian_file=$X2_CORE_ZIDIAN ;;
+     esac
+    # CGI data first column is area id for area query.
+    awk  -v time=$_time -v id=$_id -v key_cnt=$((key_cnt+1))  \
+          -v diretion_zidian=$HANDOVER_DIRECTION_ZIDIAN  \
+          'BEGIN{while((getline<diretion_zidian)>0){direction[$1]=$2}}NR==FNR{a[$1]=$2}NR>FNR{ \
+                 printf $1","((a[$1]=="")?$1:a[$1])",";\
+                printf $2","((a[$2]=="")?$2:a[$2])",";\
+                printf("%s,",$3) ;\
+                printf("%.3f,%d,%d,%.3f,%d,%.3f",$(key_cnt+2)==0?0:$(key_cnt+1)/$(key_cnt+2)/1000000,$(key_cnt+2),$(key_cnt+3),\
+                $(key_cnt+2)==0?0:$(key_cnt+3)*100/$(key_cnt+2),\
+                $(key_cnt+2)-$(key_cnt+3),$(key_cnt+2)==0?0:($(key_cnt+2)-$(key_cnt+3))*100/$(key_cnt+2));\
+               for(i=(key_cnt+4);i<=NF;i++){printf ","$i}\
+                   print ""\
+           }'\
+       <(cat $CGI_ZIDIAN) \
+       <( awk  -v fail_zidian=$fail_zidian_file -v key_cnt=$key_cnt \
+             'BEGIN{while((getline<fail_zidian)>0){fail[$1]=$2}}\
+              NR==FNR{fail_cnt[$1","$2","$3]=$5}\
+              NR>FNR{printf $0;\
+                  for(i in fail_cnt){\
+                          split(i,ar,",");\
+                          if($1","$2==ar[1]","ar[2]){if(fail_cnt[i]>0)  printf " "(fail[ar[3]]==""?ar[3]:fail[ar[3]])"["fail_cnt[i]"]"}\
+                   }\
+                print ""\
+              } ' <(cat $fail_source_file)  <(cat $source_file|sort -nr -k $((key_cnt+2)))\
+         )>> $RESULT_FOLD/$FILE_NAME
+}
+function kpi_net_element_common()
+{
+    local _time=$1
+    local _id=$2
+    local key_cnt=$3
+    local fail_zidian_file=$4
+    local _title=`echo $src_head|sed -r 's/(_ecgi_fail|_enb_mme_fail|_area_fail|_city_fail)//g'`
+     case ${_title} in 
+         kpi_x2_handover)
+                 fail_zidian_file=$X2_CORE_ZIDIAN ;;
+     esac
+
+    awk  -v time=$_time -v id=$_id -v key_cnt=$key_cnt -v diretion_zidian=$HANDOVER_DIRECTION_ZIDIAN \
+        -v msg_type_zidian=<(get_kpi_info.sh -H ${kpi_type}  -a zidian  -f|awk -F, '{print $1" "$2}')  \
+	'BEGIN{while((getline<diretion_zidian)>0){direction[$1]=$2}\
+              while((getline<msg_type_zidian)>0){msg_type[$1]=$2} }\
+               NR==FNR{a[$1]=$2}NR>FNR{ \
+                printf $1","((a[$1]=="")?$1:a[$1])",";\
+        if(key_cnt==2){printf("%s,",msg_type[$2]==""?$2:msg_type[$2]) ;}\
+        else{printf("%s,%s,%s,",$2,((direction[$2]=="")?$2:direction[$2]),msg_type[$3]==""?$3:msg_type[$3]) ;}\
+                printf("%.3f,%d,%d,%.3f,%d,%.3f",$(key_cnt+2)==0?0:$(key_cnt+1)/$(key_cnt+2)/1000000,$(key_cnt+2),$(key_cnt+3),\
+                $(key_cnt+2)==0?0:$(key_cnt+3)*100/$(key_cnt+2),\
+                $(key_cnt+2)-$(key_cnt+3),$(key_cnt+2)==0?0:($(key_cnt+2)-$(key_cnt+3))*100/$(key_cnt+2));\
+               for(i=(key_cnt+4);i<=NF;i++){printf ","$i}\
+                   print ""\
+           }'\
+       <(cat  $NET_ELEMENT_ZIDIAN) \
+       <(awk  -v fail_zidian=$fail_zidian_file -v key_cnt=$key_cnt \
+             'BEGIN{while((getline<fail_zidian)>0){fail[$1]=$2}}\
+              NR==FNR{if(key_cnt==2){fail_cnt[$1","$2","$3]=$5}else{fail_cnt[$1","$2","$3","$4]=$6}}\
+              NR>FNR{printf $0;\
+                  for(i in fail_cnt){\
+                      split(i,ar,",");\
+                      if(key_cnt==2){\
+                          if($1","$2==ar[1]","ar[2]){if(fail_cnt[i]>0)  printf " "(fail[ar[3]]==""?ar[3]:fail[ar[3]])"["fail_cnt[i]"]"}\
+                       }else{\
+                         if($1","$2","$3==ar[1]","ar[2]","ar[3]){if(fail_cnt[i]>0)  printf " "(fail[ar[4]]==""?ar[4]:fail[ar[4]])"["fail_cnt[i]"]"}\
+                       }\
+                   }\
+                print ""\
+              } ' <(cat $fail_source_file)  <(cat $source_file|sort -nr -k $((key_cnt+2)))\
+        ) >> $RESULT_FOLD/$FILE_NAME
+}
+function kpi_net_element_manage_common()
+{
+    local _time=$1
+    local _id=$2
+    local key_cnt=$3
+    local fail_zidian_file=$4
+    local _title=`echo $src_head|sed -r 's/(_ecgi_fail|_enb_mme_fail|_area_fail|_city_fail)//g'`
+     case ${_title} in 
+         kpi_x2_handover)
+                 fail_zidian_file=$X2_CORE_ZIDIAN ;;
+     esac
+    awk  -v time=$_time -v id=$_id -v key_cnt=$key_cnt  \
+        -v msg_type_zidian=<(get_kpi_info.sh -H ${kpi_type}  -a zidian  -f|awk -F, '{print $1" "$2}')  \
+          'BEGIN{while((getline<msg_type_zidian)>0){msg_type[$1]=$2} }\
+              NR==FNR{a[$1]=$2}NR>FNR{ \
+              if(msg_type[$3]==""){next}
+              printf $1","((a[$1]=="")?$1:a[$1])",";\
+              printf("%s,%s,",$2,msg_type[$3]==""?$3:msg_type[$3])} ;\
+              printf("%.3f,%d,%d,%.3f,%d,%.3f",$(key_cnt+2)==0?0:$(key_cnt+1)/$(key_cnt+2)/1000000,$(key_cnt+2),$(key_cnt+3),\
+                $(key_cnt+2)==0?0:$(key_cnt+3)*100/$(key_cnt+2),\
+                $(key_cnt+2)-$(key_cnt+3),$(key_cnt+2)==0?0:($(key_cnt+2)-$(key_cnt+3))*100/$(key_cnt+2));\
+              for(i=(key_cnt+4);i<=NF;i++){printf ","$i}\
+                   print ""\
+           }'\
+       <(cat  $NET_ELEMENT_ZIDIAN) \
+       <(awk -v key_cnt=$key_cnt 'NR==FNR{a[$1]=$2}NR>FNR{\
+		$2=$2","((a[$2]=="")?$2:a[$2]);print $0}'\
+			<(cat $NET_ELEMENT_DIRECTION_ZIDIAN)\
+			<(awk  -v fail_zidian=$fail_zidian_file -v key_cnt=$key_cnt \
+                            'BEGIN{while((getline<fail_zidian)>0){fail[$1]=$2}}\
+                            NR==FNR{fail_cnt[$1","$2","$3","$4]=$6}\
+                            NR>FNR{printf $0;\
+                            for(i in fail_cnt){\
+                               split(i,ar,",");\
+                               if($1","$2","$3==ar[1]","ar[2]","ar[3]){if(fail_cnt[i]>0) \
+                                          printf " "(fail[ar[4]]==""?ar[4]:fail[ar[4]])"["fail_cnt[i]"]"}\
+                             }\
+                            print ""\
+                           } ' <(cat $fail_source_file)  <(cat $source_file|sort -nr -k $((key_cnt+3)))\
+                       )\
+       ) >> $RESULT_FOLD/$FILE_NAME
+}
+function kpi_city_common()
+{
+    local _time=$1
+    local _id=$2
+    local key_cnt=$3
+    local fail_zidian_file=$4
+    local _title=`echo $src_head|sed -r 's/(_ecgi_fail|_enb_mme_fail|_area_fail|_city_fail)//g'`
+     case ${_title} in 
+         kpi_x2_handover)
+                 fail_zidian_file=$X2_CORE_ZIDIAN ;;
+     esac
+    awk  -v time=$_time -v id=$_id -v key_cnt=$key_cnt  -v diretion_zidian=$HANDOVER_DIRECTION_ZIDIAN\
+            -v msg_type_zidian=<(get_kpi_info.sh -H ${kpi_type}  -a zidian  -f|awk -F, '{print $1" "$2}')  \
+          'BEGIN{while((getline<diretion_zidian)>0){direction[$1]=$2}\
+                while((getline<msg_type_zidian)>0){msg_type[$1]=$2} }\
+                 NR==FNR{a[$1]=$2}NR>FNR{ \
+                printf $1","((a[$1]=="")?$1:a[$1])",";\
+        if(key_cnt==2){printf("%s,",msg_type[$2]==""?$2:msg_type[$2]) ;}\
+        else{printf("%s,%s,%s,",$2,((direction[$2]=="")?$2:direction[$2]),msg_type[$3]==""?$3:msg_type[$3]) ;}\
+                printf("%.3f,%d,%d,%.3f,%d,%.3f",$(key_cnt+2)==0?0:$(key_cnt+1)/$(key_cnt+2)/1000000,$(key_cnt+2),$(key_cnt+3),\
+                $(key_cnt+2)==0?0:$(key_cnt+3)*100/$(key_cnt+2),\
+                $(key_cnt+2)-$(key_cnt+3),$(key_cnt+2)==0?0:($(key_cnt+2)-$(key_cnt+3))*100/$(key_cnt+2));\
+              for(i=(key_cnt+4);i<=NF;i++){printf ","$i}\
+                   print ""\
+           }'\
+       <(cat  $CGI_CITY_ZIDIAN) \
+       <(awk  -v fail_zidian=$fail_zidian_file -v key_cnt=$key_cnt \
+             'BEGIN{while((getline<fail_zidian)>0){fail[$1]=$2}}\
+              NR==FNR{if(key_cnt==2){fail_cnt[$1","$2","$3]=$5}else{fail_cnt[$1","$2","$3","$4]=$6}}\
+              NR>FNR{printf $0;\
+                  for(i in fail_cnt){\
+                      split(i,ar,",");\
+                      if(key_cnt==2){\
+                          if($1","$2==ar[1]","ar[2]){if(fail_cnt[i]>0)  printf " "(fail[ar[3]]==""?ar[3]:fail[ar[3]])"["fail_cnt[i]"]"}\
+                       }else{\
+                         if($1","$2","$3==ar[1]","ar[2]","ar[3]){if(fail_cnt[i]>0)  printf " "fail[ar[4]]"["fail_cnt[i]"]"}\
+                       }\
+                   }\
+                print ""\
+              } ' <(cat $fail_source_file)  <(cat $source_file|sort -nr -k $((key_cnt+2)))\
+         ) >> $RESULT_FOLD/$FILE_NAME
+}
+
+function kpi_area_common()
+{
+    local _time=$1
+    local _id=$2
+    local key_cnt=$3
+    local fail_zidian_file=$4
+    local _title=`echo $src_head|sed -r 's/(_ecgi_fail|_enb_mme_fail|_area_fail|_city_fail)//g'`
+     case ${_title} in 
+         kpi_x2_handover)
+                 fail_zidian_file=$X2_CORE_ZIDIAN ;;
+     esac
+
+    # AREA data first column is city id for city query.
+    awk  -v time=$_time -v id=$_id -v key_cnt=$key_cnt -v diretion_zidian=$HANDOVER_DIRECTION_ZIDIAN\
+         -v msg_type_zidian=<(get_kpi_info.sh -H ${kpi_type}  -a zidian  -f|awk -F, '{print $1" "$2}')  \
+          'BEGIN{while((getline<diretion_zidian)>0){direction[$1]=$2}\
+                while((getline<msg_type_zidian)>0){msg_type[$1]=$2} }\
+                 NR==FNR{a[$2]=$3}NR>FNR{ \
+                printf $2","((a[$2]=="")?$2:a[$2])",";\
+        if(key_cnt==3){printf("%s,",msg_type[$3]==""?$3:msg_type[$3]) ;}\
+        else{printf("%s,%s,%s,",$3,((direction[$3]=="")?$3:direction[$3]),msg_type[$4]==""?$4:msg_type[$4]) ;}\
+                printf("%.3f,%d,%d,%.3f,%d,%.3f",$(key_cnt+2)==0?0:$(key_cnt+1)/$(key_cnt+2)/1000000,$(key_cnt+2),$(key_cnt+3),\
+                $(key_cnt+2)==0?0:$(key_cnt+3)*100/$(key_cnt+2),\
+                $(key_cnt+2)-$(key_cnt+3),$(key_cnt+2)==0?0:($(key_cnt+2)-$(key_cnt+3))*100/$(key_cnt+2));\
+                for(i=(key_cnt+4);i<=NF;i++){printf ","$i}\
+                   print ""\
+           }'\
+       <(cat  $CGI_AREA_ZIDIAN) \
+       <(awk  -v fail_zidian=$fail_zidian_file -v key_cnt=$key_cnt \
+             'BEGIN{while((getline<fail_zidian)>0){fail[$1]=$2}}\
+              NR==FNR{if(key_cnt==3){fail_cnt[$2","$3","$4]=$6}else{fail_cnt[$2","$3","$4","$5]=$7}}\
+              NR>FNR{printf $0;\
+                  for(i in fail_cnt){\
+                      split(i,ar,",");\
+                      if(key_cnt==3){\
+                          if($2","$3==ar[1]","ar[2]){if(fail_cnt[i]>0)  printf " "(fail[ar[3]]==""?ar[3]:fail[ar[3]])"["fail_cnt[i]"]"}\
+                       }else{\
+                         if($2","$3","$4==ar[1]","ar[2]","ar[3]){if(fail_cnt[i]>0)  printf " "fail[ar[4]]"["fail_cnt[i]"]"}\
+                       }\
+                   }\
+                print ""\
+              } ' <(cat $fail_source_file)  <(cat $source_file|sort -nr -k $((key_cnt+2)))\
+         ) >> $RESULT_FOLD/$FILE_NAME
+}
+
+function kpi_gtpv2_bearer_total()
+{
+    local _time=$1
+    local _id=$2
+    kpi_total_common  $_time $_id 0  $GTPV2_CORE_ZIDIAN 
+}
+function kpi_gtpv2_bearer_ecgi()
+{
+    local _time=$1
+    local _id=$2
+    kpi_cgi_common  $_time $_id 3  $GTPV2_CORE_ZIDIAN 
+}
+function kpi_gtpv2_bearer_city()
+{
+    local _time=$1
+    local _id=$2
+    kpi_city_common  $_time $_id 2  $GTPV2_CORE_ZIDIAN
+}
+
+function kpi_gtpv2_relocation_total()
+{
+    local _time=$1
+    local _id=$2
+    kpi_total_common  $_time $_id 0   $GTPV2_CORE_ZIDIAN
+}
+function kpi_gtpv2_relocation_ecgi()
+{
+    local _time=$1
+    local _id=$2
+    kpi_cgi_common  $_time $_id 3   $GTPV2_CORE_ZIDIAN
+}
+function kpi_gtpv2_relocation_city()
+{
+    local _time=$1
+    local _id=$2
+    kpi_city_common  $_time $_id 2  $GTPV2_CORE_ZIDIAN
+}
+
+function kpi_gtpv2_session_total()
+{
+    local _time=$1
+    local _id=$2
+    kpi_total_common  $_time $_id 0   $GTPV2_CORE_ZIDIAN
+}
+function kpi_gtpv2_session_ecgi()
+{
+    local _time=$1
+    local _id=$2
+    kpi_cgi_common  $_time $_id 3   $GTPV2_CORE_ZIDIAN
+}
+function kpi_gtpv2_session_apn()
+{
+    local _time=$1
+    local _id=$2
+    kpi_apn_common  $_time $_id 2  $GTPV2_CORE_ZIDIAN
+}
+function kpi_gtpv2_session_city()
+{
+    local _time=$1
+    local _id=$2
+    kpi_city_common  $_time $_id 2  $GTPV2_CORE_ZIDIAN
+}
+
+function kpi_s1ap_erab_total()
+{
+    local _time=$1
+    local _id=$2
+    kpi_total_common  $_time $_id 0   $S1AP_CORE_ZIDIAN
+}
+function kpi_s1ap_erab_ecgi()
+{
+    local _time=$1
+    local _id=$2
+    kpi_cgi_common  $_time $_id 3   $S1AP_CORE_ZIDIAN
+}
+function kpi_s1ap_erab_city()
+{
+    local _time=$1
+    local _id=$2
+    kpi_city_common  $_time $_id 2 $S1AP_CORE_ZIDIAN
+}
+
+function kpi_handover_total()
+{
+    local _time=$1
+    local _id=$2
+    kpi_total_common  $_time $_id 0  $HANDOVER_CORE_ZIDIAN
+}
+function kpi_handover_ecgi()
+{
+    local _time=$1
+    local _id=$2
+    kpi_cgi_common  $_time $_id 4  $HANDOVER_CORE_ZIDIAN
+}
+function kpi_handover_city()
+{
+    local _time=$1
+    local _id=$2
+    kpi_city_common  $_time $_id 3 $HANDOVER_CORE_ZIDIAN
+}
+
+function kpi_manage_total()
+{
+    local _time=$1
+    local _id=$2
+    kpi_total_common  $_time $_id 3 $HANDOVER_CORE_ZIDIAN
+}
+function kpi_manage_ecgi()
+{
+    local _time=$1
+    local _id=$2
+    kpi_cgi_common  $_time $_id 3 $HANDOVER_CORE_ZIDIAN
+}
+function kpi_manage_enb_mme()
+{
+    local _time=$1
+    local _id=$2
+    kpi_net_element_manage_common  $_time $_id 3  $S1AP_CORE_ZIDIAN
+}
+
+function kpi_s1_emm_attach_total()
+{
+    local _time=$1
+    local _id=$2
+    kpi_total_common  $_time $_id 0   $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_attach_ecgi()
+{
+    local _time=$1
+    local _id=$2
+    kpi_cgi_common  $_time $_id 3   $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_attach_city()
+{
+    local _time=$1
+    local _id=$2
+    kpi_city_common  $_time $_id 2  $EMM_CORE_ZIDIAN
+}
+
+function kpi_s1_emm_tau_total()
+{
+    local _time=$1
+    local _id=$2
+    kpi_total_common  $_time $_id 3    $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_tau_ecgi()
+{
+    local _time=$1
+    local _id=$2
+    kpi_cgi_common  $_time $_id 3    $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_tau_city()
+{
+    local _time=$1
+    local _id=$2
+    kpi_city_common  $_time $_id 2  $EMM_CORE_ZIDIAN
+}
+
+function kpi_s1_emm_paging_total()
+{
+    local _time=$1
+    local _id=$2
+    kpi_total_common  $_time $_id 3   $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_paging_ecgi()
+{
+    local _time=$1
+    local _id=$2
+    kpi_cgi_common  $_time $_id 3   $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_paging_city()
+{
+    local _time=$1
+    local _id=$2
+    kpi_city_common  $_time $_id 2  $EMM_CORE_ZIDIAN
+}
+
+function kpi_s1_emm_service_total()
+{
+    local _time=$1
+    local _id=$2
+    kpi_total_common  $_time $_id 3   $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_service_ecgi()
+{
+    local _time=$1
+    local _id=$2
+    kpi_cgi_common  $_time $_id 3   $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_service_city()
+{
+    local _time=$1
+    local _id=$2
+    kpi_city_common  $_time $_id 2  $EMM_CORE_ZIDIAN
+}
+
+function kpi_s1_esm_pdn_total()
+{
+    local _time=$1
+    local _id=$2
+    kpi_total_common  $_time $_id 3   $ESM_CORE_ZIDIAN
+}
+
+function kpi_s1_esm_pdn_ecgi()
+{
+    local _time=$1
+    local _id=$2
+    kpi_cgi_common  $_time $_id 3   $ESM_CORE_ZIDIAN
+}
+function kpi_s1_esm_pdn_city()
+{
+    local _time=$1
+    local _id=$2
+    kpi_city_common  $_time $_id 2  $ESM_CORE_ZIDIAN
+}
+
+function kpi_gtpv2_bearer_enb_mme()
+ {
+    local _time=$1
+    local _id=$2
+    kpi_net_element_common  $_time $_id 2  $GTPV2_CORE_ZIDIAN
+}
+function kpi_gtpv2_relocation_enb_mme()
+ {
+    local _time=$1
+    local _id=$2
+    kpi_net_element_common  $_time $_id 2  $GTPV2_CORE_ZIDIAN
+}
+function kpi_gtpv2_session_enb_mme()
+ {
+    local _time=$1
+    local _id=$2
+    kpi_net_element_common  $_time $_id 2 $GTPV2_CORE_ZIDIAN
+}
+function kpi_s1ap_erab_enb_mme()
+ {
+    local _time=$1
+    local _id=$2
+    kpi_net_element_common  $_time $_id 2 $S1AP_CORE_ZIDIAN
+}
+function kpi_handover_enb_mme()
+ {
+    local _time=$1
+    local _id=$2
+    kpi_net_element_common  $_time $_id 3  $HANDOVER_CORE_ZIDIAN
+}
+function kpi_s1_emm_attach_enb_mme()
+ {
+    local _time=$1
+    local _id=$2
+    kpi_net_element_common  $_time $_id 2 $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_tau_enb_mme()
+ {
+    local _time=$1
+    local _id=$2
+    kpi_net_element_common  $_time $_id 2 $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_paging_enb_mme()
+ {
+    local _time=$1
+    local _id=$2
+    kpi_net_element_common  $_time $_id 2 $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_service_enb_mme()
+ {
+    local _time=$1
+    local _id=$2
+    kpi_net_element_common  $_time $_id 2 $EMM_CORE_ZIDIAN
+}
+function kpi_s1_esm_pdn_enb_mme()
+ {
+    local _time=$1
+    local _id=$2
+    kpi_net_element_common  $_time $_id 2 $ESM_CORE_ZIDIAN
+}
+function kpi_gtpv2_bearer_area()
+{
+    local _time=$1
+    local _id=$2
+    kpi_area_common  $_time $_id 3  $GTPV2_CORE_ZIDIAN
+}
+
+function kpi_gtpv2_relocation_area()
+{
+    local _time=$1
+    local _id=$2
+    kpi_area_common  $_time $_id 3  $GTPV2_CORE_ZIDIAN
+}
+
+function kpi_gtpv2_session_area()
+{
+    local _time=$1
+    local _id=$2
+    kpi_area_common  $_time $_id 3  $GTPV2_CORE_ZIDIAN
+}
+
+function kpi_s1ap_erab_area()
+{
+    local _time=$1
+    local _id=$2
+    kpi_area_common  $_time $_id 3  $S1AP_CORE_ZIDIAN
+}
+
+function kpi_handover_area()
+{
+    local _time=$1
+    local _id=$2
+    kpi_area_common  $_time $_id 3  $HANDOVER_CORE_ZIDIAN
+}
+
+function kpi_s1_emm_attach_area()
+{
+    local _time=$1
+    local _id=$2
+    kpi_area_common  $_time $_id 3  $EMM_CORE_ZIDIAN
+}
+
+
+function kpi_s1_emm_tau_area()
+{
+    local _time=$1
+    local _id=$2
+    kpi_area_common  $_time $_id 3  $EMM_CORE_ZIDIAN
+}
+
+function kpi_s1_emm_paging_area()
+{
+    local _time=$1
+    local _id=$2
+    kpi_area_common  $_time $_id 3  $EMM_CORE_ZIDIAN
+}
+
+function kpi_s1_emm_service_area()
+{
+    local _time=$1
+    local _id=$2
+    kpi_area_common  $_time $_id 3  $EMM_CORE_ZIDIAN
+}
+
+function kpi_s1_esm_pdn_area()
+{
+    local _time=$1
+    local _id=$2
+    kpi_area_common  $_time $_id 3 $ESM_CORE_ZIDIAN
+}
+function kpi_s1_sms_total()
+{
+    local _time=$1
+    local _id=$2
+    kpi_total_common  $_time $_id 0  $RESULT_CORE_ZIDIAN 
+}
+function  kpi_s1_sms_ecgi()
+{
+    local _time=$1
+    local _id=$2
+    kpi_cgi_common  $_time $_id 3  $RESULT_CORE_ZIDIAN
+}
+function  kpi_s1_sms_city()
+{
+    local _time=$1
+    local _id=$2
+    kpi_city_common  $_time $_id 2 $RESULT_CORE_ZIDIAN
+}
+function  kpi_s1_sms_enb_mme()
+{
+    local _time=$1
+    local _id=$2
+    kpi_net_element_common  $_time $_id 2 $RESULT_CORE_ZIDIAN
+}
+function kpi_sgs_mm_loc_total()
+{
+    local _time=$1
+    local _id=$2
+    kpi_total_common  $_time $_id 0  $RESULT_CORE_ZIDIAN
+}
+function  kpi_sgs_mm_loc_ecgi()
+{
+    local _time=$1
+    local _id=$2
+    kpi_cgi_common  $_time $_id 3  $RESULT_CORE_ZIDIAN
+}
+function  kpi_sgs_mm_loc_city()
+{
+    local _time=$1
+    local _id=$2
+    kpi_city_common  $_time $_id 2 $RESULT_CORE_ZIDIAN
+}
+function  kpi_sgs_mm_loc_enb_mme()
+{
+    local _time=$1
+    local _id=$2
+    kpi_net_element_common  $_time $_id 2 $RESULT_CORE_ZIDIAN
+}
+function kpi_s1_csfb_total()
+{
+    local _time=$1
+    local _id=$2
+    kpi_total_common  $_time $_id 0  $RESULT_CORE_ZIDIAN
+}
+function  kpi_s1_csfb_ecgi()
+{
+    local _time=$1
+    local _id=$2
+    kpi_cgi_common  $_time $_id 3  $RESULT_CORE_ZIDIAN
+}
+function  kpi_s1_csfb_city()
+{
+    local _time=$1
+    local _id=$2
+    kpi_city_common  $_time $_id 2 $RESULT_CORE_ZIDIAN
+}
+function  kpi_s1_csfb_enb_mme()
+{
+    local _time=$1
+    local _id=$2
+    kpi_net_element_common  $_time $_id 2 $RESULT_CORE_ZIDIAN
+}
+function kpi_uu_signal_total()
+{
+    local _time=$1
+    local _id=$2
+    kpi_total_common  $_time $_id 0  $RESULT_CORE_ZIDIAN
+}   
+function  kpi_uu_signal_ecgi()
+{
+    local _time=$1
+    local _id=$2
+    kpi_cgi_common  $_time $_id 3 $RESULT_CORE_ZIDIAN
+}
+function  kpi_uu_signal_enb_mme()
+{
+    local _time=$1
+    local _id=$2
+    kpi_net_element_common  $_time $_id 2 $RESULT_CORE_ZIDIAN
+}
+function kpi_dns_total()
+{
+    local _time=$1
+    local _id=$2
+    local fail_zidian_file=$DNS_CORE_ZIDIAN
+    awk  -v fail_zidian=$fail_zidian_file  \
+             'BEGIN{while((getline<fail_zidian)>0){fail[$1]=$2}}\
+              NR==FNR{fail_cnt[$1]=$3}\
+              NR>FNR{printf $0;\
+                  for(i in fail_cnt){\
+                          if(fail_cnt[i]>0) printf " "(fail[i]==""?i:fail[i])"["fail_cnt[i]"]" \
+                   }\
+                  print ""\
+              } ' <(cat $fail_source_file)  <(cat $source_file)|\
+       awk  -v time=$_time -v id=$_id  \
+           '{printf("%.3f,%d,%d,%d,%.3f,%.3f,%.3f",\
+                                $2==0?0:$1/$2/1000000,$2,$3,($2-$3),$2==0?0:$3*100/$2,\
+                                $2==0?0:(100-($4*100/$2)),$2==0?0:$3*100/$2 ) ;\
+         for(i=5;i<=NF;i++){printf ","$i}\
+                 print ""\
+       }' \
+    >> $RESULT_FOLD/$FILE_NAME
+}
+function kpi_dns_common()
+{
+    local _time=$1
+    local _id=$2
+    local ZIDIAN_QUERY=$3
+    local fail_zidian_file=$4
+
+    awk  -v time=$_time -v id=$_id  \
+          'NR==FNR{a[$1]=$2}NR>FNR{ \
+          printf("%s,%s,%.3f,%d,%d,%d,%.3f,%.3f,%.3f",\
+                                $1,((a[$1]=="")?$1:a[$1]),($3==0)?0:$2/$3/1000000,$3,$4,($3-$4),($3==0)?0:$4*100/$3,\
+                                $3==0?0:(100-($5*100/$3)),($3==0)?0:$4*100/$3);\
+	    for(i=6;i<=NF;i++){printf ","$i}\
+                 print ""\
+          }' \
+       <( echo $ZIDIAN_QUERY|sh) \
+       <( awk  -v fail_zidian=$fail_zidian_file  \
+             'BEGIN{while((getline<fail_zidian)>0){fail[$1]=$2}}\
+              NR==FNR{fail_cnt[$1","$2]=$4}\
+              NR>FNR{printf $0;\
+                  for(i in fail_cnt){\
+                          split(i,ar,",");\
+                          if($1==ar[1]){if(fail_cnt[i]>0) printf " "(fail[ar[2]]==""?ar[2]:fail[ar[2]])"["fail_cnt[i]"]"}\
+                   }\
+                  print ""\
+              } ' <(cat $fail_source_file)  <(cat $source_file)\
+          )>> $RESULT_FOLD/$FILE_NAME
+}
+
+function kpi_dns_ecgi()
+{
+    local _time=$1
+    local _id=$2
+    local zidian="cat $CGI_ZIDIAN"
+    kpi_dns_common $_time $_id "$zidian"  $DNS_CORE_ZIDIAN
+}
+
+function kpi_dns_enb_mme()
+{
+    local _time=$1
+    local _id=$2
+    local zidian="cat $NET_ELEMENT_ZIDIAN"
+    kpi_dns_common $_time $_id "$zidian"  $DNS_CORE_ZIDIAN
+}
+function kpi_dns_city()
+{
+    local _time=$1
+    local _id=$2
+    local zidian="cat $CGI_CITY_ZIDIAN"
+    kpi_dns_common $_time $_id "$zidian"  $DNS_CORE_ZIDIAN
+}
+function kpi_dns_query_name()
+{
+    local _time=$1
+    local _id=$2
+    local zidian="echo 1 1"
+    kpi_dns_common $_time $_id "$zidian" $DNS_CORE_ZIDIAN
+}
+function kpi_tcp_total()
+{
+    local _time=$1
+    local _id=$2
+     cat $source_file|awk  -v time=$_time -v id=$_id  '{ \
+                printf("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%d,%.3f,%.3f,%.3f,%d,%d,%d\n",\
+                         $1,$2,$3,$4,$5,$6,$7,$8,$9/1000000,$10/1000000,$11/1000000,$12/1000000,$13/1000000,$14/1000000,$1*100/(($7==0)?1:$7),\
+                        $2*100/(($8==0)?1:$8),$3*100/(($7==0)?1:$7),$4*100/(($8==0)?1:$8),\
+                        $5*100/(($7==0)?1:$7),$6*100/(($8==0)?1:$8),\
+                        $15,$15*100/(($16==0)?1:$16),$18*100/(($17==0)?1:$17),$19*100/(($18==0)?1:$18),\
+                        ($20+$21)/1000000,$20/1000000,$21/1000000 )}' \
+         >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_tcp_common()
+{
+    local _time=$1
+    local _id=$2
+    local ZIDIAN_QUERY=$3
+
+    awk  -v time=$_time -v id=$_id  \
+          'NR==FNR{a[$1]=$2}NR>FNR{ \
+                printf("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%d,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f\n",\
+                         $1,((a[$1]=="")?$1:a[$1]),$2,$3,$4,$5,$6,$7,$8,$9,$10/1000000,$11/1000000,$12/1000000,$13/1000000,$14/1000000,$15/1000000,\
+                        $2*100/(($8==0)?1:$8),$3*100/(($9==0)?1:$9),$4*100/(($8==0)?1:$8),$5*100/(($9==0)?1:$9),\
+                $6*100/(($8==0)?1:$8),$7*100/(($9==0)?1:$9),\
+                $16,$16*100/(($17==0)?1:$17),$19*100/(($18==0)?1:$18),$20*100/(($19==0)?1:$19),\
+			   ($21+$22)/1000000,$21/1000000,$22/1000000 )}' \
+       <(echo $ZIDIAN_QUERY|sh) \
+       <(cat $source_file)\
+     >> $RESULT_FOLD/$FILE_NAME
+}
+
+function kpi_tcp_ecgi()
+{
+    local _time=$1
+    local _id=$2
+    local zidian="cat $CGI_ZIDIAN"
+    kpi_tcp_common $_time $_id "$zidian"
+}
+function kpi_tcp_enb_mme()
+{
+    local _time=$1
+    local _id=$2
+    local zidian="cat $NET_ELEMENT_ZIDIAN"
+    kpi_tcp_common $_time $_id "$zidian" 
+}
+function kpi_tcp_serverip()
+{
+    local _time=$1
+    local _id=$2
+    local zidian="echo 1 1"
+    kpi_tcp_common $_time $_id "$zidian"
+}
+function kpi_tcp_city()
+{
+    local _time=$1
+    local _id=$2
+    local zidian="cat $CGI_CITY_ZIDIAN"
+    kpi_tcp_common $_time $_id "$zidian"
+}
+function kpi_get_post_total()
+{
+    local _time=$1
+    local _id=$2
+    local fail_zidian_file=$GET_POST_CORE_ZIDIAN
+    awk  -v fail_zidian=$fail_zidian_file  \
+             'BEGIN{while((getline<fail_zidian)>0){fail[$1]=$2}}\
+              NR==FNR{fail_cnt[$1]=$3}\
+              NR>FNR{printf $0;\
+                  for(i in fail_cnt){\
+                          if(fail_cnt[i]>0) printf " "(fail[i]==""?i:fail[i])"["fail_cnt[i]"]" \
+                   }\
+                  print ""\
+              } ' <(cat $fail_source_file)  <(cat $source_file)|\
+    awk '{  printf("%d,%d,%.3f,%.3f,%.3f,%.3f,%.3f",\
+                 $3,$5,100-$5*100/$3,$2/$3/1000000,$4/$3/1000000,$1,$6*100/$3);\
+         for(i=7;i<=NF;i++){printf ","$i}\
+                 print ""\
+        }'\
+         >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_get_post_common()
+{
+    local _time=$1
+    local _id=$2
+    local ZIDIAN_QUERY=$3
+    local fail_zidian_file=$4
+
+    awk  -v time=$_time -v id=$_id  \
+          'NR==FNR{a[$1]=$2}NR>FNR{ \
+             printf("%s,%s,%d,%d,%.3f,%.3f,%.3f,%.3f,%.3f",\
+                  $1,((a[$1]=="")?$1:a[$1]),$4,$6,100-($4==0?0:$6*100/$4),$4==0?0:$3/$4/1000000,$4==0?0:$5/$4/1000000,$2,$4==0?0:$7*100/$4);\
+                         for(i=8;i<=NF;i++){printf ","$i}\
+                 print ""\
+           }'\
+       <(echo $ZIDIAN_QUERY|sh) \
+       <( awk  -v fail_zidian=$fail_zidian_file  \
+             'BEGIN{while((getline<fail_zidian)>0){fail[$1]=$2}}\
+              NR==FNR{fail_cnt[$1","$2]=$4}\
+              NR>FNR{printf $0;\
+                  for(i in fail_cnt){\
+                          split(i,ar,",");\
+                          if($1==ar[1]){if(fail_cnt[i]>0){ printf " "(fail[ar[2]]==""?ar[2]:fail[ar[2]])"["fail_cnt[i]"]"}}\
+                   }\
+                  print ""\
+              } ' <(cat $fail_source_file)  <(cat $source_file)\
+        )>> $RESULT_FOLD/$FILE_NAME
+}
+
+function kpi_get_post_ecgi()
+{
+    local _time=$1
+    local _id=$2
+    local zidian="cat $CGI_ZIDIAN"
+    kpi_get_post_common $_time $_id "$zidian"   $GET_POST_CORE_ZIDIAN
+}
+function kpi_get_post_enb_mme()
+{
+    local _time=$1
+    local _id=$2
+    local ZIDIAN_QUERY="cat $NET_ELEMENT_ZIDIAN"
+    local fail_zidian_file=$GET_POST_CORE_ZIDIAN
+
+    awk  -v time=$_time -v id=$_id  \
+          'NR==FNR{a[$1]=$2;net[$2]+=1}NR>FNR{ \
+             printf("%s,%s,%d,%d,%.3f,%.3f,%.3f,%.3f,%.3f",\
+                  $1,((a[$1]=="")?$1:a[$1]),$4,$6,100-($4==0?0:$6*100/$4),$4==0?0:$3/$4/1000000,$4==0?0:$5/$4/1000000,$2/(net[$1]==""?1:net[$1]),$4==0?0:$7*100/$4);\
+                         for(i=8;i<=NF;i++){printf ","$i}\
+                 print ""\
+           }'\
+       <(echo $ZIDIAN_QUERY|sh) \
+       <( awk  -v fail_zidian=$fail_zidian_file  \
+             'BEGIN{while((getline<fail_zidian)>0){fail[$1]=$2}}\
+              NR==FNR{fail_cnt[$1","$2]=$4}\
+              NR>FNR{printf $0;\
+                  for(i in fail_cnt){\
+                          split(i,ar,",");\
+                          if($1==ar[1]){if(fail_cnt[i]>0){ printf " "(fail[ar[2]]==""?ar[2]:fail[ar[2]])"["fail_cnt[i]"]"}}\
+                   }\
+                  print ""\
+              } ' <(cat $fail_source_file)  <(cat $source_file)\
+        )>> $RESULT_FOLD/$FILE_NAME
+}
+function kpi_get_post_serverip()
+{
+    local _time=$1
+    local _id=$2
+    local zidian="echo 1 1"
+    kpi_get_post_common $_time $_id "$zidian"   $GET_POST_CORE_ZIDIAN
+}
+function kpi_get_post_city()
+{
+    local _time=$1
+    local _id=$2
+    local zidian="cat $CGI_CITY_ZIDIAN"
+    kpi_get_post_common $_time $_id "$zidian"   $GET_POST_CORE_ZIDIAN
+}
+function filter_download_phone_service_type_total()
+{
+    local _time=$1
+    local _id=$2 
+       awk '{ printf("%.3f,%.3f\n",\
+                  $1,$2*100/(($3==0)?1:$3));}'\
+       <(cat $source_file )\
+     >> $RESULT_FOLD/$FILE_NAME
+}
+function filter_download_phone_service_type()
+{
+    local _time=$1
+    local _id=$2 
+    local ZIDIAN_QUERY="cat $SERVICE_TYPE_ZIDIAN"
+    awk  -v time=$_time -v id=$_id  \
+          'NR==FNR{a[$2]=$3}NR>FNR{ \
+             printf("%s,%s,%.3f,%.3f\n",\
+                  $1,((a[$3]=="")?$3:a[$3]),$4,$5*100/(($6==0)?1:$6));}'\
+       <(echo $ZIDIAN_QUERY|sh) \
+       <(cat $source_file )\
+     >> $RESULT_FOLD/$FILE_NAME
+}

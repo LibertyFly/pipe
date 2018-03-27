@@ -1,6 +1,6 @@
 #!/bin/bash
 #-------------CopyRight------------- 
-#   Name:get_cycle_result
+#   Name:get_cycle_result.sh
 #   Version Number:5.01
 #   Type:DataQuery
 #   Language:bash shell 
@@ -310,6 +310,17 @@ function print_source_result()
 
 }
 
+function check_daylight_saving()
+{
+   _check_date=$1
+   daylight_saving=0
+   error_cnt=`date -d "$_check_date" +%s 2>&1|grep invalid|wc -l `
+   if [  $error_cnt -eq 1 ] ;then
+    daylight_saving=1
+   fi
+
+}
+
 #
 # If cycle is "h" and "-d" is true,then query 24 hours's data
 #
@@ -349,8 +360,8 @@ function hour_detail_query()
       		 local mDATE=${t_time:0:8}
      		 local mHOUR=${t_time:8:2}
 		fi
-      for((sdate=0;sdate<12;sdate++));do
-	    _minutes=$((5*sdate))	
+      for((sdate=0;sdate<$12;sdate++));do
+	_minutes=$((5*sdate))	
         _time=$(date -d "$mDATE $mHOUR  ${_minutes}minutes " +"%Y%m%d%H%M");
         last_time=$(date -d "$mDATE $mHOUR  ${_minutes}minutes " +%s);
         set_source_file "f"  $_time
@@ -394,19 +405,34 @@ function day_detail_query()
       fi
       print_source_result  $t_time $t_timeValue
   else
+      check_daylight_saving "$t_time"  
       if [[ "$detail_cycle" == "f" ]];then 
+          if [ $daylight_saving -eq 0 ] ;then
+             _tdate=$(date -d  "$t_time " "+%Y%m%d %H:%M")
+             _max_cnt=276
+          else
+             _tdate=$(date -d  "$t_time 00:05" "+%Y%m%d %H:%M")
+             _max_cnt=275
+          fi
            t_timeValue=300  
-             for((sdate=0;sdate<=276;sdate++));do
+             for((sdate=0;sdate<=$_max_cnt;sdate++));do
              _minutes=$((5*sdate))
-             _time=$(date -d "$t_time   ${_minutes}minutes " +"%Y%m%d%H%M");
-            last_time=$(date -d "$t_time  ${_minutes}minutes " +%s);
+             _time=$(date -d "$_tdate   ${_minutes}minutes " +"%Y%m%d%H%M");
+            last_time=$(date -d "$_tdate  ${_minutes}minutes " +%s);
             set_source_file "f"  $_time
             print_source_result  $last_time  $t_timeValue
             done 
        else
-         for((sdate=0;sdate<=23;sdate++));do
-         _time=$(date -d "$t_time  ${sdate}hours " +%Y%m%d%H);
-         last_time=$(date -d "$t_time ${sdate}hours " +%s);     
+          if [ $daylight_saving -eq 0 ] ;then
+             _tdate=$(date -d  "$t_time " "+%Y%m%d %H:%M")
+             _max_cnt=23
+          else
+             _tdate=$(date -d  "$t_time 01:00" "+%Y%m%d %H:%M")
+             _max_cnt=22
+          fi
+         for((sdate=0;sdate<=$_max_cnt;sdate++));do
+         _time=$(date -d "$_tdate  ${sdate}hours " +%Y%m%d%H);
+         last_time=$(date -d "$_tdate ${sdate}hours " +%s);     
          set_source_file "h"  $_time
           print_source_result  $last_time  $t_timeValue 
          done

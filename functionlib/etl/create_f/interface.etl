@@ -1,0 +1,344 @@
+GDIF_HTTP_QUA_LAC_CI_RAT_HTTPTYPE()
+{
+  _key_cnt=4
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+GDIF_GGSN_HTTPTYPE()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum3.awk 
+}
+GDIF_MSISDN_LAC_CI_RAT_SERVGRP_SUB()
+{
+  _key_cnt=4
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+GDIF_MSISDN_LAC_CI_RAT_SUB()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_sum2.awk 
+}
+GDIF_MSISDN_LAC_SERVGRP_SUB()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+GDIF_MSISDN_RAT_SERVGRP_SUB()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+GDIF_MSISDN_LAC_CI_RAT_SERVDETAIL_SUB()
+{
+  _key_cnt=6
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+GDIF_MSISDN_LAC_SERVDETAIL_SUB()
+{
+  _key_cnt=4
+  _is_cut=0
+  _awk_file=cycle_sum2.awk 
+}
+GDIF_MSISDN_RAT_SERVDETAIL_SUB()
+{
+  _key_cnt=4
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL()
+{
+  _key_cnt=6
+  _is_cut=0
+  _awk_file=cycle_sum3.awk  
+}
+GDIF_HTTP_QUA_LAC_CI_SUBJECT_SERVDETAIL()
+{
+  _key_cnt=6
+  _is_cut=0
+  _awk_file=cycle_sum3.awk    
+}
+GDIF_HOST()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum7.awk    
+}
+GDIF_TERMINAL_LAC_CI()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_sum4.awk    
+}
+GDIF_MSISDN_TERMINAL_SUB()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+GDIF_MSISDN()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum2.awk 
+}
+GDIF_SIGNAL_QUA_MSISDN_PDPTYPE()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum3.awk 
+}
+GDIF_MSISDN_PORT()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_uniq.awk
+}
+GDIF_SERVDETAIL()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_sum4.awk 
+}
+
+GDIF_MSISDN_SERVDETAIL_SUB()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_sum2.awk 
+}
+GDIF_SIGNAL_QUA_LAC_CI_RAT_PDPTYPE()
+{
+  _key_cnt=4
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+GDIF_SIGNAL_QUA_GGSN_APN_RAT_PDPTYPE()
+{
+  _key_cnt=4
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+GDIF_SIGNAL_QUA_RAT_PDPTYPE()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+GDIF_LAC_APN_RAT()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+GDIF_FILTER2_LAC_APN_RAT()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+GDIF_GGSN_APN_RAT()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+GDIF_FILTER2_GGSN_APN_RAT()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+GDIF_FILTER_LAC_RAT()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum6.awk
+}
+GDIF_FILTER2_LAC_RAT()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum6.awk
+}
+GDIF_FILTER_GGSN_RAT()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum6.awk
+}
+GDIF_FILTER2_GGSN_RAT()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum6.awk
+}
+GDIF_LAC_CI_RAT_SERVDETAIL()
+{
+  _key_cnt=6
+  _is_cut=0
+  _awk_file=cycle_sum6.awk
+}
+GDIF_LAC_CI_APN()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+GDIF_SPEED_LAC_CI_APN()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+GDIF_SPEED_GGSN_APN_RAT()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+GDIF_TCP_QUA_GGSN_APN_RAT()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_sum3.awk     
+}
+GDIF_TCP_QUA_LAC_APN_RAT()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+GDIF_DNS_QUA_GGSN_RAT()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+GDIF_DNS_QUA_LAC_RAT()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+GDIF_DNS_QUA_RAT_DNSIP()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+GDIF_DNS_QUA_SERVDETAIL()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+GDIF_FILTER_LAC_APN_RAT_SERVDETAIL()
+{
+  _key_cnt=6
+  _is_cut=0
+  _awk_file=cycle_sum8.awk
+}
+GDIF_GGSN_RAT()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+
+GDIF_HTTP_QUA_GGSN_SERVDETAIL()
+{
+  _key_cnt=4
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+
+GDIF_HTTP_QUA_GGSN_APN_RAT_PDPTYPE()
+{
+  _key_cnt=4
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+
+GDIF_HTTP_QUA_LAC_CI_APN()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+
+GDIF_HTTP_QUA_LAC_RAT()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+
+GDIF_HTTP_QUA_RAT()
+{
+  _key_cnt=4
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+
+GDIF_HTTP_QUA_SGSN_SERVDETAIL()
+{
+  _key_cnt=4
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+
+GDIF_LAC_CI_PAN()
+{
+  _key_cnt=3
+  _is_cut=0
+  _awk_file=cycle_sum5.awk
+}
+
+GDIF_LAC_RAT()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+
+GDIF_NET_DIRECTION()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+
+GDIF_RAT()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+
+GDIF_SGSN()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+
+GDIF_HTTP_QUA_SGSN_HTTPTYPE()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+
+GDIF_SIGNAL_QUA_SGSN_PDPTYPE()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}

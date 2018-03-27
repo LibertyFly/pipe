@@ -1,0 +1,2588 @@
+function GN_PROVINCE_CELL_WAP_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_HTTPTYPE"
+   _source_shell="grep V1"
+   _trans_awk="awk '{\$4=\"\";print \$0}'"
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}
+
+function GN_PROVINCE_LAC_WAP_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_HTTPTYPE"
+   _source_shell="grep V1"
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";\$4=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+
+function GN_PROVINCE_PROVINCE_WAP_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_HTTPTYPE"
+   _source_shell="grep V1"
+   _trans_awk="awk '{\$1=\"\";\$2=\"\";\$4=\"\";print \$0;\$3=3;print \$0;}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_HTTP_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_HTTPTYPE"
+   _source_shell="grep V0"  
+   _trans_awk="awk '{\$4=\"\";print \$0}'"
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}
+function GN_PROVINCE_LAC_HTTP_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_HTTPTYPE"
+   _source_shell="grep V0"
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";\$4=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_PROVINCE_HTTP_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_HTTPTYPE"
+   _source_shell="grep V0"
+   _trans_awk="awk '{\$1=\"\";\$2=\"\";\$4=\"\";print \$0;\$3=3;print \$0;}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_CXMO_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep D7002"
+   _trans_awk="awk '{\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_LAC_CXMO_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep D7002"
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_CXMO_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep D7002"
+   _trans_awk="awk '{\$1=\"\";\$2=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0;\$3=3;print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_CELL_CXMT_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep D7001"
+   _trans_awk="awk '{\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_LAC_CXMT_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep D7001"
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_PROVINCE_CXMT_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep D7001"
+   _trans_awk="awk '{\$1=\"\";\$2=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0;\$3=3;print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+ 
+function GN_PROVINCE_CELL_CRT_PDP_HO()
+{
+   _source_file="GDIF_SIGNAL_QUA_LAC_CI_RAT_PDPTYPE"
+   _source_shell=""
+   _trans_awk="awk '{if(\$4==16){\$4=\"\";print \$0}}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_LAC_CRT_PDP_HO()
+{
+   _source_file="GDIF_SIGNAL_QUA_LAC_CI_RAT_PDPTYPE"
+   _source_shell=""
+   _trans_awk="awk '{if(\$4==16){\$2=\"\";\$3=\"\";\$4=\"\";print \$0}}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_PROVINCE_CRT_PDP_HO()
+{
+   _source_file="GDIF_SIGNAL_QUA_LAC_CI_RAT_PDPTYPE"
+   _source_shell=""
+   _trans_awk="awk '{if(\$4==16){\$1=\"\";\$2=\"\";\$4=\"\";print \$0}}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_UPD_PDP_HO()
+{
+   _source_file="GDIF_SIGNAL_QUA_LAC_CI_RAT_PDPTYPE"
+   _source_shell=""
+   _trans_awk="awk '{if(\$4==18){\$4=\"\";print \$0}}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_LAC_UPD_PDP_HO()
+{
+   _source_file="GDIF_SIGNAL_QUA_LAC_CI_RAT_PDPTYPE"
+   _source_shell=""
+   _trans_awk="awk '{if(\$4==18){\$2=\"\";\$3=\"\";\$4=\"\";print \$0}}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_PROVINCE_UPD_PDP_HO()
+{
+   _source_file="GDIF_SIGNAL_QUA_LAC_CI_RAT_PDPTYPE"
+   _source_shell=""
+   _trans_awk="awk '{if(\$4==18){\$1=\"\";\$2=\"\";\$4=\"\";print \$0}}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_WLLL_HO()
+{
+   _source_file="GDIF_LAC_CI_APN"
+   _source_shell=""
+   _trans_awk="awk '{\$3=\"\";print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_LAC_WLLL_HO()
+{
+   _source_file="GDIF_LAC_CI_APN"
+   _source_shell=""
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_PROVINCE_WLLL_HO()
+{
+   _source_file="GDIF_RAT"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_GROUP_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVGRP_SUB"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}
+function GN_PROVINCE_LAC_GROUP_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_SERVGRP_SUB"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_GROUP_HO()
+{
+   _source_file="GDIF_MSISDN_RAT_SERVGRP_SUB"
+   _source_shell=""
+   _trans_awk="awk '{print \$0;\$1=3;print \$0;}'"
+   _awk_v=" -v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_CELL_LLXZ_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G2800"
+   _trans_awk="awk '{\$4=\"\";\$6=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_LAC_LLXZ_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_SERVDETAIL_SUB"
+   _source_shell="grep G2800"
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_LLXZ_HO()
+{
+   _source_file="GDIF_MSISDN_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G2800"
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;\$1=3;print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+
+function GN_PROVINCE_CELL_P2PXZ_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVDETAIL_SUB"
+   _source_shell="grep -E \"S4090|S4098|S40A0\""
+   _trans_awk="awk '{\$4=\"\";\$6=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_LAC_P2PXZ_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_SERVDETAIL_SUB"
+   _source_shell="grep -E \"S4090|S4098|S40A0\""
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_P2PXZ_HO()
+{
+   _source_file="GDIF_MSISDN_RAT_SERVDETAIL_SUB"
+   _source_shell="grep -E \"S4090|S4098|S40A0\""
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;\$1=3;print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+
+function GN_PROVINCE_CELL_JSTX_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVDETAIL_SUB"
+   _source_shell="grep -E \"S0800|S0808|S0810|S0818|S0820|S0828|S0830|S0838|S0840|S0848|S08C8|S08C0|S08D8|S08E0|S0900|S0920|S0928|S0930|S0938|S0948\""
+   _trans_awk="awk '{\$4=\"\";\$6=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_LAC_JSTX_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_SERVDETAIL_SUB"
+   _source_shell="grep -E \"S0800|S0808|S0810|S0818|S0820|S0828|S0830|S0838|S0840|S0848|S08C8|S08C0|S08D8|S08E0|S0900|S0920|S0928|S0930|S0938|S0948\""
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_JSTX_HO()
+{
+   _source_file="GDIF_MSISDN_RAT_SERVDETAIL_SUB"
+   _source_shell="grep -E \"S0800|S0808|S0810|S0818|S0820|S0828|S0830|S0838|S0840|S0848|S08C8|S08C0|S08D8|S08E0|S0900|S0920|S0928|S0930|S0938|S0948\""
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;\$1=3;print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_SJYD_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G3000"
+   _trans_awk="awk '{\$4=\"\";\$6=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_LAC_SJYD_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_SERVDETAIL_SUB"
+   _source_shell="grep G3000"
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_SJYD_HO()
+{
+   _source_file="GDIF_MSISDN_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G3000"
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;\$1=3;print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_WB_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVDETAIL_SUB"
+   _source_shell="grep -E \"S2000|S2008|S2010|S2018|S2020|S2030|S2038|S2040\""
+   _trans_awk="awk '{\$4=\"\";\$6=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_LAC_WB_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_SERVDETAIL_SUB"
+   _source_shell="grep -E \"S2000|S2008|S2010|S2018|S2020|S2030|S2038|S2040\""
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_WB_HO()
+{
+   _source_file="GDIF_MSISDN_RAT_SERVDETAIL_SUB"
+   _source_shell="grep -E \"S2000|S2008|S2010|S2018|S2020|S2030|S2038|S2040\""
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;\$1=3;print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_SJSP_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G1800|grep -v  -E \"S4090|S4098|S40A0|S40A8|S40B0\""
+   _trans_awk="awk '{\$4=\"\";\$6=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_LAC_SJSP_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_SERVDETAIL_SUB"
+   _source_shell="grep G1800|grep -v  -E \"S4090|S4098|S40A0|S40A8|S40B0\""
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_SJSP_HO()
+{
+   _source_file="GDIF_MSISDN_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G1800|grep -v  -E \"S4090|S4098|S40A0|S40A8|S40B0\""
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;\$1=3;print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_SJP2PSP_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVDETAIL_SUB"
+   _source_shell="grep -E \"S1810|S18E8|S18C8|S1898|S18E0\""
+   _trans_awk="awk '{\$4=\"\";\$6=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_LAC_SJP2PSP_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_SERVDETAIL_SUB"
+   _source_shell="grep -E \"S1810|S18E8|S18C8|S1898|S18E0\""
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_SJP2PSP_HO()
+{
+   _source_file="GDIF_MSISDN_RAT_SERVDETAIL_SUB"
+   _source_shell="grep -E \"S1810|S18E8|S18C8|S1898|S18E0\""
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;\$1=3;print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_SJYY_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G1000"
+   _trans_awk="awk '{\$4=\"\";\$6=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_LAC_SJYY_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_SERVDETAIL_SUB"
+   _source_shell="grep G1000"
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_SJYY_HO()
+{
+   _source_file="GDIF_MSISDN_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G1000"
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;\$1=3;print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_YYSD_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVDETAIL_SUB"
+   _source_shell="grep -E \"S4010|S4018|S4020|S4028|S4030|S4038|S4008|S4000|S40D8\""
+   _trans_awk="awk '{\$4=\"\";\$6=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_LAC_YYSD_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_SERVDETAIL_SUB"
+   _source_shell="grep -E \"S4010|S4018|S4020|S4028|S4030|S4038|S4008|S4000|S40D8\""
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_YYSD_HO()
+{
+   _source_file="GDIF_MSISDN_RAT_SERVDETAIL_SUB"
+   _source_shell="grep -E \"S4010|S4018|S4020|S4028|S4030|S4038|S4008|S4000|S40D8\""
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;\$1=3;print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+
+function GN_PROVINCE_CELL_SJYXI_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G3800"
+   _trans_awk="awk '{\$4=\"\";\$6=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_LAC_SJYXI_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_SERVDETAIL_SUB"
+   _source_shell="grep G3800"
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_SJYXI_HO()
+{
+   _source_file="GDIF_MSISDN_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G3800"
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;\$1=3;print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_SJYX_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G4800"
+   _trans_awk="awk '{\$4=\"\";\$6=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_LAC_SJYX_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_SERVDETAIL_SUB"
+   _source_shell="grep G4800"
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_SJYX_HO()
+{
+   _source_file="GDIF_MSISDN_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G4800"
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;\$1=3;print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_CX_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVDETAIL_SUB"
+   _source_shell="grep -E \"D7001|D7002\""
+   _trans_awk="awk '{\$4=\"\";\$5=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_LAC_CX_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_SERVDETAIL_SUB"
+   _source_shell="grep -E \"D7001|D7002\""
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_CX_HO()
+{
+   _source_file="GDIF_MSISDN_RAT_SERVDETAIL_SUB"
+   _source_shell="grep -E \"D7001|D7002\""
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";print \$0;\$1=3;print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_VOIP_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVDETAIL_SUB"
+   _source_shell="grep -E \"S0858|S0860|S0868|S0870|S0878|S0880|S0888|S0890|S0898|S08A0|S08A8|S08B0|S08B8|S08D0|S0940|S0950\""
+   _trans_awk="awk '{\$4=\"\";\$6=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_LAC_VOIP_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_SERVDETAIL_SUB"
+   _source_shell="grep -E \"S0858|S0860|S0868|S0870|S0878|S0880|S0888|S0890|S0898|S08A0|S08A8|S08B0|S08B8|S08D0|S0940|S0950\""
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_VOIP_HO()
+{
+   _source_file="GDIF_MSISDN_RAT_SERVDETAIL_SUB"
+   _source_shell="grep -E \"S0858|S0860|S0868|S0870|S0878|S0880|S0888|S0890|S0898|S08A0|S08A8|S08B0|S08B8|S08D0|S0940|S0950\""
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;\$1=3;print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_YYSZY_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G7000|grep -v -E \"S7138|S7140\""
+   _trans_awk="awk '{\$4=\"\";\$5=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_LAC_YYSZY_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_SERVDETAIL_SUB"
+   _source_shell="grep G7000|grep -v -E \"S7138|S7140\""
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_YYSZY_HO()
+{
+   _source_file="GDIF_MSISDN_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G7000|grep -v -E \"S7138|S7140\""
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";print \$0;\$1=3;print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_SJ_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G2000"
+   _trans_awk="awk '{\$4=\"\";\$6=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_LAC_SJ_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_SERVDETAIL_SUB"
+   _source_shell="grep G2000"
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_SJ_HO()
+{
+   _source_file="GDIF_MSISDN_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G2000"
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;\$1=3;print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_DZSW_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G5000"
+   _trans_awk="awk '{\$4=\"\";\$6=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_LAC_DZSW_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_SERVDETAIL_SUB"
+   _source_shell="grep G5000"
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_DZSW_HO()
+{
+   _source_file="GDIF_MSISDN_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G5000"
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;\$1=3;print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_SS_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVDETAIL_SUB"
+   _source_shell="grep S2878"
+   _trans_awk="awk '{\$4=\"\";\$6=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_LAC_SS_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_SERVDETAIL_SUB"
+   _source_shell="grep S2878"
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_SS_HO()
+{
+   _source_file="GDIF_MSISDN_RAT_SERVDETAIL_SUB"
+   _source_shell="grep S2878"
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;\$1=3;print \$0;}'"
+   _awk_v="-v key_cnt=2 "
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_DH_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G5800"
+   _trans_awk="awk '{\$4=\"\";\$6=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_LAC_DH_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_SERVDETAIL_SUB"
+   _source_shell="grep G5800"
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_DH_HO()
+{
+   _source_file="GDIF_MSISDN_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G5800"
+   _trans_awk="awk '{\$2=\"\";\$4=\"\";print \$0;\$1=3;print \$0;}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_XLWB_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S2000"
+   _trans_awk="awk '{\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+
+function GN_PROVINCE_LAC_XLWB_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S2000"
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_XLWB_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S2000"
+   _trans_awk="awk '{\$1=\"\";\$2=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0;\$3=3;print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_TXWB_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S2008"
+   _trans_awk="awk '{\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+
+function GN_PROVINCE_LAC_TXWB_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S2008"
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_TXWB_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S2008"
+   _trans_awk="awk '{\$1=\"\";\$2=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0;\$3=3;print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_YDWB_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S2038"
+   _trans_awk="awk '{\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_LAC_YDWB_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S2038"
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_YDWB_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S2038"
+   _trans_awk="awk '{\$1=\"\";\$2=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0;\$3=3;print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_CELL_WEIXIN_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S08E0"
+   _trans_awk="awk '{\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_LAC_WEIXIN_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S08E0"
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_PROVINCE_WEIXIN_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S08E0"
+   _trans_awk="awk '{\$1=\"\";\$2=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0;\$3=3;print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_FEIXIN_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S0800"
+   _trans_awk="awk '{\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_LAC_FEIXIN_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S0800"
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_PROVINCE_FEIXIN_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S0800"
+   _trans_awk="awk '{\$1=\"\";\$2=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0;\$3=3;print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_FEILIAO_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S0838"
+   _trans_awk="awk '{\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_LAC_FEILIAO_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S0838"
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_FEILIAO_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S0838"
+   _trans_awk="awk '{\$1=\"\";\$2=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0;\$3=3;print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_MM_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S4000"
+   _trans_awk="awk '{\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_LAC_MM_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S4000"
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_PROVINCE_MM_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S4000"
+   _trans_awk="awk '{\$1=\"\";\$2=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0;\$3=3;print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_CELL_QQMAIL_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S4830"
+   _trans_awk="awk '{\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_LAC_QQMAIL_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S4830"
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_QQMAIL_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S4830"
+   _trans_awk="awk '{\$1=\"\";\$2=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0;\$3=3;print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_CELL_139MAIL_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S4808"
+   _trans_awk="awk '{\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_LAC_139MAIL_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S4808"
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_139MAIL_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S4808"
+   _trans_awk="awk '{\$1=\"\";\$2=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0;\$3=3;print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_CELL_QQ_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S0900"
+   _trans_awk="awk '{\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_LAC_QQ_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S0900"
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_QQ_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep S0900"
+   _trans_awk="awk '{\$1=\"\";\$2=\"\";\$4=\"\";\$5=\"\";\$6=\"\";print \$0;\$3=3;print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_HOST50_HO()
+{
+   _source_file="GDIF_HOST"
+   _source_shell="grep -v NULL"
+   _trans_awk="awk '{print \$1\" \"\$2}'"
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k2|head -n 1000"
+}
+
+function GN_PROVINCE_PROVINCE_HOSTUPFLOW50_HO()
+{
+   _source_file="GDIF_HOST"
+   _source_shell="grep -v NULL"
+   _trans_awk="awk '{print \$1\" \"\$3}'"
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k2|head -n 1000"
+
+}
+function GN_PROVINCE_PROVINCE_HOSTDOWNFLOW50_HO()
+{
+   _source_file="GDIF_HOST"
+   _source_shell="grep -v NULL"
+   _trans_awk="awk '{print \$1\" \"\$4}'"
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k2|head -n 1000"
+
+}
+function GN_PROVINCE_PROVINCE_HOSTHITS50_HO()
+{
+   _source_file="GDIF_HOST"
+   _source_shell="grep -v NULL"
+   _trans_awk="awk '{print \$1\" \"\$5}'"
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k2|head -n 1000"
+
+}
+function GN_PROVINCE_PROVINCE_BRAND20_HO()
+{
+   _source_file="GDIF_TERMINAL_LAC_CI"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN \
+              'BEGIN{while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$2}}\
+                {\$1=(terminal_to_fac_type[\$1]==\"\"?\$1:terminal_to_fac_type[\$1]);\
+                 \$2=\"\";\$3=\"\";print \$0 }'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_PROVINCE_TMNL20_HO()
+{
+   _source_file="GDIF_TERMINAL_LAC_CI"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN \
+              'BEGIN{while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$2\" \"\$3}}\
+                {\$1=(terminal_to_fac_type[\$1]==\"\"?\$1\" \"\$1:terminal_to_fac_type[\$1]);\
+                   \$2=\"\";\$3=\"\";print \$0 }'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_TMNLUPSPEED20_HO()
+{
+   _source_file="GDIF_TERMINAL_LAC_CI"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN \
+              'BEGIN{while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$2\" \"\$3}}\
+                {\$1=(terminal_to_fac_type[\$1]==\"\"?\$1\" \"\$1:terminal_to_fac_type[\$1]);\
+                  \$2=\"\";\$3=\"\";print \$0 }'|\
+                awk -v key_cnt=2 -f ${AWK_FOLD}/cycle_sum4.awk|\
+                awk '{if((\$4>10*1024*1024)||(\$5>10*1024*1024))print \$1\" \"\$2\" \"\$4\" \"\$6}'"
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_TMNLDOWNSPEED20_HO()
+{
+   _source_file="GDIF_TERMINAL_LAC_CI"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN \
+              'BEGIN{while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$2\" \"\$3}}\
+                {\$1=(terminal_to_fac_type[\$1]==\"\"?\$1\" \"\$1:terminal_to_fac_type[\$1]);\
+                   \$2=\"\";\$3=\"\";print \$0 }'|\
+                awk -v key_cnt=2 -f ${AWK_FOLD}/cycle_sum4.awk|\
+                awk '{if((\$4>10*1024*1024)||(\$5>10*1024*1024))print \$1\" \"\$2\" \"\$5\" \"\$6}'"
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_BRANDUSER20_HO()
+{
+   _source_file="GDIF_MSISDN_TERMINAL_SUB"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN \
+              'BEGIN{while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$2}}\
+                {\$1=(terminal_to_fac_type[\$1]==\"\"?\$1:terminal_to_fac_type[\$1]);print \$0 }'|\
+                awk -v key_cnt=1 -f ${AWK_FOLD}/cycle_sum2.awk"
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k3|head -n 100"
+
+}
+function GN_PROVINCE_PROVINCE_TMNLUSER20_HO()
+{
+   _source_file="GDIF_MSISDN_TERMINAL_SUB"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN \
+              'BEGIN{while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$2\" \"\$3}}\
+                {\$1=(terminal_to_fac_type[\$1]==\"\"?\$1\" \"\$1:terminal_to_fac_type[\$1]);print \$1\" \"\$3 }'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_LARGETFC20_HO()
+{
+   _source_file="GDIF_MSISDN"
+   _source_shell="grep -v 8600000000000"
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k2|head -n 100"
+
+}
+function GN_PROVINCE_PROVINCE_ABNORMALPDP20_HO()
+{
+   _source_file="GDIF_SIGNAL_QUA_MSISDN_PDPTYPE"
+   _source_shell="grep -v 8600000000000"
+   _trans_awk="awk '{print \$1\" \"\$3}'"
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k2|head -n 100"
+
+}
+function GN_PROVINCE_PROVINCE_LONGONLINE20_HO()
+{
+   _source_file="GDIF_MSISDN"
+   _source_shell="grep -v 8600000000000"
+   _trans_awk="awk '{print \$1\" \"\$3}'"
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd="sort -nr -k2|head -n 100"
+}
+function GN_PROVINCE_PROVINCE_ABNORMALPORTSCAN20_HO()
+{
+   _source_file="GDIF_MSISDN_PORT"
+   _source_shell="grep -v 8600000000000"
+   _trans_awk=""
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_uniq_cnt.awk"
+   _sort_cmd="sort -nr -k2|head -n 100"
+}
+function GN_PROVINCE_PROVINCE_SVCINCRE10_DA()
+{
+   _source_file="GDIF_SERVDETAIL"
+   _source_shell=""
+   _trans_awk="awk '{print \$2\" \"\$4}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_inc.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_SVCINCRERANGE10_DA()
+{
+   _source_file="GDIF_SERVDETAIL"
+   _source_shell=""
+   _trans_awk="awk '{print \$2\" \"\$4}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_inc.awk"
+   _sort_cmd=""
+
+}
+function GN_PROVINCE_PROVINCE_TMNLCLASS_HO()
+{
+   _source_file="GDIF_MSISDN_TERMINAL_SUB"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN \
+              'BEGIN{while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$4}}\
+                {\$1=(terminal_to_fac_type[\$1]==\"\"?\$1:terminal_to_fac_type[\$1]);print \$0 }'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd="sort -nr -k3"
+
+}
+function GN_PROVINCE_PROVINCE_SPECIALSVCUSER_HO()
+{
+   _source_file="GDIF_MSISDN_SERVDETAIL_SUB"
+   _source_shell="grep -E  \"S0800|S2038|S0900|S2000|S4808|S30E0|S4000\" "
+   _trans_awk="awk '{\$3=\"\";;print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_SGSN_WAP_HO()
+{
+   _source_file="GDIF_HTTP_QUA_SGSN_HTTPTYPE"
+   _source_shell="grep V1"
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+                {\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);\$2=\"\";print \$0 }'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_GGSN_WAP_HO()
+{
+    GN_PROVINCE_SGSN_WAP_HO 
+   _source_file="GDIF_HTTP_QUA_GGSN_HTTPTYPE"
+}
+function GN_PROVINCE_SGSN_HTTP_HO()
+{
+   GN_PROVINCE_SGSN_WAP_HO
+   _source_file="GDIF_HTTP_QUA_SGSN_HTTPTYPE"
+   _source_shell="grep V0"
+}
+function GN_PROVINCE_GGSN_HTTP_HO()
+{
+   GN_PROVINCE_SGSN_WAP_HO
+   _source_file="GDIF_HTTP_QUA_GGSN_HTTPTYPE"
+   _source_shell="grep V0"
+}
+function GN_PROVINCE_SGSN_MMSMO_HO()
+{
+   _source_file="GDIF_HTTP_QUA_SGSN_SERVDETAIL"
+   _source_shell="grep D7002"
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+                {\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);\$2=\"\";\$3=\"\";\$4=\"\";print \$0 }'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_GGSN_MMSMO_HO()
+{
+   GN_PROVINCE_SGSN_MMSMO_HO
+   _source_file="GDIF_HTTP_QUA_GGSN_SERVDETAIL"
+   _source_shell="grep D7002"
+}
+function GN_PROVINCE_SGSN_MMSMT_HO()
+{
+   GN_PROVINCE_SGSN_MMSMO_HO
+   _source_file="GDIF_HTTP_QUA_SGSN_SERVDETAIL"
+   _source_shell="grep D7001"
+}
+function GN_PROVINCE_GGSN_MMSMT_HO()
+{
+   GN_PROVINCE_SGSN_MMSMO_HO
+   _source_file="GDIF_HTTP_QUA_GGSN_SERVDETAIL"
+   _source_shell="grep D7001"
+}
+function GN_PROVINCE_PROVINCE_DNS_HO()
+{
+   _source_file="GDIF_DNS_QUA_SERVDETAIL"
+   _source_shell=""
+   _trans_awk="awk '{\$1=\"\";\$2=\"\";\$3=\"\";print \$0}'"
+   _awk_v="-v key_cnt=0"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_SGSN_CRTPDP_HO()
+{
+   _source_file="GDIF_SIGNAL_QUA_SGSN_PDPTYPE"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+                {if(\$2==16){\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);\$2=\"\";print \$0 }}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_GGSN_CRTPDP_HO()
+{
+   _source_file="GDIF_SIGNAL_QUA_GGSN_APN_RAT_PDPTYPE"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+                {if(\$4==16){\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);\$2=\"\";\$3=\"\";\$4=\"\";print \$0 }}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_SGSN_UPDPDP_HO()
+{
+   _source_file="GDIF_SIGNAL_QUA_SGSN_PDPTYPE"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+                {if(\$2==18){\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);\$2=\"\";print \$0 }}'" 
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_GGSN_UPDPDP_HO()
+{
+   _source_file="GDIF_SIGNAL_QUA_GGSN_APN_RAT_PDPTYPE"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+                {if(\$4==18){\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);\$2=\"\";\$3=\"\";\$4=\"\";print \$0 }}'" 
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_SGSN_SVC_HO()
+{
+   _source_file="GDIF_SGSN"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+                {\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);print \$0 }'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_GGSN_SVC_HO()
+{
+   _source_file="GDIF_GGSN_HTTPTYPE"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+                {\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);\$2=\"\";print \$0 }'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_PROVINCE_HOSTTOTAL20_HO()
+{
+   _source_file="GDIF_HOST"
+   _source_shell="grep -v NULL"
+   _trans_awk="awk -v zd_host=$HOST_ZIDIAN \
+              'BEGIN{while((getline<zd_host)>0){host[\$1]=\$2}}\
+                {if(host[\$1]!=\"\"){\$1=host[\$1];print \$1\" \"\$2 }}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum1.awk"
+   _sort_cmd="sort -nr -k2|head -n 1000"
+}
+function GN_PROVINCE_PROVINCE_HOSTUP20_HO()
+{
+   _source_file="GDIF_HOST"
+   _source_shell="grep -v NULL"
+   _trans_awk="awk -v zd_host=$HOST_ZIDIAN \
+              'BEGIN{while((getline<zd_host)>0){host[\$1]=\$2}}\
+                {if(host[\$1]!=\"\"){\$1=host[\$1];print \$1\" \"\$3 }}'" 
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum1.awk"
+   _sort_cmd="sort -nr -k2|head -n 1000"
+}
+function GN_PROVINCE_PROVINCE_HOSTDOWN20_HO()
+{
+   _source_file="GDIF_HOST"
+   _source_shell="grep -v NULL"
+   _trans_awk="awk -v zd_host=$HOST_ZIDIAN \
+              'BEGIN{while((getline<zd_host)>0){host[\$1]=\$2}}\
+                {if(host[\$1]!=\"\"){\$1=host[\$1];print \$1\" \"\$4 }}'" 
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum1.awk"
+   _sort_cmd="sort -nr -k2|head -n 1000"
+}
+function GN_PROVINCE_PROVINCE_HOSTSPEEDUP20_HO()
+{
+   _source_file="GDIF_HOST"
+   _source_shell="grep -v NULL"
+   _trans_awk="awk -v zd_host=$HOST_ZIDIAN \
+              'BEGIN{while((getline<zd_host)>0){host[\$1]=\$2}}\
+                {if(host[\$1]!=\"\"){\$1=host[\$1];print \$1\" \"\$3\" \"\$8 }}'" 
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_PROVINCE_HOSTSPEEDDOWN20_HO()
+{
+   _source_file="GDIF_HOST"
+   _source_shell="grep -v NULL"
+   _trans_awk="awk -v zd_host=$HOST_ZIDIAN \
+              'BEGIN{while((getline<zd_host)>0){host[\$1]=\$2}}\
+                {if(host[\$1]!=\"\"){\$1=host[\$1];print \$1\" \"\$4\" \"\$8 }}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+
+function GN_PROVINCE_PROVINCE_TMNLUP20_HO()
+{
+   _source_file="GDIF_TERMINAL_LAC_CI"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN \
+              'BEGIN{while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$2\" \"\$3}}\
+                {\$1=(terminal_to_fac_type[\$1]==\"\"?\$1\" \"\$1:terminal_to_fac_type[\$1]);\
+                  \$2=\"\";\$3=\"\";print \$1\" \"\$5 }'" 
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum1.awk"
+   _sort_cmd="sort -nr -k3|head -n 100" 
+}
+function GN_PROVINCE_PROVINCE_TMNLDOWN20_HO()
+{
+   _source_file="GDIF_TERMINAL_LAC_CI"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN \
+              'BEGIN{while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$2\" \"\$3}}\
+                {\$1=(terminal_to_fac_type[\$1]==\"\"?\$1\" \"\$1:terminal_to_fac_type[\$1]);\
+                   \$2=\"\";\$3=\"\";print \$1\" \"\$6  }'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum1.awk"
+   _sort_cmd="sort -nr -k3|head -n 100"
+}
+function GN_PROVINCE_PROVINCE_OTHERSVC_HO()
+{
+   _source_file="GDIF_SERVDETAIL"
+   _source_shell=""
+   _trans_awk="awk '{\$1=\"\";\$3=\"\";\$7=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd="sort -nr -k2|head -n 100"
+}
+function GN_PROVINCE_PROVINCE_RAT_HO()
+{
+   _source_file="GDIF_RAT"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_PROVINCE_SVCINTEROPERATOR_HO()
+{
+   _source_file="GDIF_NET_DIRECTION"
+   _source_shell=""
+   _trans_awk="awk '{if(\$1==\"10.0.0.172\"){\$1=1;}else{\$1=0} print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_PROVINCE_CMSVC_HO()
+{
+   _source_file="GDIF_SERVDETAIL"
+   _source_shell="grep G7000|grep -v -E \"S7138|S7140\""
+   _trans_awk="awk '{print \$3\" \"\$4\" \"\$5\" \"\$6}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_PROVINCE_PROVINCE_SPECIALSVC_HO()
+{
+   _source_file="GDIF_SERVDETAIL"
+   _source_shell=""
+   _trans_awk="awk '{print \$3\" \"\$4\" \"\$5\" \"\$6\" \"\$7}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd=""
+}
+
+function CRT_PDP_LAC()
+{
+   _source_file="GDIF_SIGNAL_QUA_LAC_CI_RAT_PDPTYPE"
+   _source_shell=""
+   _trans_awk="awk '{if(\$4==16){\$2=\"\";\$3=\"\";\$4=\"\";print \$0}}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+
+}
+function CRT_PDP_GGSN()
+{
+   _source_file="GDIF_SIGNAL_QUA_GGSN_APN_RAT_PDPTYPE"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+                {if(\$4==16){\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);\$4=\"\";print \$0 }}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+
+}
+function CRT_PDP_GD()
+{
+   _source_file="GDIF_SIGNAL_QUA_RAT_PDPTYPE"
+   _source_shell=""
+   _trans_awk="awk '{if(\$2==16){\$2=\"\";print \$0}}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+
+}
+function UPD_PDP_LAC()
+{
+   _source_file="GDIF_SIGNAL_QUA_LAC_CI_RAT_PDPTYPE"
+   _source_shell=""
+   _trans_awk="awk '{if(\$4==18){\$2=\"\";\$3=\"\";\$4=\"\";print \$0}}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function UPD_PDP_GGSN()
+{
+   _source_file="GDIF_SIGNAL_QUA_GGSN_APN_RAT_PDPTYPE"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+                {if(\$4==18){\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);\$4=\"\";print \$0 }}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+
+}
+function UPD_PDP_GD()
+{
+   _source_file="GDIF_SIGNAL_QUA_RAT_PDPTYPE"
+   _source_shell=""
+   _trans_awk="awk '{if(\$2==18){\$2=\"\";print \$0}}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function DNS_GD()
+{
+   _source_file="GDIF_DNS_QUA_RAT_DNSIP"
+   _source_shell=""
+   _trans_awk="awk '{if(\$3>100){print \$0}}'"
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}
+function HTTP_LAC()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_APN"
+   _source_shell=""
+   _trans_awk="awk '{\$2=\"\";\$3=\"\";print \$0;}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function HTTP_GGSN()
+{
+   _source_file="GDIF_HTTP_QUA_GGSN_APN_RAT_PDPTYPE"
+   _source_shell="grep V0"
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+                {\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);\$4=\"\";print \$0 }'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function HTTP_GD()
+{
+   _source_file="GDIF_HTTP_QUA_RAT"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}
+
+function DOWNLOADRATE_TD_500K_LAC()
+{
+   _source_file="GDIF_LAC_APN_RAT"
+   _source_shell=""
+   _trans_awk="awk '{if(\$3==1){print \$1\" \"\$2\" \"\$6\" \"\$9}}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function DOWNLOADRATE_TD_500K_GGSN()
+{
+   _source_file="GDIF_GGSN_APN_RAT"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+              {if(\$3==1){\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);print \$1\" \"\$2\" \"\$6\" \"\$9}}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function DOWNLOADRATE_TD_500K_GD()
+{
+   _source_file="GDIF_GGSN_APN_RAT"
+   _source_shell=""
+   _trans_awk="awk '{if(\$3==1){print \$6\" \"\$9}}'"
+   _awk_v="-v key_cnt=0"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function UPLOADRATE_TD_100K_LAC()
+{
+   _source_file="GDIF_LAC_APN_RAT"
+   _source_shell=""
+   _trans_awk="awk '{if(\$3==1){print \$1\" \"\$2\" \"\$4\" \"\$6}}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function UPLOADRATE_TD_100K_GGSN()
+{
+   _source_file="GDIF_GGSN_APN_RAT"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+                {  if(\$3==1){\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);print \$1\" \"\$2\" \"\$4\" \"\$7}}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function UPLOADRATE_TD_100K_GD()
+{
+   _source_file="GDIF_GGSN_APN_RAT"
+   _source_shell=""
+   _trans_awk="awk '{if(\$3==1){print \$4\" \"\$7}}'"
+   _awk_v="-v key_cnt=0"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function DOWNLOADRATE_200K_LAC()
+{
+   _source_file="GDIF_LAC_APN_RAT"
+   _source_shell=""
+   _trans_awk="awk '{print \$1\" \"\$2\" \"\$5\" \"\$8}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function DOWNLOADRATE_200K_GGSN()
+{
+   _source_file="GDIF_GGSN_APN_RAT"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+                {\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);\
+                  print \$1\" \"\$2\" \"\$5\" \"\$8}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function DOWNLOADRATE_200K_GD()
+{
+   _source_file="GDIF_GGSN_APN_RAT"
+   _source_shell=""
+   _trans_awk="awk '{print \$5\" \"\$8}'"
+   _awk_v="-v key_cnt=0"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function UPLOADRATE_100K_LAC()
+{
+   _source_file="GDIF_LAC_APN_RAT"
+   _source_shell=""
+   _trans_awk="awk '{print \$1\" \"\$2\" \"\$4\" \"\$7}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function UPLOADRATE_100K_GGSN()
+{
+   _source_file="GDIF_GGSN_APN_RAT"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+                {\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);\
+                  print \$1\" \"\$2\" \"\$4\" \"\$7 }'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function UPLOADRATE_100K_GD()
+{
+   _source_file="GDIF_GGSN_APN_RAT"
+   _source_shell=""
+   _trans_awk="awk '{print \$4\" \"\$7}'"
+   _awk_v="-v key_cnt=0"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function TDDURATIONRATE_500kbps_LAC()
+{
+   _source_file="GDIF_FILTER_LAC_RAT"
+   _source_shell=""
+   _trans_awk="awk '{if(\$2==1){print \$1\" \"\$3\" \"\$5\" \"\$6\" \"\$8}}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd=""
+}
+
+function TDDURATIONRATE_500kbps_GGSN()
+{
+   _source_file="GDIF_FILTER_GGSN_RAT"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+	        {if(\$2==1){\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);print \$1\" \"\$3\" \"\$5\" \"\$6\" \"\$8}}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd=""
+}
+function TDDURATIONRATE_500kbps_GD()
+{
+   _source_file="GDIF_FILTER2_GGSN_RAT"
+   _source_shell=""
+   _trans_awk="awk '{if(\$2==1){print \$3\" \"\$5\" \"\$6\" \"\$8}}'"
+   _awk_v="-v key_cnt=0"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd=""
+
+}
+function GP_DOWNLOADRATE_TD_500K_LAC()
+{
+   _source_file="GDIF_FILTER2_LAC_APN_RAT"
+   _source_shell=""
+   _trans_awk="awk '{if(\$3==1){print \$1\" \"\$2\" \"\$5\" \"\$7}}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GP_DOWNLOADRATE_TD_500K_GGSN()
+{
+   _source_file="GDIF_FILTER2_GGSN_APN_RAT"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+               {if(\$3==1){\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);print \$1\" \"\$2\" \"\$5\" \"\$7}}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+
+function GP_DOWNLOADRATE_TD_500K_GD()
+{
+   _source_file="GDIF_FILTER2_GGSN_APN_RAT"
+   _source_shell=""
+   _trans_awk=" awk '{if(\$3==1){print \$5\" \"\$7}}'"
+   _awk_v="-v key_cnt=0"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function SVC_CM_CITY()
+{
+   _source_file="GDIF_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep G7000|grep -v -E \"S7138|S7140\""
+  _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {cgi_id=\"460-0-\"\$1\"-\"\$2;if(cgi_to_city_area[cgi_id]!=\"\"){city_id=cgi_to_city_area[cgi_id];\
+		   print city_id\" \"\$6\" \"\$7\" \"\$8\" \"\$9\" \"\$10}}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd=""
+}
+function SVC_CM_QUALITY_CITY()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep G7000|grep -v -E \"S7138|S7140\""
+  _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {cgi_id=\"460-0-\"\$1\"-\"\$2;if(cgi_to_city_area[cgi_id]!=\"\"){city_id=cgi_to_city_area[cgi_id];\
+                   print city_id\" \"\$6\" \"\$7\" \"\$8\" \"\$9}}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function MMS_MO_CITY()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep D7002"
+  _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {cgi_id=\"460-0-\"\$1\"-\"\$2;if(cgi_to_city_area[cgi_id]!=\"\"){city_id=cgi_to_city_area[cgi_id];\
+                   print city_id\" \"\$7\" \"\$8\" \"\$9}}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function MMS_MT_CITY()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep D7001"
+  _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {cgi_id=\"460-0-\"\$1\"-\"\$2;if(cgi_to_city_area[cgi_id]!=\"\"){city_id=cgi_to_city_area[cgi_id];\
+                   print city_id\" \"\$7\" \"\$8\" \"\$9}}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function MPAPER_CITY()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_SUBJECT_SERVDETAIL"
+   _source_shell="grep D7010"
+  _trans_awk="awk -v zd_cgi_to_city_area=$CGI_TO_CITY_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_cgi_to_city_area)>0){cgi_to_city_area[\$1]=\$2}}\
+                {cgi_id=\"460-0-\"\$1\"-\"\$2;if(cgi_to_city_area[cgi_id]!=\"\"){city_id=cgi_to_city_area[cgi_id];\
+                 print city_id\" \"\$3\" \"\$7\" \"\$8\" \"\$9}}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function HOST_FLOW1000_PROVINCE()
+{
+   _source_file="GDIF_HOST"
+   _source_shell="grep -v NULL"
+   _trans_awk=""
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum7.awk"
+   _sort_cmd="sort -nr -k2|head -n 1000"
+
+}
+function HOST_HITS1000_PROVINCE()
+{
+   _source_file="GDIF_HOST"
+   _source_shell="grep -v NULL"
+   _trans_awk=""
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum7.awk"
+   _sort_cmd="sort -nr -k5|head -n 1000"
+
+}
+function DOWNLOADRATE_CELL()
+{
+   _source_file="GDIF_SPEED_LAC_CI_APN"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum36.awk"
+   _sort_cmd=""
+
+}
+function UPLOADRATE_CELL()
+{
+   _source_file="GDIF_SPEED_LAC_CI_APN"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum36.awk"
+   _sort_cmd=""
+
+}
+function DOWNLOADRATE_GGSN()
+{
+   _source_file="GDIF_SPEED_GGSN_APN_RAT"
+   _source_shell=""
+   _trans_awk=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+                {\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum36.awk"
+   _sort_cmd=""
+
+}
+function UPLOADRATE_GGSN()
+{
+   _source_file="GDIF_SPEED_GGSN_APN_RAT"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+               {\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum36.awk"
+   _sort_cmd=""
+}
+function HTTP_TDDURATIONRATE_500kbps_LAC()
+{
+   _source_file="GDIF_FILTER2_LAC_RAT"
+   _source_shell=""
+   _trans_awk="awk '{if(\$2==1){print \$1\" \"\$3\" \"\$5\" \"\$6\" \"\$8}}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd=""
+}
+function HTTP_TDDURATIONRATE_500kbps_GGSN()
+{
+   _source_file="GDIF_FILTER2_GGSN_RAT"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+                {if(\$2==1){\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);print \$1\" \"\$3\" \"\$5\" \"\$6\" \"\$8}}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd=""
+}
+function HTTP_TDDURATIONRATE_60kbps_LAC()
+{
+   _source_file="GDIF_FILTER_LAC_RAT"
+   _source_shell=""
+   _trans_awk="awk '{if(\$2==1){print \$1\" \"\$4\" \"\$5\" \"\$7\" \"\$8}}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd=""
+}
+function HTTP_TDDURATIONRATE_60kbps_GGSN()
+{
+   _source_file="GDIF_FILTER_GGSN_RAT"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+              {if(\$2==1){\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);print \$1\" \"\$4\" \"\$5\" \"\$7\" \"\$8}}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd=""
+}
+function TCP_GGSN()
+{
+   _source_file="GDIF_TCP_QUA_GGSN_APN_RAT"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+                {\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);print \$0}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function TCP_LAC()
+{
+   _source_file="GDIF_TCP_QUA_LAC_APN_RAT"
+   _source_shell=""
+   _trans_awk="awk '{\$3=\"\";print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+
+}
+function DNS_GGSN()
+{
+   _source_file="GDIF_DNS_QUA_GGSN_RAT"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+                {\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);print \$0}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function DNS_LAC()
+{
+   _source_file="GDIF_DNS_QUA_LAC_RAT"
+   _source_shell=""
+   _trans_awk="awk '{\$2=\"\";print \$0}'"
+   _awk_v="-v key_cnt=1"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function FLOW_LAC()
+{
+   _source_file="GDIF_LAC_RAT"
+   _source_shell=""
+   _trans_awk=""
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}
+function FLOW_GGSN()
+{
+   _source_file="GDIF_GGSN_APN_RAT"
+   _source_shell=""
+   _trans_awk="awk -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+              'BEGIN{while((getline<zd_net_element)>0){net_element[\$1]=\$2}}\
+                 {\$1=(net_element[\$1]==\"\"?\"no\":net_element[\$1]);print \$1\" \"\$2\" \"\$3\" \"\$10\" \"\$11}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function 234_DOWNLOADRATE_2G_100K_LAC()
+{
+   _source_file="GDIF_FILTER_LAC_APN_RAT_SERVDETAIL"
+   _source_shell=""
+   _trans_awk="awk '{if(\$3==2){print \$1\" \"\$2\" \"\$5\" \"\$7\" \"\$9}}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+
+function 234_DOWNLOADRATE_TD_500K_LAC()
+{
+   _source_file="GDIF_FILTER_LAC_APN_RAT_SERVDETAIL"
+   _source_shell=""
+   _trans_awk="awk '{if(\$3==1){print \$1\" \"\$2\" \"\$5\" \"\$7\" \"\$9}}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd="sort -nr -k2"
+
+}
+function 234_TDDURATIONRATE_TD_500kbps_LAC()
+{
+   _source_file="GDIF_FILTER_LAC_APN_RAT_SERVDETAIL"
+   _source_shell=""
+   _trans_awk="awk '{if(\$3==1){print \$1\" \"\$5\" \"\$11\" \"\$8\" \"\$12\" \"\$10}}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd=""
+
+}
+function GN_AREA_CELL_WAP_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_HTTPTYPE"
+   _source_shell="grep V1"
+   _trans_awk="awk -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3}}\
+                {if(hot_area[\$1\",\"\$2]!=\"\"){\$4=\"\";print hot_area[\$1\",\"\$2]\" \"\$0}}'"
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}
+function GN_AREA_AREA_WAP_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_HTTPTYPE"
+   _source_shell="grep V1"
+   _trans_awk="awk -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3}}\
+                {if(hot_area[\$1\",\"\$2]!=\"\"){_hot_area=hot_area[\$1\",\"\$2];\$1=\"\";\$2=\"\";\$4=\"\";\
+              print _hot_area\" \"\$0;\$3=3;print _hot_area\" \"\$0; }}'" 
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+
+}
+function GN_AREA_CELL_HTTP_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_HTTPTYPE"
+   _source_shell="grep V0"
+   _trans_awk="awk -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3}}\
+                {if(hot_area[\$1\",\"\$2]!=\"\"){\$4=\"\";print hot_area[\$1\",\"\$2]\" \"\$0}}'"
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}
+function GN_AREA_AREA_HTTP_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_HTTPTYPE"
+   _source_shell="grep V0"
+   _trans_awk="awk -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3}}\
+                {if(hot_area[\$1\",\"\$2]!=\"\"){_hot_area=hot_area[\$1\",\"\$2];\$1=\"\";\$2=\"\";\$4=\"\";\
+                 print _hot_area\" \"\$0;\$3=3;print _hot_area\" \"\$0; }}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_AREA_CELL_CXMO_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep D7002"
+   _trans_awk="awk -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3}}\
+                {if(hot_area[\$1\",\"\$2]!=\"\"){\$4=\"\";\$5=\"\";\$6=\"\";print hot_area[\$1\",\"\$2]\" \"\$0 }}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_AREA_AREA_CXMO_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep D7002"
+   _trans_awk="awk -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3}}\
+              {if(hot_area[\$1\",\"\$2]!=\"\"){_hot_area=hot_area[\$1\",\"\$2];\$1=\"\";\$2=\"\";\$4=\"\";\$5=\"\";\$6=\"\";\
+                    print _hot_area\" \"\$0 ;\$3=3;print _hot_area\" \"\$0;}}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_AREA_CELL_CXMT_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep D7002"
+   _trans_awk="awk -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3}}\
+                {if(hot_area[\$1\",\"\$2]!=\"\"){\$4=\"\";\$5=\"\";\$6=\"\";print hot_area[\$1\",\"\$2]\" \"\$0 }}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_AREA_AREA_CXMT_HO()
+{
+   _source_file="GDIF_HTTP_QUA_LAC_CI_RAT_SERVDETAIL"
+   _source_shell="grep D7002"
+   _trans_awk="awk -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3}}\
+                {if(hot_area[\$1\",\"\$2]!=\"\"){_hot_area=hot_area[\$1\",\"\$2];\$1=\"\";\$2=\"\";\$4=\"\";\$5=\"\";\$6=\"\";\
+                    print _hot_area\" \"\$0;\$3=3;print _hot_area\" \"\$0; }}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_AREA_CELL_CRT-PDP_HO()
+{
+   _source_file="GDIF_SIGNAL_QUA_LAC_CI_RAT_PDPTYPE"
+   _source_shell=""
+   _trans_awk="awk -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3}}\
+                {if((\$4==16)&&(hot_area[\$1\",\"\$2]!=\"\")){ \$4=\"\"; print hot_area[\$1\",\"\$2]\" \"\$0 }}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_AREA_AREA_CRT-PDP_HO()
+{
+   _source_file="GDIF_SIGNAL_QUA_LAC_CI_RAT_PDPTYPE"
+   _source_shell=""
+   _trans_awk="awk -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3}}\
+                {if((\$4==16)&&(hot_area[\$1\",\"\$2]!=\"\")){_hot_area=hot_area[\$1\",\"\$2];\$1=\"\";\$2=\"\";\$4=\"\"; \
+                print _hot_area\" \"\$0 ;\$3=3;print _hot_area\" \"\$0;}}'" 
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_AREA_CELL_UPD-PDP_HO()
+{
+   _source_file="GDIF_SIGNAL_QUA_LAC_CI_RAT_PDPTYPE"
+   _source_shell=""
+   _trans_awk="awk -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3}}\
+                {if((\$4==18)&&(hot_area[\$1\",\"\$2]!=\"\")){ \$4=\"\"; print hot_area[\$1\",\"\$2]\" \"\$0 }}'" 
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_AREA_AREA_UPD-PDP_HO()
+{
+   _source_file="GDIF_SIGNAL_QUA_LAC_CI_RAT_PDPTYPE"
+   _source_shell=""
+   _trans_awk="awk -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3}}\
+                {if((\$4==16)&&(hot_area[\$1\",\"\$2]!=\"\")){_hot_area=hot_area[\$1\",\"\$2];\$1=\"\";\$2=\"\";\$4=\"\"; \
+                print _hot_area\" \"\$0;\$3=3;print _hot_area\" \"\$0; }}'" 
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum3.awk"
+   _sort_cmd=""
+}
+function GN_AREA_CELL_WLLL_HO()
+{
+   _source_file="GDIF_LAC_CI_APN"
+   _source_shell=""
+   _trans_awk="awk -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3}}\
+                {if(hot_area[\$1\",\"\$2]!=\"\"){\$3=\"\"; print hot_area[\$1\",\"\$2]\" \"\$0 }}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd=""
+}
+function GN_AREA_AREA_WLLL_HO()
+{
+   _source_file="GDIF_LAC_CI_APN"
+   _source_shell=""
+   _trans_awk="awk -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3}}\
+                {if(hot_area[\$1\",\"\$2]!=\"\"){_hot_area=hot_area[\$1\",\"\$2];\$1=\"\";\$2=\"\";\
+               print _hot_area\" \"\$0;\$3=3;print _hot_area\" \"\$0; }}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum4.awk"
+   _sort_cmd=""
+}
+function GN_AREA_CELL_GROUP_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVGRP_SUB"
+   _source_shell=""
+   _trans_awk="awk -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3}}\
+                {if(hot_area[\$1\",\"\$2]!=\"\"){ print hot_area[\$1\",\"\$2]\" \"\$0 }}'"
+   _awk_v=""
+   _awk_file=""
+   _sort_cmd=""
+}
+function GN_AREA_AREA_GROUP_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVGRP_SUB"
+   _source_shell=""
+   _trans_awk="awk -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3}}\
+                {if(hot_area[\$1\",\"\$2]!=\"\"){_hot_area=hot_area[\$1\",\"\$2];\$1=\"\";\$2=\"\";\
+                  print _hot_area\" \"\$0;\$3=3;print _hot_area\" \"\$0; }}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GN_AREA_CELL_LLXZ_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G2800"
+   _trans_awk="awk -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3}}\
+                {if(hot_area[\$1\",\"\$2]!=\"\"){\$4=\"\";\$6=\"\"; \
+              print hot_area[\$1\",\"\$2]\" \"\$0 }}'"
+   _awk_v="-v key_cnt=5"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GN_AREA_AREA_LLXZ_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SERVDETAIL_SUB"
+   _source_shell="grep G2800"
+   _trans_awk="awk -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3}} \
+                {if(hot_area[\$1\",\"\$2]!=\"\"){_hot_area=hot_area[\$1\",\"\$2];\$1=\"\";\$2=\"\";\$4=\"\";\$6=\"\"; \
+              print _hot_area\" \"\$0 ;\$3=3;print _hot_area\" \"\$0; }}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GN_AREA_CELL_P2PXZ_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep -E \"S4090|S4098|S40A0\""
+}
+function GN_AREA_AREA_P2PXZ_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep -E \"S4090|S4098|S40A0\""
+}
+function GN_AREA_CELL_JSTX_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep -E \"S0800|S0808|S0810|S0818|S0820|S0828|S0830|S0838|S0840|S0848|S08C8|S08C0|S08D8|S08E0|S0900|S0920|S0928|S0930|S0938|S0948\""
+}
+function GN_AREA_AREA_JSTX_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep -E \"S0800|S0808|S0810|S0818|S0820|S0828|S0830|S0838|S0840|S0848|S08C8|S08C0|S08D8|S08E0|S0900|S0920|S0928|S0930|S0938|S0948\""
+}
+function GN_AREA_CELL_SJYD_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep G3000"
+}
+function GN_AREA_AREA_SJYD_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep G3000"
+}
+function GN_AREA_CELL_WB_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep -E \"S2000|S2008|S2010|S2018|S2020|S2030|S2038|S2040\""
+}
+function GN_AREA_AREA_WB_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep -E \"S2000|S2008|S2010|S2018|S2020|S2030|S2038|S2040\""
+}
+function GN_AREA_CELL_SJSP_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep G1800|grep -v  -E \"S4090|S4098|S40A0|S40A8|S40B0\""
+}
+function GN_AREA_AREA_SJSP_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep G1800|grep -v -E \"S4090|S4098|S40A0|S40A8|S40B0\""
+}
+function GN_AREA_CELL_SJP2PSP_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep -E \"S4090|S4098|S40A0|S40A8|S40B0\""
+}
+function GN_AREA_AREA_SJP2PSP_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep -E \"S4090|S4098|S40A0|S40A8|S40B0\""
+}
+function GN_AREA_CELL_SJYY_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep G1000"
+}
+function GN_AREA_AREA_SJYY_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep G1000"
+}
+function GN_AREA_CELL_YYSD_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep -E \"S4010|S4018|S4020|S4028|S4030|S4038|S4008|S4000|S40D8\""
+}
+function GN_AREA_AREA_YYSD_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep -E \"S4010|S4018|S4020|S4028|S4030|S4038|S4008|S4000|S40D8\""
+}
+function GN_AREA_CELL_SJYXI_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep G3800"
+}
+function GN_AREA_AREA_SJYXI_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep G3800"
+}
+function GN_AREA_CELL_SJYX_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep G4800"
+}
+function GN_AREA_AREA_SJYX_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep G4800"
+}
+function GN_AREA_CELL_CX_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep -E \"D7001|D7002\""
+}
+function GN_AREA_AREA_CX_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep -E \"D7001|D7002\" "
+}
+function GN_AREA_CELL_VOIP_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep -E \"S0858|S0860|S0868|S0870|S0878|S0880|S0888|S0890|S0898|S08A0|S08A8|S08B0|S08B8|S08D0|S0940|S0950\""
+}
+function GN_AREA_AREA_VOIP_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep -E \"S0858|S0860|S0868|S0870|S0878|S0880|S0888|S0890|S0898|S08A0|S08A8|S08B0|S08B8|S08D0|S0940|S0950\""
+}
+function GN_AREA_CELL_YYSZY_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep G7000|grep -v -E \"S7138|S7140\""
+}
+function GN_AREA_AREA_YYSZY_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep G7000|grep -v -E \"S7138|S7140\""
+}
+function GN_AREA_CELL_SJ_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep G2000"
+}
+function GN_AREA_AREA_SJ_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep G2000"
+}
+function GN_AREA_CELL_DZSW_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep G5000"
+}
+function GN_AREA_AREA_DZSW_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep G5000"
+}
+function GN_AREA_CELL_SS_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep S2878"
+}
+function GN_AREA_AREA_SS_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep S2878"
+}
+function GN_AREA_CELL_DH_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep G5800"
+}
+function GN_AREA_AREA_DH_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep G5800"
+}
+function GN_AREA_CELL_XLWB_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep S2000"
+}
+function GN_AREA_AREA_XLWB_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep S2000"
+}
+function GN_AREA_CELL_TXWB_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep S2008"
+}
+function GN_AREA_AREA_TXWB_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep S2008"
+}
+function GN_AREA_CELL_YDWB_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep S2038"
+}
+function GN_AREA_AREA_YDWB_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep S2038"
+}
+function GN_AREA_CELL_WEIXIN_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep S08E0"
+}
+function GN_AREA_AREA_WEIXIN_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep S08E0"
+}
+function GN_AREA_CELL_FEIXIN_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep S0800"
+}
+function GN_AREA_AREA_FEIXIN_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep S0800"
+}
+function GN_AREA_CELL_FEILIAO_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep S0838"
+}
+function GN_AREA_AREA_FEILIAO_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep S0838"
+}
+function GN_AREA_CELL_MM_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep S4000"
+}
+function GN_AREA_AREA_MM_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep S4000"
+}
+function GN_AREA_CELL_QQMAIL_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep S4830"
+}
+function GN_AREA_AREA_QQMAIL_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep S4830"
+}
+function GN_AREA_CELL_139MAIL_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep S4808"
+}
+function GN_AREA_AREA_139MAIL_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep S4808"
+}
+function GN_AREA_CELL_QQ_HO()
+{
+  GN_AREA_CELL_LLXZ_HO
+  _source_shell="grep S0900"
+}
+function GN_AREA_AREA_QQ_HO()
+{
+  GN_AREA_AREA_LLXZ_HO
+  _source_shell="grep S0900"
+}
+function GN_AREA_CELL_USER_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SUB"
+   _source_shell=""
+   _trans_awk="awk -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3}}\
+                {if(hot_area[\$1\",\"\$2]!=\"\"){\$4=\"\";\
+                    print hot_area[\$1\",\"\$2]\" \"\$0;\$3=3;print hot_area[\$1\",\"\$2]\" \"\$0; }}'"
+   _awk_v="-v key_cnt=4"
+   _awk_file="cycle_sum1.awk"
+   _sort_cmd=""
+}
+function GN_AREA_AREA_USER_HO()
+{
+   _source_file="GDIF_MSISDN_LAC_CI_RAT_SUB"
+   _source_shell=""
+   _trans_awk="awk -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3}}\
+                {if(hot_area[\$1\",\"\$2]!=\"\"){_hot_area=hot_area[\$1\",\"\$2];\$1=\"\";\$2=\"\";\$4=\"\";\
+                    print _hot_area\" \"\$0;\$3=3;print _hot_area\" \"\$0; }}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum1.awk"
+   _sort_cmd=""
+}
+function GN_AREA_AREA_TMNL-TOTAL-BRAND-TOP20_HO()
+{
+   _source_file="GDIF_TERMINAL_LAC_CI"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN \
+                  -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$2} \
+                    while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3} }\
+                {if(hot_area[\$2\",\"\$3]!=\"\")\
+                   {\$1=(terminal_to_fac_type[\$1]==\"\"?\$1:terminal_to_fac_type[\$1]);\
+		    _hot_area=hot_area[\$2\",\"\$3];\$2=\"\";\
+                     \$3=\"\";print _hot_area\" \"\$1\" \"\$4 ;}}'"
+   _awk_v="-v key_cnt=2"
+   _awk_file="cycle_sum1.awk"
+   _sort_cmd="sort -nr -k3|head -n 100"
+}
+function GN_AREA_AREA_TMNL-TOTAL-TOP20_HO()
+{
+   _source_file="GDIF_TERMINAL_LAC_CI"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN \
+                  -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$2\" \"\$3} \
+                    while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3} }\
+                {if(hot_area[\$2\",\"\$3]!=\"\")\
+                   {\$1=(terminal_to_fac_type[\$1]==\"\"?\$1:terminal_to_fac_type[\$1]);\
+                    _hot_area=hot_area[\$2\",\"\$3];\$2=\"\";\
+                     \$3=\"\";print _hot_area\" \"\$1\" \"\$4 ;}}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum1.awk"
+   _sort_cmd="sort -nr -k4|head -n 100"
+}
+function GN_AREA_AREA_TMNL-SPEED-U-TOP20_HO()
+{
+   _source_file="GDIF_TERMINAL_LAC_CI"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN \
+                  -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$2\" \"\$3} \
+                    while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3} }\
+                {if((hot_area[\$2\",\"\$3]!=\"\")&&(\$5>1*1024*1024))\
+                   {\$1=(terminal_to_fac_type[\$1]==\"\"?\$1\" \"\$1:terminal_to_fac_type[\$1]);\
+                    _hot_area=hot_area[\$2\",\"\$3];\$2=\"\";\$3=\"\";print _hot_area\" \"\$1\" \"\$5\" \"\$7 ;}}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}
+function GN_AREA_AREA_TMNL-SPEED-D-TOP20_HO()
+{
+   _source_file="GDIF_TERMINAL_LAC_CI"
+   _source_shell=""
+   _trans_awk="awk -v zd_terminal_to_fac_type=$TERMINAL_TO_FAC_TYPE_ZIDIAN \
+                  -v zd_hot_area=$HOT_AREA_ZIDIAN \
+              'BEGIN{while((getline<zd_terminal_to_fac_type)>0){terminal_to_fac_type[\$1]=\$2\" \"\$3} \
+                    while((getline<zd_hot_area)>0){hot_area[\$1\",\"\$2]=\$3} }\
+                {if((hot_area[\$2\",\"\$3]!=\"\")&&(\$6>1*1024*1024))\
+                   {\$1=(terminal_to_fac_type[\$1]==\"\"?\$1\" \"\$1:terminal_to_fac_type[\$1]);\
+                    _hot_area=hot_area[\$2\",\"\$3];\$2=\"\";\$3=\"\";print _hot_area\" \"\$1\" \"\$6\" \"\$7 ;}}'"
+   _awk_v="-v key_cnt=3"
+   _awk_file="cycle_sum2.awk"
+   _sort_cmd=""
+}

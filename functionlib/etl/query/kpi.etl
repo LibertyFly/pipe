@@ -1,0 +1,1342 @@
+function kpi_fail_common()
+{
+   local _time=$1
+   local _id=$2
+   local key_cnt=$3
+   local fail_zidian_file=$4
+   local shellCmd="$grepFile"
+   local _title=`echo $src_head|sed -r 's/(_ecgi_fail|_enb_mme_fail|_area_fail|_city_fail)//g'`
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi  
+     case ${_title} in 
+         kpi_x2_handover)
+                 fail_zidian_file=$X2_CORE_ZIDIAN ;;
+     esac 
+    echo  $shellCmd|sh|awk  -v key_cnt=$key_cnt  '{for(i=1;i<=key_cnt;i++){$i=""} print $0}'|\
+    sort -nr -k$((key_cnt+2))|awk -v time=$_time -v id=$_id -v fail_zidian=$fail_zidian_file  \
+     'BEGIN{while((getline<fail_zidian)>0){fail[$1]=$2}}\
+      {\
+	_fail_id=$1;\
+	_fail_reason=(fail[$1]==""?$1:fail[$1]);\
+	_fail_cnt=$3;\
+	_fail_rate=($2==0?0:$3*100/$2);\
+	if(_fail_cnt>0){\
+	    printf("%s,%s,%s,%s,%d,%.3f\n",time,id,_fail_id,_fail_reason,_fail_cnt,_fail_rate)\
+         }\
+      }'\
+     >> $RESULT_FOLD/$FILE_NAME
+}
+
+function kpi_total_fail_common()
+{
+   local _time=$1
+   local _id=$2
+   local key_cnt=$3
+   local fail_zidian_file=$4
+   local shellCmd="$grepFile"
+   local _title=`echo $src_head|sed -r 's/(_ecgi_fail|_enb_mme_fail|_area_fail|_city_fail)//g'`
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi   
+     case ${_title} in 
+         kpi_x2_handover)
+                 fail_zidian_file=$X2_CORE_ZIDIAN ;;
+     esac 
+    echo  $shellCmd|sh|awk  -v key_cnt=$key_cnt  '{for(i=1;i<=key_cnt;i++){$i=""} print $0}'|\
+    sort -nr -k$((key_cnt+2))|awk -v time=$_time -v id=$_id -v fail_zidian=$fail_zidian_file  \
+     'BEGIN{while((getline<fail_zidian)>0){fail[$1]=$2}}\
+      {\
+        _fail_id=$1;\
+        _fail_reason=(fail[$1]==""?$1:fail[$1]);\
+        _fail_cnt=$3;\
+        _fail_rate=($2==0?0:$3*100/$2);\
+        if(_fail_cnt>0){\
+            printf("%s,%s,%s,%s,%d,%.3f\n",time,id,_fail_id,_fail_reason,_fail_cnt,_fail_rate)\
+	 }\
+      }'\
+    >> $RESULT_FOLD/$FILE_NAME
+}
+function kpi_total_common()
+{
+    local _time=$1
+    local _id=$2
+    local key_cnt=$3
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi
+    echo $shellCmd|sh|sort -nr -k $((key_cnt+2))|\
+    awk  -v time=$_time -v id=$_id -v key_cnt=$key_cnt \
+         -v diretion_zidian=$HANDOVER_DIRECTION_ZIDIAN \
+        'BEGIN{while((getline<diretion_zidian)>0){direction[$1]=$2}}\
+         { \
+               if(key_cnt==1){\
+                _msg_type=$1;}else{\
+                _direction_id=$1;\
+                _direction=((direction[$1]=="")?$1:direction[$1]);\
+                _msg_type=$2;\
+                }\
+                _delay=$(key_cnt+2)==0?0:$(key_cnt+1)/$(key_cnt+2);\
+                _total_cnt=$(key_cnt+2);\
+                _success_cnt=$(key_cnt+3);\
+                _success_rate=$(key_cnt+2)==0?0:$(key_cnt+3)*100/$(key_cnt+2);\
+                _fail_cnt=$(key_cnt+2)-$(key_cnt+3);\
+                _fail_rate=$(key_cnt+2)==0?0:($(key_cnt+2)-$(key_cnt+3))*100/$(key_cnt+2);\
+                printf time","id",";\
+                if(key_cnt==1){\
+                      printf("%s,",_msg_type);}\
+                else{ printf("%s,%s,%s,",_direction_id,_direction,_msg_type) ;} \
+                   printf("%d,%d,%d,%.3f,%d,%.3f\n",_delay,_total_cnt,_success_cnt,_success_rate,_fail_cnt,_fail_rate)\
+           }'\
+    >> $RESULT_FOLD/$FILE_NAME
+}
+function kpi_cgi_common()
+{
+    local _time=$1
+    local _id=$2
+    local key_cnt=$3
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi
+    # CGI data first column is area id for area query.
+    echo $shellCmd|sh|sort -nr -k $((key_cnt+2))|\
+    awk  -v time=$_time -v id=$_id -v key_cnt=$key_cnt  \
+		  -v diretion_zidian=$HANDOVER_DIRECTION_ZIDIAN  \
+		  -v zd_cgi=$CGI_ZIDIAN \
+          'BEGIN{while((getline<diretion_zidian)>0){direction[$1]=$2}\
+		 while((getline<zd_cgi)>0){cgi[$1]=$2}}\
+	   { \
+		_cgi_id=$2;\
+		_cgi=((cgi[$2]=="")?$2:cgi[$2]);\
+		if(key_cnt==3){\
+		_msg_type=$3;}else{\
+		_direction_id=$3;\
+		_direction=((direction[$3]=="")?$3:direction[$3]);\
+		_msg_type=$4;\
+		}\
+		_delay=$(key_cnt+2)==0?0:$(key_cnt+1)/$(key_cnt+2);\
+		_total_cnt=$(key_cnt+2);\
+		_success_cnt=$(key_cnt+3);\
+		_success_rate=$(key_cnt+2)==0?0:$(key_cnt+3)*100/$(key_cnt+2);\
+		_fail_cnt=$(key_cnt+2)-$(key_cnt+3);\
+		_fail_rate=$(key_cnt+2)==0?0:($(key_cnt+2)-$(key_cnt+3))*100/$(key_cnt+2);\
+                printf time","id",";\
+		printf _cgi_id","_cgi",";\
+		if(key_cnt==3){\
+		      printf("%s,",_msg_type);}\
+		else{ printf("%s,%s,%s,",_direction_id,_direction,_msg_type) ;} \
+                   printf("%d,%d,%d,%.3f,%d,%.3f\n",_delay,_total_cnt,_success_cnt,_success_rate,_fail_cnt,_fail_rate)\
+       	   }'\
+     >> $RESULT_FOLD/$FILE_NAME 
+}
+function kpi_apn_common()
+{
+    local _time=$1
+    local _id=$2
+    local key_cnt=$3
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi   
+        echo $shellCmd|sh|sort -nr -k $((key_cnt+2))|\
+	awk  -v time=$_time -v id=$_id -v key_cnt=$key_cnt  \
+           '{\
+	        _apn=$1;\
+	        _msg_type=$2;\
+                _delay=$(key_cnt+2)==0?0:$(key_cnt+1)/$(key_cnt+2);\
+                _total_cnt=$(key_cnt+2);\
+                _success_cnt=$(key_cnt+3);\
+                _success_rate=$(key_cnt+2)==0?0:$(key_cnt+3)*100/$(key_cnt+2);\
+                _fail_cnt=$(key_cnt+2)-$(key_cnt+3);\
+                _fail_rate=$(key_cnt+2)==0?0:($(key_cnt+2)-$(key_cnt+3))*100/$(key_cnt+2);\
+		printf time","id",";\
+		printf("%s,%s,%d,%d,%d,%.3f,%d,%.3f\n",_apn,_msg_type,_delay,_total_cnt,_success_cnt,\
+			_success_rate,_fail_cnt,_fail_rate)\
+           }' \
+     >> $RESULT_FOLD/$FILE_NAME 
+}
+
+function lte_tau_cgi()
+{
+    local _time=$1
+    local _id=$2
+    local key_cnt=2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi  
+    # CGI data first column is area id for area query.
+    echo $shellCmd|sh|sort -nr -k $((key_cnt+2))|\
+    awk  -v time=$_time -v id=$_id -v key_cnt=$((key_cnt+1))  \
+          -v zd_cgi=$CGI_ZIDIAN  \
+          'BEGIN{while((getline<zd_cgi)>0){cgi[$1]=$2}}{ \
+		_s_cgi_id=$1;\
+		_s_cgi=((cgi[$1]=="")?$1:cgi[$1]);\
+		_cgi_id=$2;\
+		_cgi=((cgi[$2]=="")?$2:cgi[$2]);\
+		_msg_type=$3;\
+                _delay=$(key_cnt+2)==0?0:$(key_cnt+1)/$(key_cnt+2);\
+                _total_cnt=$(key_cnt+2);\
+                _success_cnt=$(key_cnt+3);\
+                _success_rate=$(key_cnt+2)==0?0:$(key_cnt+3)*100/$(key_cnt+2);\
+                _fail_cnt=$(key_cnt+2)-$(key_cnt+3);\
+                _fail_rate=$(key_cnt+2)==0?0:($(key_cnt+2)-$(key_cnt+3))*100/$(key_cnt+2);\
+                printf time","id",";\
+                printf("%s,%s,%s,%s,%d,%d,%d,%.3f,%d,%.3f\n",_s_cgi_id,_s_cgi,_cgi_id,_cgi,\
+			_delay,_total_cnt,_success_cnt,\
+                        _success_rate,_fail_cnt,_fail_rate)\
+           }'\
+     >> $RESULT_FOLD/$FILE_NAME 
+}
+function kpi_net_element_common()
+{
+    local _time=$1
+    local _id=$2
+    local key_cnt=$3
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi
+    echo $shellCmd|sh|sort -nr -k $((key_cnt+2))|\
+    awk  -v time=$_time -v id=$_id -v key_cnt=$key_cnt \
+	 -v diretion_zidian=$HANDOVER_DIRECTION_ZIDIAN \
+	 -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+	'BEGIN{while((getline<diretion_zidian)>0){direction[$1]=$2}\
+	       while((getline<zd_net_element)>0){net_element[$1]=$2}}\
+	 { \
+		_net_element_id=$1;\
+		_net_element=((net_element[$1]=="")?$1:net_element[$1]);\
+               if(key_cnt==2){\
+                _msg_type=$2;}else{\
+                _direction_id=$2;\
+                _direction=((direction[$2]=="")?$2:direction[$2]);\
+                _msg_type=$3;\
+                }\
+                _delay=$(key_cnt+2)==0?0:$(key_cnt+1)/$(key_cnt+2);\
+                _total_cnt=$(key_cnt+2);\
+                _success_cnt=$(key_cnt+3);\
+                _success_rate=$(key_cnt+2)==0?0:$(key_cnt+3)*100/$(key_cnt+2);\
+                _fail_cnt=$(key_cnt+2)-$(key_cnt+3);\
+                _fail_rate=$(key_cnt+2)==0?0:($(key_cnt+2)-$(key_cnt+3))*100/$(key_cnt+2);\
+                printf time","id",";\
+                printf _net_element_id","_net_element",";\
+                if(key_cnt==2){\
+                      printf("%s,",_msg_type);}\
+                else{ printf("%s,%s,%s,",_direction_id,_direction,_msg_type) ;} \
+                   printf("%d,%d,%d,%.3f,%d,%.3f\n",_delay,_total_cnt,_success_cnt,_success_rate,_fail_cnt,_fail_rate)\
+           }'\
+    >> $RESULT_FOLD/$FILE_NAME
+}
+function kpi_net_element_manage_common()
+{
+    local _time=$1
+    local _id=$2
+    local key_cnt=$3
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi
+    echo $shellCmd|sh|sort -nr -k $((key_cnt+3))|\
+    awk  -v time=$_time -v id=$_id -v key_cnt=$key_cnt  \
+	 -v zd_net_element=$NET_ELEMENT_ZIDIAN \
+	 -v zd_net_element_direction=$NET_ELEMENT_DIRECTION_ZIDIAN \
+	'BEGIN{while((getline<zd_net_element)>0){net_element[$1]=$2} \
+	       while((getline<zd_net_element_direction)>0){direction[$1]=$2} }\
+	 {\
+	      _net_element_id=$1;\
+	      _net_element=((net_element[$1]=="")?$1:net_element[$1]);\
+	      _direction_id=$2;\
+	      _direction=((direction[$2]=="")?$2:direction[$2]);\
+	      _msg_type=$3;\
+               _delay=$(key_cnt+2)==0?0:$(key_cnt+1)/$(key_cnt+2);\
+               _total_cnt=$(key_cnt+2);\
+               _success_cnt=$(key_cnt+3);\
+               _success_rate=$(key_cnt+2)==0?0:$(key_cnt+3)*100/$(key_cnt+2);\
+               _fail_cnt=$(key_cnt+2)-$(key_cnt+3);\
+               _fail_rate=$(key_cnt+2)==0?0:($(key_cnt+2)-$(key_cnt+3))*100/$(key_cnt+2);\
+               printf time","id",";\
+               printf("%s,%s,%s,%s,%s,%d,%d,%d,%.3f,%d,%.3f\n",_net_element_id,_net_element,\
+			 _direction_id,_direction,_msg_type,_delay,_total_cnt,\
+			 _success_cnt,_success_rate,_fail_cnt,_fail_rate)\
+           }'\
+    >> $RESULT_FOLD/$FILE_NAME
+}
+function kpi_city_common()
+{
+    local _time=$1
+    local _id=$2
+    local key_cnt=$3
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi
+    echo $shellCmd|sh|sort -nr -k $((key_cnt+2))|\
+    awk  -v time=$_time -v id=$_id -v key_cnt=$key_cnt \
+	 -v diretion_zidian=$HANDOVER_DIRECTION_ZIDIAN\
+	 -v zd_cgi_city=$CGI_CITY_ZIDIAN \
+         'BEGIN{while((getline<diretion_zidian)>0){direction[$1]=$2}\
+	        while((getline<zd_cgi_city)>0){city[$1]=$2}}
+	  { \
+		_city_id=$1;\
+		_city=((city[$1]=="")?$1:city[$1]);\
+               if(key_cnt==2){\
+	          _msg_type=$2;\
+	       }\
+               else{\
+	        _direction_id=$2;\
+	        _direction=((direction[$2]=="")?$2:direction[$2]);\
+	        _msg_type=$3 ;
+	       }\
+                _delay=$(key_cnt+2)==0?0:$(key_cnt+1)/$(key_cnt+2);\
+                _total_cnt=$(key_cnt+2);\
+                _success_cnt=$(key_cnt+3);\
+                _success_rate=$(key_cnt+2)==0?0:$(key_cnt+3)*100/$(key_cnt+2);\
+                _fail_cnt=$(key_cnt+2)-$(key_cnt+3);\
+                _fail_rate=$(key_cnt+2)==0?0:($(key_cnt+2)-$(key_cnt+3))*100/$(key_cnt+2);\
+                printf time","id",";\
+                printf _city","_city",";\
+                if(key_cnt==2){\
+                      printf("%s,",_msg_type);}\
+                else{ printf("%s,%s,%s,",_direction_id,_direction,_msg_type) ;} \
+                   printf("%d,%d,%d,%.3f,%d,%.3f\n",_delay,_total_cnt,_success_cnt,_success_rate,_fail_cnt,_fail_rate)\
+           }'\
+    >> $RESULT_FOLD/$FILE_NAME
+}
+
+function kpi_area_common()
+{
+    local _time=$1
+    local _id=$2
+    local key_cnt=$3
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi
+    # AREA data first column is city id for city query.
+    echo $shellCmd|sh|sort -nr -k $((key_cnt+2))|\
+    awk  -v time=$_time -v id=$_id -v key_cnt=$key_cnt  \
+                  -v diretion_zidian=$HANDOVER_DIRECTION_ZIDIAN  \
+                  -v zd_cgi_area=$CGI_AREA_ZIDIAN \
+          'BEGIN{while((getline<diretion_zidian)>0){direction[$1]=$2}\
+                 while((getline<zd_cgi_area)>0){area[$2]=$3}}\
+           { \  
+                _area_id=$2;\
+                _area=((area[$2]=="")?$2:area[$2]);\
+                if(key_cnt==3){\
+                _msg_type=$3;}else{\
+                _direction_id=$3;\
+                _direction=((direction[$3]=="")?$3:direction[$3]);\
+                _msg_type=$4;\
+                }\   
+                _delay=$(key_cnt+2)==0?0:$(key_cnt+1)/$(key_cnt+2);\
+                _total_cnt=$(key_cnt+2);\
+                _success_cnt=$(key_cnt+3);\
+                _success_rate=$(key_cnt+2)==0?0:$(key_cnt+3)*100/$(key_cnt+2);\
+                _fail_cnt=$(key_cnt+2)-$(key_cnt+3);\
+                _fail_rate=$(key_cnt+2)==0?0:($(key_cnt+2)-$(key_cnt+3))*100/$(key_cnt+2);\
+                printf time","id",";\
+                printf _cgi_id","_cgi",";\
+                if(key_cnt==3){\
+                      printf("%s,",_msg_type);}\
+                else{ printf("%s,%s,%s,",_direction_id,_direction,_msg_type) ;} \
+                   printf("%d,%d,%d,%.3f,%d,%.3f\n",_delay,_total_cnt,_success_cnt,_success_rate,_fail_cnt,_fail_rate)\
+           }'\
+     >> $RESULT_FOLD/$FILE_NAME
+}
+
+function kpi_gtpv2_bearer_total()
+{
+    kpi_total_common $@ 1
+}
+function kpi_gtpv2_bearer_ecgi()
+{
+    kpi_cgi_common $@ 3   
+}
+function kpi_pdp_total()
+{
+    kpi_total_common  $@ 1
+}
+function kpi_pdp_ecgi()
+{
+    kpi_cgi_common  $@ 3    
+}
+function kpi_gtpv2_bearer_city()
+{
+    kpi_city_common  $@ 2
+}
+function kpi_gtpv2_relocation_total()
+{
+    kpi_total_common  $@ 1
+}
+function kpi_gtpv2_relocation_ecgi()
+{
+    kpi_cgi_common  $@ 3  
+}
+function kpi_gtpv2_relocation_city()
+{
+    kpi_city_common  $@ 2
+}
+
+function kpi_gtpv2_session_total()
+{
+    kpi_total_common  $@ 1
+}
+function kpi_gtpv2_session_ecgi()
+{
+    kpi_cgi_common  $@ 3  
+}
+function kpi_gtpv2_session_apn()
+{
+    kpi_apn_common  $@ 2
+}
+function kpi_gtpv2_session_city()
+{
+    kpi_city_common  $@ 2
+}
+function kpi_s1ap_erab_total()
+{
+    kpi_total_common  $@ 1
+}
+function kpi_s1ap_erab_ecgi()
+{
+    kpi_cgi_common  $@ 3  
+}
+function kpi_s1ap_erab_city()
+{
+    kpi_city_common  $@ 2
+}
+function kpi_handover_total()
+{
+    kpi_total_common  $@ 2
+}
+function kpi_handover_ecgi()
+{
+    kpi_cgi_common  $@ 4  
+}
+function kpi_handover_city()
+{
+    kpi_city_common  $@ 3
+}
+function kpi_manage_total()
+{
+    kpi_total_common  $@ 1
+}
+function kpi_manage_loc()
+{
+    kpi_cgi_common  $@ 3
+}
+function kpi_manage_enb_mme()
+{
+    kpi_net_element_manage_common  $@  3
+}
+function kpi_s1_emm_attach_total()
+{
+    kpi_total_common  $@  1
+}
+function kpi_s1_emm_attach_ecgi()
+{
+    kpi_cgi_common  $@  3  
+}
+function kpi_s1_emm_attach_city()
+{
+    kpi_city_common  $@ 2
+}
+function kpi_s1_emm_tau_total()
+{
+    kpi_total_common  $@ 1
+}
+function kpi_s1_emm_tau_ecgi()
+{
+    kpi_cgi_common  $@ 3  
+}
+function kpi_s1_emm_tau_city()
+{
+    kpi_city_common $@ 2
+}
+function kpi_s1_emm_paging_total()
+{
+    kpi_total_common  $@ 1
+}
+function kpi_s1_emm_paging_ecgi()
+{
+    kpi_cgi_common  $@ 3  
+}
+function kpi_s1_emm_paging_city()
+{
+    kpi_city_common  $@ 2
+}
+function kpi_s1_emm_service_total()
+{
+    kpi_total_common  $@ 1
+}
+function kpi_s1_emm_service_ecgi()
+{
+    kpi_cgi_common  $@ 3  
+}
+function kpi_s1_emm_service_city()
+{
+    kpi_city_common  $@ 2
+}
+
+function kpi_s1_esm_pdn_total()
+{
+    kpi_total_common  $@ 1
+}
+function kpi_s1_esm_pdn_ecgi()
+{
+    kpi_cgi_common  $@ 3  
+}
+function kpi_s1_esm_pdn_city()
+{
+    kpi_city_common  $@ 2 
+}
+
+function kpi_gtpv2_bearer_enb_mme()
+ {
+    kpi_net_element_common  $@ 2
+}
+function kpi_pdp_enb_mme()
+ {
+    kpi_net_element_common  $@ 2
+}
+function kpi_gtpv2_relocation_enb_mme()
+ {
+    kpi_net_element_common  $@  2
+}
+function kpi_gtpv2_session_enb_mme()
+ {
+    kpi_net_element_common  $@  2
+}
+function kpi_s1ap_erab_enb_mme()
+ {
+    kpi_net_element_common $@  2
+}
+function kpi_handover_enb_mme()
+ {
+    kpi_net_element_common  $@ 3  
+}
+function kpi_s1_emm_attach_enb_mme()
+ {
+    kpi_net_element_common  $@  2
+}
+function kpi_s1_emm_tau_enb_mme()
+ {
+    kpi_net_element_common  $@  2
+}
+function kpi_s1_emm_paging_enb_mme()
+ {
+    kpi_net_element_common  $@ 2
+}
+function kpi_s1_emm_service_enb_mme()
+ {
+    kpi_net_element_common  $@ 2
+}
+function kpi_s1_esm_pdn_enb_mme()
+ {
+    kpi_net_element_common  $@  2
+}
+function kpi_gtpv2_bearer_area()
+{
+    kpi_area_common  $@ 3
+}
+
+function kpi_gtpv2_relocation_area()
+{
+    kpi_area_common  $@ 3
+}
+
+function kpi_gtpv2_session_area()
+{
+    kpi_area_common  $@ 3
+}
+
+function kpi_s1ap_erab_area()
+{
+    kpi_area_common  $@  3
+}
+
+function kpi_handover_area()
+{
+    kpi_area_common  $@  3  
+}
+
+function kpi_s1_emm_attach_area()
+{
+    kpi_area_common  $@  3
+}
+
+
+function kpi_s1_emm_tau_area()
+{
+    kpi_area_common  $@  3
+}
+
+function kpi_s1_emm_paging_area()
+{
+    kpi_area_common  $@  3
+}
+
+function kpi_s1_emm_service_area()
+{
+    kpi_area_common  $@ 3
+}
+
+function kpi_s1_esm_pdn_area()
+{
+    kpi_area_common  $@  3
+}
+function  kpi_s1_sms_ecgi()
+{
+    kpi_cgi_common  $@  3  
+}
+function  kpi_s1_sms_city()
+{
+    kpi_city_common  $@  2
+}
+function  kpi_s1_sms_enb_mme()
+{
+    kpi_net_element_common  $@  2
+}
+
+function  kpi_sgs_mm_loc_ecgi()
+{
+    kpi_cgi_common  $@ 3  
+}
+function  kpi_sgs_mm_loc_city()
+{
+    kpi_city_common  $@ 2
+}
+function  kpi_sgs_mm_loc_enb_mme()
+{
+    kpi_net_element_common  $@ 2
+}
+
+function  kpi_s1_csfb_ecgi()
+{
+    kpi_cgi_common  $@ 3  
+}
+function  kpi_s1_csfb_city()
+{
+    kpi_city_common  $@  2
+}
+function  kpi_s1_csfb_enb_mme()
+{
+    kpi_net_element_common  $@  2
+}
+function  kpi_uu_signal_ecgi()
+{
+    kpi_cgi_common  $@  3
+}
+function  kpi_uu_signal_enb_mme()
+{
+    kpi_net_element_common  $@ 2
+}
+
+function  kpi_uu_signal_ecgi_fail()
+{
+    kpi_fail_common  $@  3 $RESULT_CORE_ZIDIAN 
+}
+function  kpi_uu_signal_total_fail()
+{
+    kpi_total_fail_common  $@  1  $RESULT_CORE_ZIDIAN
+}
+
+function  kpi_uu_signal_enb_mme_fail()
+{
+    kpi_fail_common  $@ 2 $RESULT_CORE_ZIDIAN
+}
+
+function kpi_gtpv2_bearer_ecgi_fail()
+{
+
+     kpi_fail_common $@ 3  $GTPV2_CORE_ZIDIAN
+}
+function kpi_gtpv2_bearer_total_fail()
+{
+
+     kpi_total_fail_common $@ 1  $GTPV2_CORE_ZIDIAN
+}
+function kpi_pdp_total_fail()
+{
+
+     kpi_total_fail_common $@ 1  $GN_CORE_ZIDIAN
+}
+function kpi_pdp_ecgi_fail()
+{
+
+     kpi_fail_common $@ 3  $GN_CORE_ZIDIAN
+}
+
+function kpi_gtpv2_bearer_city_fail()
+{
+
+     kpi_fail_common $@  2  $GTPV2_CORE_ZIDIAN
+}
+function kpi_gtpv2_relocation_total_fail()
+{
+     kpi_total_fail_common $@ 1  $GTPV2_CORE_ZIDIAN
+}
+function kpi_gtpv2_relocation_ecgi_fail()
+{
+     kpi_fail_common $@ 3  $GTPV2_CORE_ZIDIAN
+}
+
+function kpi_gtpv2_relocation_city_fail()
+{
+     kpi_fail_common $@ 2  $GTPV2_CORE_ZIDIAN
+}
+function kpi_gtpv2_session_total_fail()
+{
+     kpi_total_fail_common $@ 1  $GTPV2_CORE_ZIDIAN
+}
+function kpi_gtpv2_session_ecgi_fail()
+{
+     kpi_fail_common $@ 3  $GTPV2_CORE_ZIDIAN
+}
+function kpi_gtpv2_session_apn_fail()
+{
+     kpi_fail_common $@ 2  $GTPV2_CORE_ZIDIAN
+}
+function kpi_gtpv2_session_city_fail()
+{
+     kpi_fail_common $@ 2  $GTPV2_CORE_ZIDIAN
+}
+function kpi_s1ap_erab_total_fail()
+{
+     kpi_total_fail_common $@ 1  $S1AP_CORE_ZIDIAN
+}
+function kpi_s1ap_erab_ecgi_fail()
+{
+     kpi_fail_common $@ 3  $S1AP_CORE_ZIDIAN
+}
+function kpi_s1ap_erab_city_fail()
+{
+     kpi_fail_common $@ 2  $S1AP_CORE_ZIDIAN
+}
+function kpi_handover_total_fail()
+{
+     kpi_total_fail_common $@ 2  $HANDOVER_CORE_ZIDIAN
+}
+function kpi_handover_ecgi_fail()
+{
+     kpi_fail_common $@ 4  $HANDOVER_CORE_ZIDIAN  
+}
+function kpi_handover_city_fail()
+{
+     kpi_fail_common $@ 3  $HANDOVER_CORE_ZIDIAN
+}
+function kpi_manage_total_fail()
+{
+     kpi_total_fail_common $@ 1  $S1AP_CORE_ZIDIAN
+}
+function kpi_manage_ecgi_fail()
+{
+     kpi_fail_common $@ 3  $S1AP_CORE_ZIDIAN
+}
+function kpi_manage_enb_mme_fail()
+{
+     kpi_fail_common $@ 3  $S1AP_CORE_ZIDIAN
+}
+function kpi_s1_emm_attach_total_fail()
+{
+     kpi_total_fail_common $@ 1  $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_attach_ecgi_fail()
+{
+     kpi_fail_common $@ 3  $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_attach_city_fail()
+{
+     kpi_fail_common $@ 2  $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_tau_total_fail()
+{
+     kpi_total_fail_common $@ 1  $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_tau_ecgi_fail()
+{
+     kpi_fail_common $@ 3  $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_tau_city_fail()
+{
+     kpi_fail_common $@ 2  $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_paging_total_fail()
+{
+     kpi_total_fail_common $@ 1  $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_paging_ecgi_fail()
+{
+     kpi_fail_common $@ 3  $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_paging_city_fail()
+{
+     kpi_fail_common $@ 2  $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_service_total_fail()
+{
+     kpi_total_fail_common $@ 1  $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_service_ecgi_fail()
+{
+     kpi_fail_common $@ 3  $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_service_city_fail()
+{
+     kpi_fail_common $@ 2  $EMM_CORE_ZIDIAN
+}
+
+function kpi_s1_esm_pdn_total_fail()
+{
+     kpi_total_fail_common $@ 1  $ESM_CORE_ZIDIAN
+}
+function kpi_s1_esm_pdn_ecgi_fail()
+{
+     kpi_fail_common $@ 3  $ESM_CORE_ZIDIAN
+}
+function kpi_s1_esm_pdn_city_fail()
+{
+     kpi_fail_common $@ 2  $ESM_CORE_ZIDIAN 
+}
+
+function kpi_gtpv2_bearer_enb_mme_fail()
+ {
+     kpi_fail_common $@ 2  $GTPV2_CORE_ZIDIAN
+}
+function kpi_pdp_enb_mme_fail()
+ {
+     kpi_fail_common $@ 2  $GN_CORE_ZIDIAN
+}
+function kpi_gtpv2_relocation_enb_mme_fail()
+ {
+     kpi_fail_common $@ 2  $GTPV2_CORE_ZIDIAN
+}
+function kpi_gtpv2_session_enb_mme_fail()
+ {
+     kpi_fail_common $@ 2  $GTPV2_CORE_ZIDIAN
+}
+function kpi_s1ap_erab_enb_mme_fail()
+ {
+     kpi_fail_common $@ 2  $S1AP_CORE_ZIDIAN
+}
+function kpi_handover_enb_mme_fail()
+ {
+     kpi_fail_common $@ 3  $HANDOVER_CORE_ZIDIAN  
+}
+function kpi_s1_emm_attach_enb_mme_fail()
+ {
+     kpi_fail_common $@ 2  $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_tau_enb_mme_fail()
+ {
+     kpi_fail_common $@ 2  $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_paging_enb_mme_fail()
+ {
+     kpi_fail_common $@ 2  $EMM_CORE_ZIDIAN
+}
+function kpi_s1_emm_service_enb_mme_fail()
+ {
+     kpi_fail_common $@ 2  $EMM_CORE_ZIDIAN
+}
+function kpi_s1_esm_pdn_enb_mme_fail()
+ {
+     kpi_fail_common $@ 2  $ESM_CORE_ZIDIAN
+}
+function kpi_gtpv2_bearer_area_fail()
+{
+     kpi_fail_common $@ 3  $GTPV2_CORE_ZIDIAN
+}
+
+function kpi_gtpv2_relocation_area_fail()
+{
+     kpi_fail_common $@ 3  $GTPV2_CORE_ZIDIAN
+}
+
+function kpi_gtpv2_session_area_fail()
+{
+     kpi_fail_common $@ 3  $GTPV2_CORE_ZIDIAN
+}
+
+function kpi_s1ap_erab_area_fail()
+{
+     kpi_fail_common $@ 3  $S1AP_CORE_ZIDIAN
+}
+
+function kpi_handover_area_fail()
+{
+     kpi_fail_common $@ 3  $HANDOVER_CORE_ZIDIAN  
+}
+
+function kpi_s1_emm_attach_area_fail()
+{
+     kpi_fail_common $@ 3  $EMM_CORE_ZIDIAN
+}
+
+
+function kpi_s1_emm_tau_area_fail()
+{
+     kpi_fail_common $@ 3  $EMM_CORE_ZIDIAN
+}
+
+function kpi_s1_emm_paging_area_fail()
+{
+     kpi_fail_common $@ 3  $EMM_CORE_ZIDIAN
+}
+
+function kpi_s1_emm_service_area_fail()
+{
+     kpi_fail_common $@ 3  $EMM_CORE_ZIDIAN
+}
+
+function kpi_s1_esm_pdn_area_fail()
+{
+
+     kpi_fail_common $@ 3  $ESM_CORE_ZIDIAN
+}
+function  kpi_s1_sms_ecgi_fail()
+{
+
+     kpi_fail_common $@ 3  $RESULT_CORE_ZIDIAN
+}
+function  kpi_s1_sms_city_fail()
+{
+     kpi_fail_common $@ 2  $RESULT_CORE_ZIDIAN
+}
+function  kpi_s1_sms_enb_mme_fail()
+{
+     kpi_fail_common $@ 2  $RESULT_CORE_ZIDIAN
+}
+function  kpi_sgs_mm_loc_total_fail()
+{
+     kpi_total_fail_common $@ 1  $RESULT_CORE_ZIDIAN
+}
+
+function  kpi_sgs_mm_loc_ecgi_fail()
+{
+     kpi_fail_common $@ 3  $RESULT_CORE_ZIDIAN
+}
+function  kpi_sgs_mm_loc_city_fail()
+{
+     kpi_fail_common $@ 2  $RESULT_CORE_ZIDIAN
+}
+function  kpi_sgs_mm_loc_enb_mme_fail()
+{
+     kpi_fail_common $@ 2  $RESULT_CORE_ZIDIAN
+}
+function  kpi_s1_csfb_total_fail()
+{
+     kpi_total_fail_common $@ 1  $RESULT_CORE_ZIDIAN
+}
+function  kpi_s1_csfb_ecgi_fail()
+{
+     kpi_fail_common $@ 3  $RESULT_CORE_ZIDIAN
+}
+function  kpi_s1_csfb_city_fail()
+{
+     kpi_fail_common $@ 2  $RESULT_CORE_ZIDIAN
+}
+function  kpi_s1_csfb_enb_mme_fail()
+{
+     kpi_fail_common $@ 2  $RESULT_CORE_ZIDIAN
+}
+
+function kpi_dns_total()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -f ${AWK_FOLD}/muti_dns_total.awk"
+    fi  
+    echo $shellCmd|sh|\
+    awk  -v time=$_time -v id=$_id -v key_cnt=0 \
+       '{\
+		_total_cnt=$(key_cnt+2);\
+		_delay=(_total_cnt==0?0:$(key_cnt+1)/_total_cnt) ;\
+		_success_total_cnt=$(key_cnt+3);\
+		_fail_cnt=_total_cnt-_success_total_cnt;\
+		_success_total_rate=(_total_cnt==0?0:_success_total_cnt*100/_total_cnt);\
+		_server_fail_cnt=$(key_cnt+4);\
+		_server_success_rate=(_total_cnt==0?0:(100-_server_fail_cnt*100/_total_cnt));\
+		_analyze_success_rate=_success_total_rate;\
+		printf time","id"," ;
+		printf("%d,%d,%d,%d,%.3f,%.3f,%.3f\n",_delay,_total_cnt,_success_total_cnt,_fail_cnt,\
+			_success_total_rate,_server_success_rate,_analyze_success_rate);\
+	}'\
+    >> $RESULT_FOLD/$FILE_NAME
+}
+function  kpi_dns_total_fail()
+{
+     kpi_fail_common $@ 0  $DNS_CORE_ZIDIAN
+}
+function kpi_dns_common()
+{
+    local _time=$1
+    local _id=$2
+    local ZIDIAN_QUERY=$3
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -f ${AWK_FOLD}/muti_dns_v1.awk"
+    fi
+    echo $shellCmd|sh|\
+    awk  -v time=$_time -v id=$_id -v key_cnt=1 \
+	-v zd_query=<(echo $ZIDIAN_QUERY|sh)   \
+       'BEGIN{while((getline<zd_query)>0){query[$1]=$2}}  \
+	{\
+		_query_id=$1;\
+		_query_name=((query[$1]=="")?$1:query[$1]);\
+                _total_cnt=$(key_cnt+2);\
+                _delay=(_total_cnt==0?0:$(key_cnt+1)/_total_cnt) ;\
+                _success_total_cnt=$(key_cnt+3);\
+                _fail_cnt=_total_cnt-_success_total_cnt;\
+                _success_total_rate=(_total_cnt==0?0:_success_total_cnt*100/_total_cnt);\
+                _server_fail_cnt=$(key_cnt+4);\
+                _server_success_rate=(_total_cnt==0?0:(100-_server_fail_cnt*100/_total_cnt));\
+                _analyze_success_rate=_success_total_rate;\
+                printf time","id"," ;
+                printf("%s,%s,%d,%d,%d,%d,%.3f,%.3f,%.3f\n",_query_id,_query_name,_delay,\
+			_total_cnt,_success_total_cnt,_fail_cnt,\
+                        _success_total_rate,_server_success_rate,_analyze_success_rate);\
+        }'\
+    >> $RESULT_FOLD/$FILE_NAME
+}
+
+function kpi_dns_ecgi()
+{
+    local zidian="cat $CGI_ZIDIAN"
+    kpi_dns_common $@ "$zidian"
+}
+function  kpi_dns_ecgi_fail()
+{
+
+     kpi_fail_common $@ 1  $DNS_CORE_ZIDIAN
+}
+
+function kpi_dns_enb_mme()
+{
+    local zidian="cat $NET_ELEMENT_ZIDIAN"
+    kpi_dns_common $@ "$zidian"
+}
+function  kpi_dns_enb_mme_fail()
+{
+
+     kpi_fail_common $@ 1  $DNS_CORE_ZIDIAN
+}
+function kpi_dns_city()
+{
+    local zidian="cat $CGI_CITY_ZIDIAN"
+    kpi_dns_common $@ "$zidian"
+}
+function  kpi_dns_city_fail()
+{
+     kpi_fail_common $@ 1  $DNS_CORE_ZIDIAN
+}
+function kpi_dns_query_name()
+{
+    local zidian="echo 1 1"
+    kpi_dns_common $@ "$zidian"
+}
+function  kpi_dns_query_name_fail()
+{
+     kpi_fail_common $@ 1  $DNS_CORE_ZIDIAN
+}
+function kpi_tcp_total()
+{
+    local _time=$1
+    local _id=$2
+    local _key_cnt=0
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+        # shellCmd="cat $muti_tmp_file|awk -f $AWK_FOLD/muti_net_que.awk"
+    fi  
+    echo $shellCmd|sh|\
+    awk  -v time=$_time -v id=$_id  -v key_cnt=${_key_cnt} \
+    '{ \
+		_up_order=$(key_cnt+1);\
+		_down_order=$(key_cnt+2);\
+		_up_resend=$(key_cnt+3);\
+		_down_resend=$(key_cnt+4);\
+		_up_lost=$(key_cnt+5);\
+		_down_lost=$(key_cnt+6);\
+		_up_total=$(key_cnt+7);\
+		_down_total=$(key_cnt+8);\
+		_up_delay_avg=$(key_cnt+9);\
+		_down_delay_avg=$(key_cnt+10);\
+		_up_delay_max=$(key_cnt+11);\
+		_up_delay_min=$(key_cnt+12);\
+		_down_delay_max=$(key_cnt+13);\
+		_down_delay_min=$(key_cnt+14);\
+		_up_order_rate=(_up_total==0?0:_up_order*100/_up_total);\
+		_down_order_rate=(_down_total==0?0:_down_order*100/_down_total);\
+		_up_resend_rate=(_up_total==0?0:_up_resend*100/_up_total);\
+		_down_resend_rate=(_down_total==0?0:_down_resend*100/_down_total);\
+		_up_lost_rate=(_up_total==0?0:_up_lost*100/_up_total);\
+		_down_lost_rate=(_down_total==0?0:_down_lost*100/_down_total);\
+		_drop_session_cnt=$(key_cnt+15);\
+		_total_session=$(key_cnt+16);\
+		_drop_session_rate=(_total_session==0?0:_drop_session_cnt*100/_total_session);\
+		_syn_cnt=$(key_cnt+17);\
+		_syn_ack_cnt=$(key_cnt+18);\
+		_ack_cnt=$(key_cnt+19);\
+		_up_conn_success_rate=(_syn_cnt==0?0:_syn_ack_cnt*100/_syn_cnt);\
+		_down_conn_success_rate=(_syn_ack_cnt==0?0:_ack_cnt*100/_syn_ack_cnt);\
+		_sp_up_delay=$(key_cnt+20);\
+		_sp_down_delay=$(key_cnt+21);\
+		_sp_delay=_sp_up_delay+_sp_down_delay;\
+	printf time","id",";\
+        printf("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%d,%.3f,%.3f,%.3f,%d,%d,%d\n",\
+	_up_order,_down_order,_up_resend,_down_resend,_up_lost,_down_lost,_up_total,_down_total,_up_delay_avg,\
+	_down_delay_avg,_up_delay_max,_up_delay_min,_down_delay_max,_down_delay_min,_up_order_rate,_down_order_rate,\
+	_up_resend_rate,_down_resend_rate,_up_lost_rate,_down_lost_rate,_drop_session_cnt,_drop_session_rate,\
+	_up_conn_success_rate,_down_conn_success_rate,_sp_delay,_sp_up_delay,_sp_down_delay);\
+	}'\
+         >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_tcp_common()
+{
+    local _time=$1
+    local _id=$2
+    local ZIDIAN_QUERY=$3
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+	 shellCmd="cat $muti_tmp_file"
+         #shellCmd="cat $muti_tmp_file|awk -f ${AWK_FOLD}/muti_net_que_v1.awk"
+    fi 
+    echo $shellCmd|sh|\
+    awk  -v time=$_time -v id=$_id -v key_cnt=1 \
+        -v zd_query=<(echo $ZIDIAN_QUERY|sh)   \
+       'BEGIN{while((getline<zd_query)>0){query[$1]=$2}}   \
+        {\
+                _query_id=$1;\
+                _query_name=((query[$1]=="")?$1:query[$1]);\
+                _up_order=$(key_cnt+1);\
+                _down_order=$(key_cnt+2);\
+                _up_resend=$(key_cnt+3);\
+                _down_resend=$(key_cnt+4);\
+                _up_lost=$(key_cnt+5);\
+                _down_lost=$(key_cnt+6);\
+                _up_total=$(key_cnt+7);\
+                _down_total=$(key_cnt+8);\
+                _up_delay_avg=$(key_cnt+9);\
+                _down_delay_avg=$(key_cnt+10);\
+                _up_delay_max=$(key_cnt+11);\
+                _up_delay_min=$(key_cnt+12);\
+                _down_delay_max=$(key_cnt+13);\
+                _down_delay_min=$(key_cnt+14);\
+                _up_order_rate=(_up_total==0?0:_up_order*100/_up_total);\
+                _down_order_rate=(_down_total==0?0:_down_order*100/_down_total);\
+                _up_resend_rate=(_up_total==0?0:_up_resend*100/_up_total);\
+                _down_resend_rate=(_down_total==0?0:_down_resend*100/_down_total);\
+                _up_lost_rate=(_up_total==0?0:_up_lost*100/_up_total);\
+                _down_lost_rate=(_down_total==0?0:_down_lost*100/_down_total);\
+                _drop_session_cnt=$(key_cnt+15);\
+                _total_session=$(key_cnt+16);\
+                _drop_session_rate=(_total_session==0?0:_drop_session_cnt*100/_total_session);\
+                _syn_cnt=$(key_cnt+17);\
+                _syn_ack_cnt=$(key_cnt+18);\
+                _ack_cnt=$(key_cnt+19);\
+                _up_conn_success_rate=(_syn_cnt==0?0:_syn_ack_cnt*100/_syn_cnt);\
+                _down_conn_success_rate=(_syn_ack_cnt==0?0:_ack_cnt*100/_syn_ack_cnt);\
+                _sp_up_delay=$(key_cnt+20);\
+                _sp_down_delay=$(key_cnt+21);\
+                _sp_delay=_sp_up_delay+_sp_down_delay;\
+        printf time","id",";\
+	printf _query_id","_query_name"," ;\
+        printf("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%d,%.3f,%.3f,%.3f,%d,%d,%d\n",\
+        _up_order,_down_order,_up_resend,_down_resend,_up_lost,_down_lost,_up_total,_down_total,_up_delay_avg,\
+        _down_delay_avg,_up_delay_max,_up_delay_min,_down_delay_max,_down_delay_min,_up_order_rate,_down_order_rate,\
+        _up_resend_rate,_down_resend_rate,_up_lost_rate,_down_lost_rate,_drop_session_cnt,_drop_session_rate,\
+        _up_conn_success_rate,_down_conn_success_rate,_sp_delay,_sp_up_delay,_sp_down_delay);\
+        }'\
+         >>$RESULT_FOLD/$FILE_NAME
+}
+
+function kpi_tcp_ecgi()
+{
+    local zidian="cat $CGI_ZIDIAN"
+    kpi_tcp_common $@ "$zidian"
+}
+function kpi_tcp_enb_mme()
+{
+    local zidian="cat $NET_ELEMENT_ZIDIAN"
+    kpi_tcp_common $@ "$zidian" 
+}
+function kpi_tcp_serverip()
+{
+    local zidian="echo 1 1"
+    kpi_tcp_common $@ "$zidian"
+}
+function kpi_tcp_city()
+{
+    local zidian="cat $CGI_CITY_ZIDIAN"
+    kpi_tcp_common $@ "$zidian"
+}
+function kpi_get_post_total()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+	 shellCmd="cat $muti_tmp_file"
+         #shellCmd="cat $muti_tmp_file|awk -f $AWK_FOLD/muti_get_post.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time=$_time -v id=$_id -v key_cnt=0 \
+     '{ \
+	_total_cnt=$(key_cnt+3);\
+	_fail_cnt=$(key_cnt+5);\
+	_respose_success_rate=(100-(_total_cnt==0?0:_fail_cnt*100/_total_cnt));\
+	_respose_delay=(_total_cnt==0?0:$(key+2)/_total_cnt);\
+	_last_delay=(_total_cnt==0?0:$(key+4)/_total_cnt);\
+	_speed=$(key_cnt+1);\
+	_success_cnt=$(key_cnt+6);\
+	_success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+	printf time","id",";\
+	printf("%d,%d,%.3f,%d,%d,%.3f,%.3f\n",\
+		_total_cnt,_fail_cnt,_respose_success_rate,_respose_delay,_last_delay,_speed,_success_rate);\
+	}'\
+        >>$RESULT_FOLD/$FILE_NAME
+}
+function kpi_get_post_common()
+{
+    local _time=$1
+    local _id=$2
+    local ZIDIAN_QUERY=$3
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+	 shellCmd="cat $muti_tmp_file"
+        # shellCmd="cat $muti_tmp_file|awk -f ${AWK_FOLD}/muti_get_post_v1.awk"
+    fi
+    echo $shellCmd|sh|\
+    awk  -v time=$_time -v id=$_id -v key_cnt=1 \
+        -v zd_query=<(echo $ZIDIAN_QUERY|sh)   \
+       'BEGIN{while((getline<zd_query)>0){query[$1]=$2}}   \
+        {\
+                _query_id=$1;\
+                _query_name=((query[$1]=="")?$1:query[$1]);\
+	        _total_cnt=$(key_cnt+3);\
+	        _fail_cnt=$(key_cnt+5);\
+	        _respose_success_rate=(100-(_total_cnt==0?0:_fail_cnt*100/_total_cnt));\
+	        _respose_delay=(_total_cnt==0?0:$(key+2)/_total_cnt);\
+	        _last_delay=(_total_cnt==0?0:$(key+4)/_total_cnt);\
+	        _speed=$(key_cnt+1);\
+	        _success_cnt=$(key_cnt+6);\
+	        _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+	        printf time","id",";\
+		printf _query_id","_query_name",";\
+	        printf("%d,%d,%.3f,%d,%d,%.3f,%.3f\n",\
+	                _total_cnt,_fail_cnt,_respose_success_rate,_respose_delay,_last_delay,_speed,_success_rate);\
+        }'\
+        >>$RESULT_FOLD/$FILE_NAME
+}
+
+function kpi_get_post_ecgi()
+{
+    local zidian="cat $CGI_ZIDIAN"
+    kpi_get_post_common $@ "$zidian"
+}
+function  kpi_get_post_ecgi_fail()
+{
+
+     kpi_fail_common $@ 1  $GET_POST_CORE_ZIDIAN
+}
+function kpi_get_post_enb_mme()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+	 shellCmd="cat $muti_tmp_file"
+         #shellCmd="cat $muti_tmp_file|awk -f ${AWK_FOLD}/muti_get_post_v1.awk"
+    fi   
+    echo $shellCmd|sh|\
+    awk  -v time=$_time -v id=$_id -v key_cnt=1 \
+        -v zd_net_element=$NET_ELEMENT_ZIDIAN   \
+       'BEGIN{while((getline<zd_net_element)>0){net_element[$1]=$2;net_cnt[$2]+=1}}   \
+        {\
+                _net_element_id=$1;\
+                _net_element=((net_element[$1]=="")?$1:net_element[$1]);\
+		_net_cnt=((net_cnt[$1]=="")?1:net_cnt[$1]);\
+                _total_cnt=$(key_cnt+3);\
+                _fail_cnt=$(key_cnt+5);\
+                _respose_success_rate=(100-(_total_cnt==0?0:_fail_cnt*100/_total_cnt));\
+                _respose_delay=(_total_cnt==0?0:$(key+2)/_total_cnt);\
+                _last_delay=(_total_cnt==0?0:$(key+4)/_total_cnt);\
+                _speed=$(key_cnt+1)/_net_cnt;\
+                _success_cnt=$(key_cnt+6);\
+                _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+                printf time","id",";\
+                printf _net_element_id","_net_element",";\
+                printf("%d,%d,%.3f,%d,%d,%.3f,%.3f\n",\
+                        _total_cnt,_fail_cnt,_respose_success_rate,_respose_delay,_last_delay,_speed,_success_rate);\
+        }'\
+     >> $RESULT_FOLD/$FILE_NAME
+}
+function  kpi_get_post_enb_mme_fail()
+{
+     kpi_fail_common $@ 1  $GET_POST_CORE_ZIDIAN
+}
+function kpi_get_post_serverip()
+{
+    local zidian="echo 1 1"
+    kpi_get_post_common $@ "$zidian"
+}
+function  kpi_get_post_serverip_fail()
+{
+     kpi_fail_common $@ 1  $GET_POST_CORE_ZIDIAN
+}
+function kpi_get_post_city()
+{
+    local zidian="cat $CGI_CITY_ZIDIAN"
+    kpi_get_post_common $@ "$zidian"
+}
+function  kpi_get_post_city_fail()
+{
+     kpi_fail_common $@ 1  $GET_POST_CORE_ZIDIAN
+}
+function filter_download_phone_service_type()
+{
+    local _time=$1
+    local _id=$2 
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi 
+    echo $shellCmd|sh|\
+    awk  -v time=$_time -v id=$_id  \
+        -v zd_service_type=$SERVICE_TYPE_ZIDIAN   \
+       'BEGIN{while((getline<zd_service_type)>0){service_type[$2]=$3}}   \
+        {\
+		_phone=$1;\
+                _service_type_id=$3;\
+                _service_type=((service_type[$3]=="")?$3:service_type[$3]);\
+		_speed=$4;\
+		_time_rate=$5*100/(($6==0)?1:$6);\
+		printf time","id"," ;\
+             	printf("%s,%s,%s,%.3f,%.3f\n",\
+			_phone,_service_type_id,_service_type,_speed,_time_rate);\
+	}'\
+     >> $RESULT_FOLD/$FILE_NAME
+}

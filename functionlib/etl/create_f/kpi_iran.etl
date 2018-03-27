@@ -1,0 +1,592 @@
+function Iran_AttachType_Cause_global()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_AttachType_Cause_ne()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_AttachType_Cause_rai()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_AttachType_global()
+{
+  _key_cnt=0
+  _is_cut=0
+  _awk_file=cycle_sum11.awk
+}
+function Iran_AttachType_rai()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum13.awk
+}
+function Iran_AttachType_ne()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum13.awk
+}
+function Iran_AttachType_network()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+function Iran_AttachType_oldne_ne()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_AttachType_RadioCause_global()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_AttachType_RadioCause_ne()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_AuthType_global()
+{
+  _key_cnt=0
+  _is_cut=0
+  _awk_file=cycle_sum10.awk
+}
+function Iran_AuthType_rai()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum10.awk
+}
+function Iran_AuthType_ne()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum10.awk
+}
+function Iran_DetachType_global()
+{
+  _key_cnt=0
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+function Iran_DetachType_rai()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+function Iran_DetachType_ne()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+function Iran_DnsQua_ne()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+function Iran_EmailQua_ne()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+function Iran_FtpQua_ne()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+function Iran_MmsTraffic_ne()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+function Iran_PDP_Active_apn()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+function Iran_PDP_Active_Cause_apn()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_PDP_Active_Cause_ne()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_PDP_Active_Cause_rai()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_PDP_Active_Cause_global()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_PDP_Active_global()
+{
+  _key_cnt=0
+  _is_cut=0
+  _awk_file=cycle_sum13.awk
+}
+function Iran_PDP_Active_rai()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum13.awk
+}
+function Iran_PDP_Active_ne()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum13.awk
+}
+function Iran_PDP_Active_oldne_ne()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+function Iran_PDP_Deactive_global()
+{
+  _key_cnt=0
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_PDP_Deactive_rai()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_PDP_Deactive_ne()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_PDP_end_global()
+{
+  _key_cnt=0
+  _is_cut=0
+  _awk_file=cycle_sum17.awk
+}
+function Iran_PDP_end_rai()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum17.awk
+}
+function Iran_PDP_end_ne()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum17.awk
+}
+function Iran_PDP_end_oldne_ne()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+function Iran_PDP_end_RadioCause_global()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_PDP_end_RadioCause_rai()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_PDP_end_RadioCause_ne()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+
+function Iran_PDP_Net_Deactive_Cause_global()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_PDP_Net_Deactive_Cause_ne()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_PDP_Net_Deactive_Cause_rai()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+
+function Iran_PDP_User_Deactive_Cause_global()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_PDP_User_Deactive_Cause_rai()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_PDP_User_Deactive_Cause_ne()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_PerRauType_Cause_global()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_PerRauType_Cause_ne()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_PerRauType_Cause_rai()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_PerRauType_global()
+{
+  _key_cnt=0
+  _is_cut=0
+  _awk_file=cycle_sum11.awk
+}
+function Iran_PerRauType_rai()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum11.awk
+}
+function Iran_PerRauType_ne()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum11.awk
+}
+function Iran_PerRauType_RadioCause_global()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_PerRauType_RadioCause_ne()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_RauType_Cause_global()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_RauType_Cause_rai()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_RauType_Cause_ne()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_RauType_global()
+{
+  _key_cnt=0
+  _is_cut=0
+  _awk_file=cycle_sum12.awk
+}
+function Iran_RauType_rai()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum12.awk
+}
+function Iran_RauType_ne()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum12.awk
+}
+function Iran_RauType_network()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+function Iran_RauType_RadioCause_ne()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_RauType_system_global()
+{
+  _key_cnt=0
+  _is_cut=0
+  _awk_file=cycle_sum12.awk
+}
+function Iran_RauType_system_rai()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum12.awk
+}
+function Iran_RauType_system_ne()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum12.awk
+}
+function Iran_StreamingTraffic_host()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+function Iran_Traffic_apn_servtype()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+function Iran_Traffic_proto_port()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+function Iran_Traffic_servtype()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+function Iran_Traffic_servtype_proto()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+function Iran_Traffic_Session_apn()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=Traffic_Session.awk
+}
+function Iran_Traffic_Session_global()
+{
+  _key_cnt=0
+  _is_cut=0
+  _awk_file=cycle_sum6.awk
+}
+function Iran_Traffic_Session_ne_apn()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=Traffic_Session_ne.awk
+}
+function Iran_Traffic_Session_ne()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=Traffic_Session_ne.awk
+}
+function Iran_Wapqua_ne()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+function Iran_WapQua_ne_host()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+function Iran_WapTraffic_ne()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum7.awk
+}
+function Iran_Wspconnect_ne()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+function Iran_Paging_global()
+{
+  _key_cnt=0
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+function Iran_Paging_rai()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+function Iran_Paging_ne()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+function Iran_AttachType_oldrai_rai()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+
+function Iran_PDP_Active_oldrai_rai()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+
+function Iran_PDP_end_oldrai_rai()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+function Iran_PerRauType_RadioCause_rai()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_RauType_RadioCause_rai()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_AttachType_RadioCause_rai()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_DnsQua_rai()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+function Iran_EmailQua_rai()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+function Iran_FtpQua_rai()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+function Iran_Wapqua_rai()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum4.awk
+}
+function Iran_Wspconnect_rai()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+function Iran_WapQua_rai_host()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+function Iran_MmsTraffic_rai()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum2.awk
+}
+function Iran_WapTraffic_rai()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum7.awk
+}
+function Iran_Traffic_Session_rai_apn()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum3.awk
+}
+function Iran_ranap_rab_Cause_global()
+{
+  _key_cnt=1
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_ranap_rab_Cause_ne()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}
+function Iran_ranap_rab_Cause_rai()
+{
+  _key_cnt=2
+  _is_cut=0
+  _awk_file=cycle_sum1.awk
+}

@@ -1,0 +1,394 @@
+function net_que_total()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -f $AWK_FOLD/muti_net_que.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time=$_time -v id=$_id  -v key_cnt=0 \
+         '{ \
+		_up_order=$(key_cnt+1);\
+		_down_order=$(key_cnt+2);\
+		_up_resend=$(key_cnt+3);\
+		_down_resend=$(key_cnt+4);\
+		_up_lost=$(key_cnt+5);\
+		_down_lost=$(key_cnt+6);\
+		_up_total=$(key_cnt+7);\
+		_down_total=$(key_cnt+8);\
+		_up_delay_avg=$(key_cnt+9);\
+		_down_delay_avg=$(key_cnt+10);\
+		_up_delay_max=$(key_cnt+11);\
+		_up_delay_min=$(key_cnt+12);\
+		_down_delay_max=$(key_cnt+13);\
+		_down_delay_min=$(key_cnt+14);\
+		_up_order_rate=(_up_total==0?0:_up_order*100/_up_total);\
+		_down_order_rate=(_up_total==0?0:_down_order*100/_up_total);\
+		_up_resend_rate=(_up_total==0?0:_up_resend*100/_up_total);\
+		_down_resend_rate=(_up_total==0?0:_down_resend*100/_up_total);\
+		_up_lost_rate=(_up_total==0?0:_up_lost*100/_up_total);\
+		_down_lost_rate=(_up_total==0?0:_down_lost*100/_up_total);\
+                printf("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f\n",\
+                         time,id,_up_order,_down_order,_up_resend,_down_resend,_up_lost,_down_lost,\
+			_up_total,_down_total,_up_delay_avg,_down_delay_avg,_up_delay_max,_up_delay_min,\
+			_down_delay_max,_down_delay_min,_up_order_rate,_down_order_rate,_up_resend_rate,\
+			_down_resend_rate,_up_lost_rate,down_lost_rate) \
+	 }'\
+         >>$RESULT_FOLD/$FILE_NAME
+}
+
+
+function net_que_phone_up_order_total()
+{
+   local _time=$1
+   local _id=$2
+   local _key_cnt=1 
+   local shellCmd="$grepFile"
+   if [ "$muti" -eq 1 ];then
+        if [ "${detail}" -eq 1 ];then
+           shellCmd="cat $muti_tmp_file|awk   -f ${AWK_FOLD}/muti_net_que_v2.awk|sed 's/_/ /g'"   
+           _key_cnt=3
+        else
+          create_muti_file   "$shellCmd"
+	  case $HEAD_FILE in
+   		"net_que_phone_up_order_total") sortId=16 ;;
+  		"net_que_phone_down_order_total") sortId=17 ;;
+  	 	"net_que_phone_up_resend_total") sortId=18 ;;
+   		"net_que_phone_down_resend_total") sortId=19 ;;
+   		"net_que_phone_up_lost_total") sortId=20 ;;
+	   	"net_que_phone_down_lost_total") sortId=21;;
+   		"net_que_phone_up_delay_total") sortId=10 ;;
+	   	"net_que_phone_down_delay_total") sortId=11 ;;
+   		*) sortId=16 ;;
+ 	  esac
+          shellCmd="cat $muti_tmp_file|awk -f $AWK_FOLD/muti_net_que_v1.awk|sort -nr -k${sortId}"
+	fi
+   fi
+     echo $shellCmd|sh|\
+     awk  -v time=$_time -v id=$_id  -v key_cnt=${_key_cnt} \
+         '{ \
+		if(key_cnt==3){_time=$1;_id=$2;}else{_time=time;_id=id;} \
+		_phone=$key_cnt;\
+                _up_order=$(key_cnt+1);\
+                _down_order=$(key_cnt+2);\
+                _up_resend=$(key_cnt+3);\
+                _down_resend=$(key_cnt+4);\
+                _up_lost=$(key_cnt+5);\
+                _down_lost=$(key_cnt+6);\
+                _up_total=$(key_cnt+7);\
+                _down_total=$(key_cnt+8);\
+                _up_delay_avg=$(key_cnt+9);\
+                _down_delay_avg=$(key_cnt+10);\
+                _up_delay_max=$(key_cnt+11);\
+                _up_delay_min=$(key_cnt+12);\
+                _down_delay_max=$(key_cnt+13);\
+                _down_delay_min=$(key_cnt+14);\
+                _up_order_rate=(_up_total==0?0:_up_order*100/_up_total);\
+                _down_order_rate=(_up_total==0?0:_down_order*100/_up_total);\
+                _up_resend_rate=(_up_total==0?0:_up_resend*100/_up_total);\
+                _down_resend_rate=(_up_total==0?0:_down_resend*100/_up_total);\
+                _up_lost_rate=(_up_total==0?0:_up_lost*100/_up_total);\
+                _down_lost_rate=(_up_total==0?0:_down_lost*100/_up_total);\
+                printf("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f\n",\
+                         _time,_id,_phone,_up_order,_down_order,_up_resend,_down_resend,_up_lost,_down_lost,\
+                        _up_total,_down_total,_up_delay_avg,_down_delay_avg,_up_delay_max,_up_delay_min,\
+                        _down_delay_max,_down_delay_min,_up_order_rate,_down_order_rate,_up_resend_rate,\
+                        _down_resend_rate,_up_lost_rate,down_lost_rate) \
+         }'\
+         >>$RESULT_FOLD/$FILE_NAME
+}
+
+function net_que_cgi_up_order_total()
+{
+ local _time=$1
+ local _id=$2
+ local _key_cnt=1
+ local shellCmd="$grepFile"
+   if [ "$muti" -eq 1 ];then
+        if [ "${detail}" -eq 1 ];then
+           shellCmd="cat $muti_tmp_file|awk   -f ${AWK_FOLD}/muti_net_que_v2.awk|sed 's/_/ /g'"
+           _key_cnt=3
+        else
+         create_muti_file   "$shellCmd"
+         case $HEAD_FILE in
+                "net_que_cgi_up_order_total") sortId=16 ;;
+                "net_que_cgi_down_order_total") sortId=17 ;;
+                "net_que_cgi_up_resend_total") sortId=18 ;;
+                "net_que_cgi_down_resend_total") sortId=19 ;;
+                "net_que_cgi_up_lost_total") sortId=20 ;;
+                "net_que_cgi_down_lost_total") sortId=21;;
+                "net_que_cgi_up_delay_total") sortId=10 ;;
+                "net_que_cgi_down_delay_total") sortId=11 ;;
+                *) sortId=16 ;;
+         esac
+         shellCmd="cat $muti_tmp_file|awk -f $AWK_FOLD/muti_net_que_v1.awk|sort -nr -k${sortId}"
+       fi
+   fi
+     echo $shellCmd|sh|\
+     awk  -v time=$_time -v id=$_id  -v key_cnt=${_key_cnt} \
+	  -v zd_cgi=$CGI_ZIDIAN \
+     'BEGIN{while((getline<zd_cgi)>0){cgi[$1]=$2}}\
+         { \
+                if(key_cnt==3){_time=$1;_id=$2;}else{_time=time;_id=id;}\
+                _cgi_id=$key_cnt;\
+		_cgi=((cgi[$key_cnt]=="")?$key_cnt:cgi[$key_cnt]);\
+                _up_order=$(key_cnt+1);\
+                _down_order=$(key_cnt+2);\
+                _up_resend=$(key_cnt+3);\
+                _down_resend=$(key_cnt+4);\
+                _up_lost=$(key_cnt+5);\
+                _down_lost=$(key_cnt+6);\
+                _up_total=$(key_cnt+7);\
+                _down_total=$(key_cnt+8);\
+                _up_delay_avg=$(key_cnt+9);\
+                _down_delay_avg=$(key_cnt+10);\
+                _up_delay_max=$(key_cnt+11);\
+                _up_delay_min=$(key_cnt+12);\
+                _down_delay_max=$(key_cnt+13);\
+                _down_delay_min=$(key_cnt+14);\
+                _up_order_rate=(_up_total==0?0:_up_order*100/_up_total);\
+                _down_order_rate=(_up_total==0?0:_down_order*100/_up_total);\
+                _up_resend_rate=(_up_total==0?0:_up_resend*100/_up_total);\
+                _down_resend_rate=(_up_total==0?0:_down_resend*100/_up_total);\
+                _up_lost_rate=(_up_total==0?0:_up_lost*100/_up_total);\
+                _down_lost_rate=(_up_total==0?0:_down_lost*100/_up_total);\
+                printf("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f\n",\
+                         _time,_id,_cgi_id,_cgi,_up_order,_down_order,_up_resend,_down_resend,_up_lost,_down_lost,\
+                        _up_total,_down_total,_up_delay_avg,_down_delay_avg,_up_delay_max,_up_delay_min,\
+                        _down_delay_max,_down_delay_min,_up_order_rate,_down_order_rate,_up_resend_rate,\
+                        _down_resend_rate,_up_lost_rate,down_lost_rate) \
+         }'\
+         >>$RESULT_FOLD/$FILE_NAME
+}
+
+function net_que_terminal_up_order_total()
+{
+ local _time=$1
+ local _id=$2
+ local sortId
+ local shellCmd="$grepFile"
+ if [ "$muti" -eq 1 ];then
+        if [ "${detail}" -eq 1 ];then
+           shellCmd="cat $muti_tmp_file|awk   -f ${AWK_FOLD}/muti_net_que_v2.awk|sed 's/_/ /g'"
+           _key_cnt=3
+        else
+          create_muti_file   "$shellCmd"
+          case $HEAD_FILE in
+                "net_que_terminal_up_order_total") sortId=16 ;;
+                "net_que_terminal_down_order_total") sortId=17 ;;
+                "net_que_terminal_up_resend_total") sortId=18 ;;
+                "net_que_terminal_down_resend_total") sortId=19 ;;
+                "net_que_terminal_up_lost_total") sortId=20 ;;
+                "net_que_terminal_down_lost_total") sortId=21;;
+                "net_que_terminal_up_delay_total") sortId=10 ;;
+                "net_que_terminal_down_delay_total") sortId=11 ;;
+                *) sortId=16 ;;
+          esac
+          shellCmd="cat $muti_tmp_file|awk -f $AWK_FOLD/muti_net_que_v1.awk|sort -nr -k${sortId}"
+       fi
+   fi
+     echo $shellCmd|sh|\
+     awk  -v time=$_time -v id=$_id  -v key_cnt=${_key_cnt} \
+          -v zd_terminal_type=$TERMINAL_TYPE_ZIDIAN \
+     'BEGIN{while((getline<zd_terminal_type)>0){terminal_type[$2]=$3}}\
+         { \
+                if(key_cnt==3){_time=$1;_id=$2;}else{_time=time;_id=id;}\
+                _terminal_type_id=$key_cnt;\
+                _terminal_type=((terminal_type[$key_cnt]=="")?$key_cnt:terminal_type[$key_cnt]);\
+                _up_order=$(key_cnt+1);\
+                _down_order=$(key_cnt+2);\
+                _up_resend=$(key_cnt+3);\
+                _down_resend=$(key_cnt+4);\
+                _up_lost=$(key_cnt+5);\
+                _down_lost=$(key_cnt+6);\
+                _up_total=$(key_cnt+7);\
+                _down_total=$(key_cnt+8);\
+                _up_delay_avg=$(key_cnt+9);\
+                _down_delay_avg=$(key_cnt+10);\
+                _up_delay_max=$(key_cnt+11);\
+                _up_delay_min=$(key_cnt+12);\
+                _down_delay_max=$(key_cnt+13);\
+                _down_delay_min=$(key_cnt+14);\
+                _up_order_rate=(_up_total==0?0:_up_order*100/_up_total);\
+                _down_order_rate=(_up_total==0?0:_down_order*100/_up_total);\
+                _up_resend_rate=(_up_total==0?0:_up_resend*100/_up_total);\
+                _down_resend_rate=(_up_total==0?0:_down_resend*100/_up_total);\
+                _up_lost_rate=(_up_total==0?0:_up_lost*100/_up_total);\
+                _down_lost_rate=(_up_total==0?0:_down_lost*100/_up_total);\
+                printf("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f\n",\
+                         _time,_id,_terminal_type_id,_terminal_type,_up_order,_down_order,_up_resend,_down_resend,\
+			_up_lost,_down_lost,\
+                  	_up_total,_down_total,_up_delay_avg,_down_delay_avg,_up_delay_max,_up_delay_min,\
+                        _down_delay_max,_down_delay_min,_up_order_rate,_down_order_rate,_up_resend_rate,\
+                        _down_resend_rate,_up_lost_rate,down_lost_rate) \
+         }'\
+         >>$RESULT_FOLD/$FILE_NAME
+
+}
+
+function net_que_server_quality_total()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -f $AWK_FOLD/muti_net_que_server_quality.awk"
+    fi
+    echo $shellCmd|sh|sort -nr -k5|\
+    awk  -v time=$_time -v id=$_id  -v value=$keyvalue \
+    '{ \
+	_sgsn_ip=$1;\
+	_host=$2;\
+	_host_ip=$3;\
+	_avg_speed=$4;\
+	_avg_delay=$5;\
+	_hitcount=$6;\
+	if(_hitcount>value){\
+		 printf("%s,%s,%s,%s,%s,%d,%d,%d\n",time,id,_sgsn_ip,_host,_host_ip,_avg_speed,_avg_delay,_hitcount)\
+	}\
+     }' \
+     >> $RESULT_FOLD/$FILE_NAME
+}
+
+
+function net_que_service_type()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -f $AWK_FOLD/cycle_avg_delay.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time=$_time -v id=$_id  \
+          -v zd_service_type=$SERVICE_TYPE_ZIDIAN \
+     'BEGIN{while((getline<zd_service_type)>0){service_type[$2]=$3}}\
+         { \
+                _service_type_id=$1;\
+                _service_type=((service_type[$1]=="")?$1:service_type[$1]);\
+                _up_delay=$2;\
+                _down_delay=$3;\
+		_success_cnt=$4;\
+		_total_cnt=$5;\
+		_success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+                printf("%s,%d,%d,%.3f\n",_service_type,_up_delay,_down_delay,_success_rate); \
+     }' \
+     >> $RESULT_FOLD/$FILE_NAME
+}
+function net_que_serverip()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -f $AWK_FOLD/cycle_avg_delay.awk"
+    fi  
+     echo $shellCmd|sh|\
+     awk  -v time=$_time -v id=$_id  \
+     'BEGIN{}\
+         { \
+                _serverip=$1;\
+                _up_delay=$2;\
+                _down_delay=$3;\
+                _success_cnt=$4;\
+                _total_cnt=$5;\
+                _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+                printf("%s,%d,%d,%.3f\n",_serverip,_up_delay,_down_delay,_success_rate); \
+     }' \
+     >> $RESULT_FOLD/$FILE_NAME
+}
+function net_que_terminal()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk  -f $AWK_FOLD/cycle_avg_delay.awk"
+    fi  
+     echo $shellCmd|sh|\
+     awk  -v time=$_time -v id=$_id  \
+          -v zd_terminal_type=$TERMINAL_TYPE_ZIDIAN \
+     'BEGIN{while((getline<zd_terminal_type)>0){terminal_type[$2]=$3}}\
+         { \
+                _terminal_type_id=$1;\
+                _terminal_type=((terminal_type[$1]=="")?$1:terminal_type[$1]);\
+ 		_up_delay=$2;\
+		_down_delay=$3;\
+                printf("%s,%d,%d\n",_terminal_type,_up_delay,_down_delay); \
+     }' \
+     >> $RESULT_FOLD/$FILE_NAME
+}
+function dns_que_serverip()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f $AWK_FOLD/cycle_sum4.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time=$_time -v id=$_id  \
+     'BEGIN{}\
+         { \
+                _serverip=$1;\
+                _success_cnt=$2;\
+                _total_cnt=$4;\
+                _total_delay=$5;\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+                printf("%s,%.3f,%.3f\n",_serverip,_success_rate,_avg_delay); \
+     }' \
+     >> $RESULT_FOLD/$FILE_NAME
+}
+function dns_que_total()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f $AWK_FOLD/cycle_sum4.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time=$_time -v id=$_id  \
+     'BEGIN{}\
+         { \
+                _success_cnt=$2;\
+                _total_cnt=$4;\
+                _total_delay=$5;\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+                printf("%.3f,%.3f\n",_success_rate,_avg_delay); \
+     }' \
+     >> $RESULT_FOLD/$FILE_NAME
+}
+function dns_que_ne1_ne2()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=1  -f $AWK_FOLD/cycle_sum4.awk"
+    fi
+     echo $shellCmd|sh|\
+     awk  -v time=$_time -v id=$_id  \
+     'BEGIN{}\
+         { \
+                _ne=$1;\
+                _success_cnt=$2;\
+                _total_cnt=$4;\
+                _total_delay=$5;\
+                _avg_delay=(_total_cnt==0?0:_total_delay/_total_cnt);\
+                _success_rate=(_total_cnt==0?0:_success_cnt*100/_total_cnt);\
+                printf("%s,%.3f,%.3f\n",_ne,_success_rate,_avg_delay); \
+     }' \
+     >> $RESULT_FOLD/$FILE_NAME
+}

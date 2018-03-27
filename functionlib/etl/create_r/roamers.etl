@@ -1,0 +1,39 @@
+function kpi_AttachType_network()
+{
+  _source_file="Iran_AttachType_network"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+
+function kpi_AttachType_network_global()
+{
+  _source_file="Iran_AttachType_network"
+  _source_shell=""
+  _trans_awk="awk '{\$1=\"\";print \$0}'"
+  _awk_v="-v key_cnt=0"
+  _awk_file="cycle_sum3.awk"
+  _sort_cmd=""
+}
+
+function kpi_RauType_network()
+{
+  _source_file="Iran_RauType_network"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+
+function kpi_RauType_network_global()
+{
+  _source_file="Iran_RauType_network"
+  _source_shell=""
+  _trans_awk="awk '{\$1=\"\";print \$0}'"
+  _awk_v="-v key_cnt=0"
+  _awk_file="cycle_sum2.awk"
+  _sort_cmd=""
+}

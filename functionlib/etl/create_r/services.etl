@@ -1,0 +1,67 @@
+function kpi_PDP_Active_apn()
+{
+  _source_file="Iran_PDP_Active_apn"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_PDP_Active_apn_global()
+{
+  _source_file="Iran_PDP_Active_apn"
+  _source_shell=""
+  _trans_awk="awk '{\$1=\"\";print \$0}'"
+  _awk_v="-v key_cnt=0"
+  _awk_file="cycle_sum2.awk"
+  _sort_cmd=""
+}
+
+function kpi_Traffic_Session_apn()
+{
+  _source_file="Iran_Traffic_Session_apn"
+  _source_shell=""
+  _trans_awk=""
+  _awk_v=""
+  _awk_file=""
+  _sort_cmd=""
+}
+function kpi_Traffic_Session_global()
+{
+  _source_file="Iran_Traffic_Session_apn"
+  _source_shell=""
+  _trans_awk="awk '{\$1=\"\";print \$0;}'"
+  _awk_v="-v key_cnt=0"
+  _awk_file="Traffic_Session.awk"
+  _sort_cmd=""
+}
+
+
+function kpi_Traffic_Session_ne_apn()
+{
+  _source_file="Iran_Traffic_Session_ne_apn"
+  _source_shell=""
+  _trans_awk="awk '{\$1=\"\";print \$0;}'"
+  _awk_v="-v key_cnt=1"
+  _awk_file="Traffic_Session_ne.awk"
+  _sort_cmd=""
+}
+
+
+function kpi_Traffic_Session_rai_apn()
+{
+  kpi_Traffic_Session_ne_apn
+  _source_file="Iran_Traffic_Session_rai_apn"
+}
+
+function kpi_Traffic_Session_ne_apn_global()
+{
+  _source_file="Iran_Traffic_Session_ne_apn"
+  _source_shell=""
+  _trans_awk="awk '{\$1=\"\";\$2=\"\";print \$0;}'"
+  _awk_v="-v key_cnt=0"
+  _awk_file="Traffic_Session_ne.awk"
+  _sort_cmd=""
+}
+
+

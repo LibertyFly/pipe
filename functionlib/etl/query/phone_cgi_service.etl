@@ -1,0 +1,158 @@
+function phone_cgi_total()
+{
+    set_cgi
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -v key_cnt=2  -f ${AWK_FOLD}/cycle_common.awk "
+    fi
+    echo $shellCmd|sh|\
+    awk  -v time=$_time -v id=$_id \
+         -v zd_terminal_type=$TERMINAL_TYPE_ZIDIAN -v zd_phone=$PHONE_ZIDIAN -v zd_cgi=$CGI_ZIDIAN \
+         -v t_up=$total_up -v t_down=$total_down -v t_total=$total_total -v t_msg_count=$total_msg_count  \
+         -v key_cnt=0 \
+        'BEGIN{while((getline<zd_phone)>0){phone[$1]=$2}\
+               while((getline<zd_terminal_type)>0){terminal_type[$2]=$3}\
+	       while((getline<zd_cgi)>0){cgi[$1]=$2}}\
+         { \
+                _phone=$(key_cnt+1);\
+                _phone_area=((phone[substr($(key_cnt+1),3,7)]=="")?$(key_cnt+1):phone[substr($(key_cnt+1),3,7)]);\
+                _terminal_type=((terminal_type[$(key_cnt+2)]=="")?$(key_cnt+2):terminal_type[$(key_cnt+2)]);\
+		_cgi_id=$(key_cnt+3);\
+		_cgi=((cgi[$(key_cnt+3)]=="")?$(key_cnt+3):cgi[$(key_cnt+3)]);\
+                _up_bytes=$(key_cnt+4);\
+                _up_bytes_rate=(t_up==0?0:_up_bytes*100/t_up);\
+                _down_bytes=$(key_cnt+5);\
+                _down_bytes_rate=(t_down==0?0:_down_bytes*100/t_down);\
+                _total_bytes=$(key_cnt+6);\
+                _total_bytes_rate=(t_total==0?0:_total_bytes*100/t_total);\
+                printf time","id",";\
+                printf("%s,%s,%s,%s,%d,%d,%d,%.3f,%.3f,%.3f,%s\n",_phone,\
+                  _terminal_type,_cgi_id,_cgi,\
+                  _up_bytes,_down_bytes,_total_bytes,_up_bytes_rate,_down_bytes_rate,_total_bytes_rate,_phone_area)\
+      }' |sed 's///g' \
+     >> $RESULT_FOLD/$FILE_NAME
+
+}
+
+
+function phone_cgi_service_group_total()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi
+        echo $shellCmd|sh|awk  -f ${AWK_FOLD}/percent_v3.awk  |sort -rn -k6|\
+        awk  -v time=$_time -v id=$_id \
+              -v zd_service_group=$SERVICE_GROUP_ZIDIAN \
+	      -v zd_cgi=$CGI_ZIDIAN \
+              -v key_cnt=1 \
+        'BEGIN{while((getline<zd_service_group)>0){service_group[$1]=$2}\
+	       while((getline<zd_cgi)>0){cgi[$1]=$2}}\
+         { \
+                _phone=$1;\
+                _cgi_id=$(key_cnt+1);\
+		_cgi=((cgi[$(key_cnt+1)]=="")?$(key_cnt+1):cgi[$(key_cnt+1)]);\
+                _service_group_id=$(key_cnt+2);\
+                _service_group=((service_group[$(key_cnt+2)]=="")?$(key_cnt+2):service_group[$(key_cnt+2)]);\
+                _up_bytes=$(key_cnt+3);\
+                _down_bytes=$(key_cnt+4);\
+                _total_bytes=$(key_cnt+5);\
+                _up_bytes_rate=$(key_cnt+6);\
+                _down_bytes_rate=$(key_cnt+7);\
+                _total_bytes_rate=$(key_cnt+8);\
+                _msg_count=$(key_cnt+9);\
+                _msg_count_rate=$(key_cnt+10);\
+                printf time","id",";\
+                printf("%s,%s,%s,%s,%s,%d,%d,%d,%.3f,%.3f,%.3f,%d,%.3f\n",_phone,_cgi_id,_cgi,\
+                _service_group_id,_service_group,\
+                _up_bytes,_down_bytes,_total_bytes,_up_bytes_rate,_down_bytes_rate,_total_bytes_rate,\
+                _msg_count,_msg_count_rate); \
+          }' \
+         >>$RESULT_FOLD/$FILE_NAME
+
+}
+
+function phone_cgi_service_type_total()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi
+        echo $shellCmd|sh|awk   -f ${AWK_FOLD}/percent_v4.awk   |sort -rn -k7|\
+        awk  -v time=$_time -v id=$_id \
+              -v zd_service_type=$SERVICE_TYPE_ZIDIAN \
+              -v zd_cgi=$CGI_ZIDIAN \
+              -v key_cnt=1 \
+        'BEGIN{while((getline<zd_service_type)>0){service_type[$2]=$3}\
+               while((getline<zd_cgi)>0){cgi[$1]=$2}}\
+         { \
+                _phone=$1;\
+                _cgi_id=$(key_cnt+1);\
+                _cgi=((cgi[$(key_cnt+1)]=="")?$(key_cnt+1):cgi[$(key_cnt+1)]);\
+                _service_type_id=$(key_cnt+3);\
+                _service_type=((service_type[$(key_cnt+3)]=="")?$(key_cnt+3):service_type[$(key_cnt+3)]);\
+                _up_bytes=$(key_cnt+4);\
+                _down_bytes=$(key_cnt+5);\
+                _total_bytes=$(key_cnt+6);\
+                _up_bytes_rate=$(key_cnt+7);\
+                _down_bytes_rate=$(key_cnt+8);\
+                _total_bytes_rate=$(key_cnt+9);\
+                _msg_count=$(key_cnt+10);\
+                _msg_count_rate=$(key_cnt+11);\
+                printf time","id",";\
+                printf("%s,%s,%s,%s,%s,%d,%d,%d,%.3f,%.3f,%.3f,%d,%.3f\n",_phone,_cgi_id,_cgi,\
+                _service_type_id,_service_type,\
+                _up_bytes,_down_bytes,_total_bytes,_up_bytes_rate,_down_bytes_rate,_total_bytes_rate,\
+                _msg_count,_msg_count_rate); \
+          }' \
+         >>$RESULT_FOLD/$FILE_NAME
+}
+
+function phone_cgi_service_detail_total()
+{
+    local _time=$1
+    local _id=$2
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file"
+    fi
+        echo $shellCmd|sh|awk   -f ${AWK_FOLD}/percent_v4.awk   |sort -rn -k7|\
+        awk  -v time=$_time -v id=$_id \
+              -v zd_service_detail=$SERVICE_DETAIL_ZIDIAN \
+              -v zd_cgi=$CGI_ZIDIAN \
+              -v key_cnt=1 \
+        'BEGIN{while((getline<zd_service_detail)>0){service_detail[$2]=$3}\
+               while((getline<zd_cgi)>0){cgi[$1]=$2}}\
+         { \
+                _phone=$1;\
+                _cgi_id=$(key_cnt+1);\
+                _cgi=((cgi[$(key_cnt+1)]=="")?$(key_cnt+1):cgi[$(key_cnt+1)]);\
+                _service_detail_id=$(key_cnt+2);\
+                _service_detail=((service_detail[$(key_cnt+2)]=="")?$(key_cnt+2):service_detail[$(key_cnt+2)]);\
+                _up_bytes=$(key_cnt+3);\
+                _down_bytes=$(key_cnt+4);\
+                _total_bytes=$(key_cnt+5);\
+                _up_bytes_rate=$(key_cnt+6);\
+                _down_bytes_rate=$(key_cnt+7);\
+                _total_bytes_rate=$(key_cnt+8);\
+                _msg_count=$(key_cnt+9);\
+                _msg_count_rate=$(key_cnt+10);\
+                printf time","id",";\
+                printf("%s,%s,%s,%s,%s,%d,%d,%d,%.3f,%.3f,%.3f,%d,%.3f\n",_phone,_cgi_id,_cgi,\
+                _service_detail_id,_service_detail,\
+                _up_bytes,_down_bytes,_total_bytes,_up_bytes_rate,_down_bytes_rate,_total_bytes_rate,\
+                _msg_count,_msg_count_rate); \
+          }' \
+         >>$RESULT_FOLD/$FILE_NAME
+}
+

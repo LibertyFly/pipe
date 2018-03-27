@@ -1,0 +1,81 @@
+function cgi_service_group_total()
+{
+    local _time=$1
+    local _id=$2
+    set_cgi
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -f $AWK_FOLD/muti_users_v2.awk |sort -nr -k5"
+    fi
+    echo $shellCmd|sh|\
+    awk  -v time=$_time -v id=$_id \
+         -v zd_cgi=$CGI_ZIDIAN -v zd_service_group=$SERVICE_GROUP_ZIDIAN \
+         -v t_up=$total_up -v t_down=$total_down -v t_total=$total_total -v t_msg_count=$total_msg_count  \
+         -v key_cnt=0 \
+        'BEGIN{while((getline<zd_cgi)>0){cgi[$1]=$2}\
+	       while((getline<zd_service_group)>0){service_group[$1]=$2}}\
+         { \
+                _cgi_id=$(key_cnt+1);\
+                _cgi=((cgi[$(key_cnt+1)]=="")?$(key_cnt+1):cgi[$(key_cnt+1)]);\
+		_service_group_id=$(key_cnt+2);\
+		_service_group=((service_group[$(key_cnt+2)]=="")?$(key_cnt+2):service_group[$(key_cnt+2)]);\
+                _up_bytes=$(key_cnt+3);\
+                _up_bytes_rate=(t_up==0?0:_up_bytes*100/t_up);\
+                _down_bytes=$(key_cnt+4);\
+                _down_bytes_rate=(t_down==0?0:_down_bytes*100/t_down);\
+                _total_bytes=$(key_cnt+5);\
+                _total_bytes_rate=(t_total==0?0:_total_bytes*100/t_total);\
+                _msg_count=$(key_cnt+6);\
+                _msg_count_rate=(t_msg_count==0?0:_msg_count*100/t_msg_count);\
+                _user_count=$(key_cnt+8);\
+                printf time","id",";\
+                printf("%s,%s,%s,%s,%d,%d,%d,%.3f,%.3f,%.3f,%d,%.3f,%d\n",_cgi_id,_cgi,_service_group_id,_service_group,\
+                _up_bytes,_down_bytes,_total_bytes,_up_bytes_rate,_down_bytes_rate,_total_bytes_rate,\
+                _msg_count,_msg_count_rate,_user_count);\
+          }' |sort -nr -k7\
+     >> $RESULT_FOLD/$FILE_NAME
+}
+
+
+function cgi_service_type_total()
+{
+    local _time=$1
+    local _id=$2
+    set_cgi_service_group
+    local shellCmd="$grepFile"
+    if [ "$muti" -eq 1 ];then
+         create_muti_file   "$shellCmd"
+         shellCmd="cat $muti_tmp_file|awk -f $AWK_FOLD/muti_users_v3.awk |sort -nr -k6"
+    fi
+    
+    echo $shellCmd|sh|\
+    awk  -v time=$_time -v id=$_id \
+         -v zd_cgi=$CGI_ZIDIAN -v zd_service_type=$SERVICE_TYPE_ZIDIAN \
+         -v t_up=$total_up -v t_down=$total_down -v t_total=$total_total -v t_msg_count=$total_msg_count  \
+         -v key_cnt=0 \
+        'BEGIN{while((getline<zd_cgi)>0){cgi[$1]=$2}\
+               while((getline<zd_service_type)>0){service_type[$2]=$3}}\
+         { \
+                _cgi_id=$(key_cnt+1);\
+                _cgi=((cgi[$(key_cnt+1)]=="")?$(key_cnt+1):cgi[$(key_cnt+1)]);\
+                _service_group_id=$(key_cnt+2);\
+		_service_type_id=$(key_cnt+3);\
+                _service_type=((service_type[$(key_cnt+3)]=="")?$(key_cnt+3):service_type[$(key_cnt+3)]);\
+                _up_bytes=$(key_cnt+4);\
+                _up_bytes_rate=(t_up==0?0:_up_bytes*100/t_up);\
+                _down_bytes=$(key_cnt+5);\
+                _down_bytes_rate=(t_down==0?0:_down_bytes*100/t_down);\
+                _total_bytes=$(key_cnt+6);\
+                _total_bytes_rate=(t_total==0?0:_total_bytes*100/t_total);\
+                _msg_count=$(key_cnt+7);\
+                _msg_count_rate=(t_msg_count==0?0:_msg_count*100/t_msg_count);\
+                _user_count=$(key_cnt+9);\
+                printf time","id",";\
+                printf("%s,%s,%s,%s,%s,%d,%d,%d,%.3f,%.3f,%.3f,%d,%.3f,%d\n",_cgi_id,_cgi,_service_group_id,_service_type_id,\
+                _service_type,_up_bytes,_down_bytes,_total_bytes,_up_bytes_rate,_down_bytes_rate,_total_bytes_rate,\
+                _msg_count,_msg_count_rate,_user_count);\
+          }'|sort -nr -k10 \
+     >> $RESULT_FOLD/$FILE_NAME
+
+}

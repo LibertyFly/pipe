@@ -13,7 +13,7 @@
 #------------------------------------
 
 #--------------Variable-------------- 
-binFold="/usr/local/functionlib"
+binFold="pipe"
 AWK_FOLD="$binFold/awk"
 etlFold="$binFold/etl/create_f"
 dataTypes=(_2G _3G _LTE)

@@ -13,7 +13,7 @@
 #------------------------------------
 
 #--------------Variable-------------- 
-binFold="/usr/local/functionlib"
+binFold="pipe"
 includeFold="$binFold/include"
 etlFold="$binFold/etl/query"
 titleFold="$binFold/title"

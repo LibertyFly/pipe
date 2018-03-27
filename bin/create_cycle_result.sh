@@ -13,7 +13,7 @@
 #------------------------------------
 
 #--------------Variable-------------- 
-binFold="/usr/local/functionlib"
+binFold="pipe"
 source  $binFold/config.conf
 AWK_FOLD="$binFold/awk"
 etlFold="$binFold/etl/create_r"
